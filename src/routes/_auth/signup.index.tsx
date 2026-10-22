@@ -38,7 +38,7 @@ function SignUpPage() {
             <Link
               to="/signin"
               search={{ req, return: returnTo }}
-              className="font-medium text-link underline-offset-4 hover:underline"
+              className="inline-flex min-h-11 items-center font-medium text-link underline-offset-4 hover:underline"
             >
               {t("auth.signup.haveAccount")}
             </Link>

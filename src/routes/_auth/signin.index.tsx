@@ -34,7 +34,7 @@ function SignInPage() {
               <Link
                 to="/signin/password"
                 search={{ req, return: returnTo }}
-                className="font-medium text-link underline-offset-4 hover:underline"
+                className="inline-flex min-h-11 items-center font-medium text-link underline-offset-4 hover:underline"
               >
                 {t("auth.signin.usePassword")}
               </Link>
@@ -43,7 +43,7 @@ function SignInPage() {
               <Link
                 to="/signup"
                 search={{ req, return: returnTo }}
-                className="font-medium text-link underline-offset-4 hover:underline"
+                className="inline-flex min-h-11 items-center font-medium text-link underline-offset-4 hover:underline"
               >
                 {t("auth.signin.createAccount")}
               </Link>

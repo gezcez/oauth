@@ -6,9 +6,14 @@
  *   navy      #172554 (blue-950)     text, primary buttons, dark background
  *   amber-700 #b45309                small accent text (eyebrows, links): 4.8:1 on cream
  *   amber-600 #d97706                large display accents only (3:1 on cream)
- *   amber-400 #fbbf24                dark-mode primary button (www dark CTA)
+ *   amber-400 #fbbf24                dark-mode primary button, links and focus (www dark CTA)
  *   gradient  yellow-400 -> amber-500 avatar and number badges
  *   Inter 400 to 800, rounded-2xl cards, pill buttons, no shadows.
+ *
+ * Shared rules from the UX review (decisions section 0): focus ring #b45309 in light (amber-400
+ * in dark, where amber-700 is under 3:1 on navy), input borders at 45% opacity (>= 3:1), dark page
+ * #172554 with cards white/5, destructive actions as outline #b91c1c (#fca5a5 in dark), 16 px root,
+ * every text colour >= 4.5:1 against its background.
  */
 
 @theme {
@@ -70,6 +75,7 @@
   --surface-muted: #fffbeb;
   --line: rgb(23 37 84 / 0.1);
   --line-strong: rgb(23 37 84 / 0.2);
+  --input-border: rgb(23 37 84 / 0.45);
   --eyebrow: #b45309;
   --link: #b45309;
   --accent-display: #d97706;
@@ -78,7 +84,7 @@
   --primary-hover: #1e3a8a;
   --secondary-bg: rgb(255 255 255 / 0.6);
   --secondary-hover: #ffffff;
-  --focus: #f59e0b;
+  --focus: #b45309;
   --danger: #b91c1c;
   --danger-bg: #fef2f2;
   --success: #15803d;
@@ -98,8 +104,9 @@
     --surface-muted: rgb(255 255 255 / 0.04);
     --line: rgb(255 255 255 / 0.1);
     --line-strong: rgb(255 255 255 / 0.2);
-    --eyebrow: #fcd34d;
-    --link: #fcd34d;
+    --input-border: rgb(255 251 235 / 0.45);
+    --eyebrow: #fbbf24;
+    --link: #fbbf24;
     --accent-display: #fbbf24;
     --primary: #fbbf24;
     --primary-fg: #172554;
@@ -126,8 +133,9 @@
   --surface-muted: rgb(255 255 255 / 0.04);
   --line: rgb(255 255 255 / 0.1);
   --line-strong: rgb(255 255 255 / 0.2);
-  --eyebrow: #fcd34d;
-  --link: #fcd34d;
+  --input-border: rgb(255 251 235 / 0.45);
+  --eyebrow: #fbbf24;
+  --link: #fbbf24;
   --accent-display: #fbbf24;
   --primary: #fbbf24;
   --primary-fg: #172554;
@@ -152,6 +160,7 @@
   --color-surface-muted: var(--surface-muted);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
+  --color-input-border: var(--input-border);
   --color-eyebrow: var(--eyebrow);
   --color-link: var(--link);
   --color-accent-display: var(--accent-display);

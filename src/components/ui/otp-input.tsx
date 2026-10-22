@@ -49,7 +49,7 @@ export const OtpInput = forwardRef<
               key={i}
               className={cn(
                 "relative flex h-14 w-11 items-center justify-center rounded-xl border bg-input text-2xl font-semibold tabular-nums transition-colors sm:w-12",
-                invalid ? "border-danger" : "border-line-strong",
+                invalid ? "border-danger" : "border-input-border",
                 isActive && "border-foreground ring-2 ring-focus",
               )}
             >

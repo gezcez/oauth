@@ -10,7 +10,7 @@ export const Switch = forwardRef<
     <SwitchPrimitive.Root
       ref={ref}
       className={cn(
-        "inline-flex h-7 w-12 shrink-0 cursor-pointer items-center rounded-full border border-line-strong bg-line p-0.5 transition-colors data-[state=checked]:border-primary data-[state=checked]:bg-primary disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+        "inline-flex h-7 w-12 shrink-0 cursor-pointer items-center rounded-full border border-input-border bg-line p-0.5 transition-colors data-[state=checked]:border-primary data-[state=checked]:bg-primary disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
         className,
       )}
       {...props}

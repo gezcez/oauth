@@ -6,16 +6,19 @@ import { Spinner } from "./spinner"
 
 /** Pill buttons as on www: primary navy (amber in dark), secondary outline, tertiary text link. */
 export const buttonVariants = cva(
-  "relative inline-flex items-center justify-center gap-2 whitespace-nowrap font-semibold transition-colors select-none disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+  "relative inline-flex items-center justify-center gap-2 whitespace-nowrap font-semibold transition-colors select-none disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
   {
     variants: {
       variant: {
-        primary: "rounded-full bg-primary text-primary-foreground hover:bg-primary-hover",
+        // Disabled is a flat muted pill, not a faded navy one (faded navy reads as broken).
+        primary:
+          "rounded-full bg-primary text-primary-foreground hover:bg-primary-hover disabled:bg-surface-muted disabled:text-muted disabled:ring-1 disabled:ring-line",
         secondary:
-          "rounded-full border border-line-strong bg-secondary text-foreground hover:bg-secondary-hover",
-        destructive: "rounded-full border border-danger text-danger bg-transparent hover:bg-danger-bg",
-        ghost: "rounded-full text-foreground hover:bg-secondary-hover",
-        link: "rounded-md px-0 h-auto font-medium text-link underline-offset-4 hover:underline",
+          "rounded-full border border-line-strong bg-secondary text-foreground hover:bg-secondary-hover disabled:opacity-60",
+        destructive:
+          "rounded-full border border-danger text-danger bg-transparent hover:bg-danger-bg disabled:opacity-60",
+        ghost: "rounded-full text-foreground hover:bg-secondary-hover disabled:opacity-60",
+        link: "rounded-md px-0 min-h-11 font-medium text-link underline-offset-4 hover:underline disabled:opacity-60",
       },
       size: {
         lg: "h-12 px-6 text-base",
@@ -26,7 +29,7 @@ export const buttonVariants = cva(
       },
       block: { true: "w-full", false: "" },
     },
-    compoundVariants: [{ variant: "link", className: "h-auto px-0" }],
+    compoundVariants: [{ variant: "link", className: "h-auto min-h-11 px-0" }],
     defaultVariants: { variant: "primary", size: "lg", block: false },
   },
 )

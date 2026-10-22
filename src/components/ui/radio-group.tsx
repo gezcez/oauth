@@ -17,7 +17,7 @@ export const RadioGroupItem = forwardRef<
     <RadioGroupPrimitive.Item
       ref={ref}
       className={cn(
-        "flex size-5 shrink-0 items-center justify-center rounded-full border border-line-strong bg-input data-[state=checked]:border-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+        "flex size-5 shrink-0 items-center justify-center rounded-full border border-input-border bg-input data-[state=checked]:border-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
         className,
       )}
       {...props}

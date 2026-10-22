@@ -97,7 +97,7 @@ function PasswordPage() {
             <Link
               to="/reset"
               search={{ req }}
-              className="text-sm font-medium text-link underline-offset-4 hover:underline"
+              className="inline-flex min-h-11 items-center text-sm font-medium text-link underline-offset-4 hover:underline"
             >
               {t("auth.password.forgot")}
             </Link>
@@ -134,7 +134,7 @@ function PasswordPage() {
           <Link
             to="/signin"
             search={{ req, return: returnTo }}
-            className="font-medium text-link underline-offset-4 hover:underline"
+            className="inline-flex min-h-11 items-center font-medium text-link underline-offset-4 hover:underline"
           >
             {t("auth.password.emailCodeInstead")}
           </Link>
