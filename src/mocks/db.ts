@@ -213,7 +213,7 @@ export function seed(): MockDb {
         approx_location: "İstanbul, TR",
       },
       {
-        type: "device.new",
+        type: "auth.login",
         at: iso(now - 41 * DAY),
         device_label: "gezcez app on iPhone",
         approx_location: "Ankara, TR",

@@ -1,4 +1,10 @@
-import { test as base, expect, type APIRequestContext, type Page } from "@playwright/test"
+import {
+  test as base,
+  expect,
+  type APIRequestContext,
+  type BrowserContext,
+  type Page,
+} from "@playwright/test"
 
 /** Set by playwright.real.config.ts before the workers start. */
 export const API = process.env.E2E_API_URL ?? "http://localhost:8080"
@@ -21,6 +27,13 @@ const TURNSTILE_STUB = `
     remove(id) { widgets.delete(id) },
   }
 })()`
+
+/** Installs the Turnstile stub for every page of a context (popups and extra contexts too). */
+export async function stubTurnstile(context: BrowserContext) {
+  await context.route("https://challenges.cloudflare.com/**", (route) =>
+    route.fulfill({ status: 200, contentType: "application/javascript", body: TURNSTILE_STUB }),
+  )
+}
 
 let counter = 0
 /** A fresh address per call, so per-email rate limits and accounts never collide. */
@@ -115,11 +128,15 @@ export async function completeProfile(page: Page, name = "E2E Person") {
  * Email-code sign-in (or sign-up for a new address) from the oauth app's /signin screen.
  * Returns once the code is accepted; where the browser goes next is up to the caller.
  */
-export async function signInWithCode(page: Page, email: string, opts: { newAccount?: boolean } = {}) {
+export async function signInWithCode(
+  page: Page,
+  email: string,
+  opts: { newAccount?: boolean; name?: string } = {},
+) {
   const before = await mailCount(page.request, email)
   await enterEmail(page, email)
   await enterMailedCode(page, email, before)
-  if (opts.newAccount) await completeProfile(page)
+  if (opts.newAccount) await completeProfile(page, opts.name)
 }
 
 /** A brand-new account signed in on this page's browser context, ending on /account. */
@@ -129,6 +146,26 @@ export async function newAccount(page: Page, tag = "acct"): Promise<string> {
   await signInWithCode(page, email, { newAccount: true })
   await expect(page).toHaveURL(/\/account/)
   return email
+}
+
+export const PASSWORD = "correct horse battery staple"
+
+/** Adds a password from /account/security (a new account is inside the step-up window). */
+export async function addPassword(page: Page, password = PASSWORD) {
+  await page.goto("/account/security")
+  await page.getByRole("button", { name: "Add a password" }).click()
+  const dialog = page.getByRole("dialog")
+  await dialog.getByLabel("New password").fill(password)
+  await dialog.getByRole("button", { name: "Save" }).click()
+  await expect(page.getByText("Your password was saved.")).toBeVisible()
+  await expect(page.getByRole("button", { name: "Change password" })).toBeVisible()
+}
+
+/** The /logout confirm page (no client), ending on /signed-out. */
+export async function signOut(page: Page) {
+  await page.goto("/logout")
+  await page.getByRole("button", { name: "Sign out", exact: true }).click()
+  await expect(page).toHaveURL(/\/signed-out/)
 }
 
 /** Token endpoint call in RFC 6749 form encoding, straight from the test (no browser). */
@@ -158,9 +195,7 @@ export const test = base.extend<{ page: Page }>({
     page.on("pageerror", (e) => {
       if (page.url().startsWith(OAUTH)) problems.push(`pageerror: ${e.message}`)
     })
-    await page.route("https://challenges.cloudflare.com/**", (route) =>
-      route.fulfill({ status: 200, contentType: "application/javascript", body: TURNSTILE_STUB }),
-    )
+    await stubTurnstile(page.context())
     await use(page)
     expect(problems, problems.join("\n")).toEqual([])
   },

@@ -14,6 +14,8 @@
  *   GET /api/txn?state=      the same, looked up by state
  *   POST /api/txn/:id/refresh  refresh_token grant with the transaction's refresh token
  *   GET /logout?client=&post_logout_redirect_uri=&state=  302 to the oauth app's /logout
+ *   GET /opener              opens /login?popup=1&max_age=1 in a popup (dashboard step-up);
+ *                            the popup's /done reports { type: "gz-step-up", ok } back
  *   GET /                    post-logout landing page, echoes the query
  *
  * Server-side on purpose: no CORS or cookie set-up is needed for the client side, so the e2e
@@ -43,6 +45,8 @@ interface Txn {
   clientId: string
   redirectUri: string
   createdAt: number
+  /** Opened by /opener as a step-up popup: /done posts the result to window.opener. */
+  popup: boolean
   status: "pending" | "signed_in" | "error"
   code?: string
   error?: string
@@ -75,6 +79,40 @@ function page(title: string, body: unknown): string {
   return `<!doctype html><meta charset="utf-8"><title>${escapeHtml(title)}</title>
 <h1>${escapeHtml(title)}</h1><pre id="result">${escapeHtml(JSON.stringify(body, null, 2))}</pre>`
 }
+
+/**
+ * The dashboard's /auth/step-up page in miniature: report the result, then close. The oauth app
+ * sends Cross-Origin-Opener-Policy: same-origin, so by the time the popup is back on the
+ * client's origin `window.opener` is null; the result goes over a same-origin BroadcastChannel
+ * instead (postMessage to the opener is kept for when an opener survives).
+ */
+function popupScript(txn: Txn): string {
+  const message = JSON.stringify({
+    type: "gz-step-up",
+    ok: txn.status === "signed_in",
+    txn: txn.id,
+  })
+  return `<script>
+const message = ${message}
+message.via = window.opener ? "opener" : "broadcast"
+if (window.opener) window.opener.postMessage(message, ${JSON.stringify(ORIGIN)})
+else new BroadcastChannel("gz.auth.step-up").postMessage(message)
+window.close()
+</script>`
+}
+
+/** A page that starts a step-up in a popup and lists the messages it gets back. */
+const OPENER_PAGE = `<!doctype html><meta charset="utf-8"><title>opener</title>
+<h1>opener</h1><button id="step-up">Confirm it's you</button><pre id="messages"></pre>
+<script>
+document.getElementById("step-up").onclick = () =>
+  window.open("/login?popup=1&max_age=1", "gz-step-up", "popup,width=480,height=720")
+const show = (data) => (document.getElementById("messages").textContent += JSON.stringify(data) + "\\n")
+window.addEventListener("message", (e) => {
+  if (e.origin === location.origin) show(e.data)
+})
+new BroadcastChannel("gz.auth.step-up").onmessage = (e) => show(e.data)
+</script>`
 
 function decodeJwt(token: string): Record<string, unknown> {
   const part = token.split(".")[1] ?? ""
@@ -127,6 +165,7 @@ async function login(url: URL, res: http.ServerResponse) {
     clientId,
     redirectUri,
     createdAt: Date.now(),
+    popup: q.get("popup") === "1",
     status: "pending",
   }
   byState.set(state, txn)
@@ -214,7 +253,10 @@ const server = http.createServer((req, res) => {
     if (req.method === "GET" && url.pathname === "/done") {
       const txn = byId.get(url.searchParams.get("txn") ?? "")
       if (!txn) return send(res, 404, page("not_found", {}))
-      return send(res, 200, page(txn.status, publicTxn(txn)))
+      return send(res, 200, page(txn.status, publicTxn(txn)) + (txn.popup ? popupScript(txn) : ""))
+    }
+    if (req.method === "GET" && url.pathname === "/opener") {
+      return send(res, 200, OPENER_PAGE)
     }
     if (req.method === "GET" && url.pathname === "/api/txn") {
       const state = url.searchParams.get("state") ?? ""

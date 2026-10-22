@@ -27,7 +27,16 @@ const backend = process.env.E2E_BACKEND ?? "source"
 /** E2E_REUSE=1 keeps an oauth preview and test client you already started (faster local loops). */
 const reuse = process.env.E2E_REUSE === "1"
 
-const shared = { E2E_API_URL: API, E2E_API_PORT: apiPort, E2E_OAUTH_URL: OAUTH, TEST_CLIENT_PORT: clientPort }
+/** Every backend rate limit is multiplied by this (rate-limit.spec.ts reads it). */
+const rateLimitScale = process.env.E2E_RATE_LIMIT_SCALE ?? "10"
+
+const shared = {
+  E2E_API_URL: API,
+  E2E_API_PORT: apiPort,
+  E2E_OAUTH_URL: OAUTH,
+  TEST_CLIENT_PORT: clientPort,
+  E2E_RATE_LIMIT_SCALE: rateLimitScale,
+}
 for (const [k, v] of Object.entries(shared)) process.env[k] = v
 
 export default defineConfig({

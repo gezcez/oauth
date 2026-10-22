@@ -496,7 +496,7 @@ export const handlers = [
     delete db.reset_tokens[b.reset_token]
     for (const s of db.sessions) if (s.user_id === u.id) s.signed_out = true
     db.sessions = db.sessions.filter((s) => s.user_id !== u.id || s.on_this_device)
-    event(u, "password.reset")
+    event(u, "auth.password_reset")
     const r = signIn(db, u, "pwd")
     saveDb()
     if ("error" in r) return r.error
@@ -601,7 +601,7 @@ export const handlers = [
     if (db.users.some((u) => u.email === flow.email)) return fail("EMAIL_TAKEN")
     r.cu.u.email = flow.email
     db.flows = db.flows.filter((f) => f.id !== flow.id)
-    event(r.cu.u, "email.changed")
+    event(r.cu.u, "auth.email_changed")
     saveDb()
     return ok({ email: flow.email })
   }),
@@ -635,7 +635,7 @@ export const handlers = [
     if (!s) return fail("NOT_FOUND")
     s.signed_out = true
     if (!s.on_this_device) db.sessions = db.sessions.filter((x) => x.id !== s.id)
-    event(r.cu.u, "session.revoked")
+    event(r.cu.u, "auth.session_revoked")
     saveDb()
     return ok(null)
   }),
@@ -651,7 +651,7 @@ export const handlers = [
     const others = db.sessions.filter((s) => s.user_id === r.cu.u.id && s.id !== r.cu.s.id && !s.signed_out)
     db.sessions = db.sessions.filter((s) => !others.includes(s) || s.on_this_device)
     for (const s of others) s.signed_out = true
-    event(r.cu.u, "session.revoked")
+    event(r.cu.u, "auth.session_revoked")
     saveDb()
     return ok({ revoked: others.length })
   }),
@@ -670,7 +670,7 @@ export const handlers = [
     const r = requireSession(db)
     if ("error" in r) return r.error
     db.grants = db.grants.filter((g) => !(g.user_id === r.cu.u.id && g.client_id === params.clientId))
-    event(r.cu.u, "app.revoked")
+    event(r.cu.u, "oauth.grant_revoked")
     saveDb()
     return ok(null)
   }),
@@ -698,14 +698,13 @@ export const handlers = [
     const b = await body<{ new_password: string; keep_sessions?: boolean }>(request)
     const pwErr = passwordProblem(b.new_password)
     if (pwErr) return pwErr
-    const had = Boolean(r.cu.u.password)
     r.cu.u.password = b.new_password
     r.cu.u.password_updated_at = new Date().toISOString()
     if (!b.keep_sessions)
       db.sessions = db.sessions.filter(
         (s) => s.user_id !== r.cu.u.id || s.id === r.cu.s.id || s.on_this_device,
       )
-    event(r.cu.u, had ? "password.changed" : "password.set")
+    event(r.cu.u, "auth.password_changed")
     saveDb()
     return ok(null)
   }),
@@ -720,7 +719,7 @@ export const handlers = [
     if (sudo) return sudo
     delete r.cu.u.password
     delete r.cu.u.password_updated_at
-    event(r.cu.u, "password.removed")
+    event(r.cu.u, "auth.password_changed")
     saveDb()
     return ok(null)
   }),
