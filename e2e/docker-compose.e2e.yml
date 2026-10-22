@@ -1,0 +1,33 @@
+# Backend for the real e2e suite (oauth.md section 11). Started by scripts/e2e-backend.ts;
+# run by hand with `E2E_BACKEND_TAG=main docker compose -f e2e/docker-compose.e2e.yml up`.
+#
+#   default             the published image ghcr.io/gezcez/backend:<E2E_BACKEND_TAG>
+#   --profile source    builds the image from the backend repo at <E2E_BACKEND_REF> instead
+#
+# NODE_ENV=test seeds e2e_client and e2e_third_party, uses the memory mail transport and
+# exposes GET /v1/__test/mailbox. The SQLite database lives in tmpfs: every run starts fresh.
+x-backend: &backend
+  environment:
+    NODE_ENV: test
+    PORT: "8080"
+    PUBLIC_API_URL: ${E2E_API_URL:-http://localhost:8080}
+    OAUTH_UI_URL: ${E2E_OAUTH_URL:-http://localhost:5174}
+    CORS_ORIGINS: ${E2E_OAUTH_URL:-http://localhost:5174}
+    RATE_LIMIT_SCALE: ${E2E_RATE_LIMIT_SCALE:-10}
+    LOG_LEVEL: ${E2E_BACKEND_LOG_LEVEL:-warn}
+  ports:
+    - "${E2E_API_PORT:-8080}:8080"
+  tmpfs:
+    - /app/data:uid=1000,gid=1000
+
+services:
+  backend:
+    <<: *backend
+    image: ghcr.io/gezcez/backend:${E2E_BACKEND_TAG:-main}
+    profiles: [image]
+  backend-source:
+    <<: *backend
+    build:
+      context: https://github.com/gezcez/backend.git#${E2E_BACKEND_REF:-rewrite}
+    image: gezcez-backend:e2e-source
+    profiles: [source]

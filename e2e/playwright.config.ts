@@ -4,16 +4,14 @@ import { defineConfig, devices } from "@playwright/test"
  * Default run: the MSW build (`build:mock`) served by `vite preview` with the production
  * security headers, so every screen is reachable without a backend.
  *
- * E2E_REAL_BACKEND=1 adds the `real` project: the published ghcr.io/gezcez/backend image
- * (tag in e2e/backend-version) from docker-compose.e2e.yml plus the test client. It is
- * skipped until that image exists.
+ * The real-backend suite (e2e/real) has its own config: `bun run e2e:real`, see
+ * playwright.real.config.ts.
  *
  * SCREENSHOTS=1 adds the `screenshots` project that writes PNGs to SCREENSHOT_DIR.
  */
 const PORT = 5174
 const BASE = `http://localhost:${PORT}`
 const ci = Boolean(process.env.CI)
-const real = process.env.E2E_REAL_BACKEND === "1"
 const allBrowsers = ci || process.env.E2E_ALL_BROWSERS === "1"
 
 export default defineConfig({
@@ -49,17 +47,12 @@ export default defineConfig({
     ...(process.env.SCREENSHOTS === "1"
       ? [{ name: "screenshots", testDir: "screenshots", use: { ...devices["Desktop Chrome"] } }]
       : []),
-    ...(real
-      ? [{ name: "real", testDir: "real", use: { ...devices["Desktop Chrome"], ignoreHTTPSErrors: true } }]
-      : []),
   ],
-  webServer: real
-    ? undefined
-    : {
-        command: "bun run build:mock && bunx vite preview --mode mock --port 5174 --strictPort",
-        cwd: "..",
-        url: BASE,
-        reuseExistingServer: !ci,
-        timeout: 180_000,
-      },
+  webServer: {
+    command: "bun run build:mock && bunx vite preview --mode mock --port 5174 --strictPort",
+    cwd: "..",
+    url: BASE,
+    reuseExistingServer: !ci,
+    timeout: 180_000,
+  },
 })
