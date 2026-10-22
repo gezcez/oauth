@@ -182,15 +182,17 @@ const screens: Shot[] = [
     go: async (p) => {
       await signIn(p)
       await p.goto(path)
+      await expect(p.getByRole("status", { name: "Loading" })).toHaveCount(0, { timeout: 15_000 })
       await h1(p)
-      await expect(p.getByRole("status", { name: "Loading" })).toHaveCount(0)
     },
   })),
   {
     name: "29-account-tr",
     go: async (p) => {
       await signIn(p, "mert@example.com")
-      await h1(p)
+      // Wait for real content, not just the layout: the overview heading and its cards.
+      await expect(p.getByRole("heading", { level: 1, name: /Merhaba/ })).toBeVisible({ timeout: 15_000 })
+      await expect(p.getByRole("status", { name: "Yükleniyor" })).toHaveCount(0)
     },
   },
 ]
