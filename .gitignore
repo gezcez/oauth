@@ -1,0 +1,10 @@
+node_modules
+dist
+*.local
+.env
+.env.*.local
+playwright-report
+test-results
+e2e/.auth
+.wrangler
+coverage

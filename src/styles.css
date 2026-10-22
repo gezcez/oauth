@@ -1,0 +1,37 @@
+@import "tailwindcss";
+@import "./styles/tokens.css";
+@import "@fontsource-variable/inter/wght.css";
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-background text-foreground font-sans text-base antialiased;
+    line-height: 1.6;
+    min-height: 100dvh;
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  h1:focus {
+    outline: none;
+  }
+  ::selection {
+    background: #fde68a;
+    color: #172554;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,69 @@
+import { defineConfig } from "vitest/config"
+import react from "@vitejs/plugin-react"
+import tailwindcss from "@tailwindcss/vite"
+import { tanstackRouter } from "@tanstack/router-plugin/vite"
+import path from "node:path"
+import { execSync } from "node:child_process"
+import fs from "node:fs"
+import type { Plugin } from "vite"
+
+function buildId(): string {
+  if (process.env.VITE_BUILD_ID) return process.env.VITE_BUILD_ID
+  try {
+    return execSync("git rev-parse --short HEAD", { stdio: ["ignore", "pipe", "ignore"] })
+      .toString()
+      .trim()
+  } catch {
+    return "dev"
+  }
+}
+
+/**
+ * MSW's service worker is served only in mock mode (dev:mock, build:mock for e2e and PR
+ * previews), straight from node_modules, so it never ships in a production build.
+ */
+function mockServiceWorker(enabled: boolean): Plugin {
+  const file = path.resolve(import.meta.dirname, "node_modules/msw/lib/mockServiceWorker.js")
+  return {
+    name: "gezcez:mock-service-worker",
+    configureServer(server) {
+      if (!enabled) return
+      server.middlewares.use("/mockServiceWorker.js", (_req, res) => {
+        res.setHeader("Content-Type", "application/javascript")
+        res.end(fs.readFileSync(file))
+      })
+    },
+    configurePreviewServer(server) {
+      if (!enabled) return
+      server.middlewares.use("/mockServiceWorker.js", (_req, res) => {
+        res.setHeader("Content-Type", "application/javascript")
+        res.end(fs.readFileSync(file))
+      })
+    },
+    generateBundle() {
+      if (!enabled) return
+      this.emitFile({ type: "asset", fileName: "mockServiceWorker.js", source: fs.readFileSync(file, "utf8") })
+    },
+  }
+}
+
+export default defineConfig(({ mode }) => ({
+  plugins: [
+    mockServiceWorker(mode === "mock"),
+    tanstackRouter({ target: "react", autoCodeSplitting: true, routeFileIgnorePattern: "\\.test\\.tsx?$" }),
+    react(),
+    tailwindcss(),
+  ],
+  resolve: { alias: { "@": path.resolve(import.meta.dirname, "src") } },
+  define: { __BUILD_ID__: JSON.stringify(buildId()) },
+  server: { port: 5174, strictPort: true },
+  preview: { port: 5174, strictPort: true },
+  build: { sourcemap: true, target: "es2022" },
+  test: {
+    environment: "jsdom",
+    globals: false,
+    setupFiles: ["./vitest.setup.ts"],
+    include: ["src/**/*.test.{ts,tsx}", "eslint-rules/**/*.test.ts", "scripts/**/*.test.ts"],
+    css: false,
+  },
+}))

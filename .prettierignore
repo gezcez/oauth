@@ -1,0 +1,8 @@
+dist
+node_modules
+src/routeTree.gen.ts
+src/api/schema.gen.ts
+public/mockServiceWorker.js
+bun.lock
+playwright-report
+test-results
