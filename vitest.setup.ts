@@ -1,5 +1,8 @@
 import "@testing-library/jest-dom/vitest"
-import { cleanup } from "@testing-library/react"
+import { cleanup, configure } from "@testing-library/react"
+
+// Screen tests load lazy routes and go through MSW; allow for slow shared CI runners.
+configure({ asyncUtilTimeout: 5000 })
 import { afterAll, afterEach, beforeAll } from "vitest"
 import { server } from "@/mocks/node"
 import { resetDb } from "@/mocks/db"

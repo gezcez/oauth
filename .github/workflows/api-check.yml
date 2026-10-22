@@ -1,0 +1,26 @@
+# Fails when src/api/schema.gen.ts drifts from the backend's published OpenAPI document.
+name: API types
+
+on:
+  pull_request:
+    paths: ["src/api/**", "scripts/api-gen.ts"]
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  api-check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - run: bun install --frozen-lockfile
+      - run: bun run api:check
+        env:
+          OPENAPI_SOURCE: ${{ vars.OPENAPI_SOURCE || 'https://api-staging.gezcez.com/openapi.json' }}

@@ -20,7 +20,7 @@
     "e2e:real": "playwright test -c e2e/playwright.real.config.ts",
     "e2e:real:image": "E2E_BACKEND=image playwright test -c e2e/playwright.real.config.ts",
     "e2e:client": "bun e2e/fixtures/test-client/server.ts",
-    "screenshots": "playwright test -c e2e/playwright.config.ts --project=screenshots",
+    "screenshots": "SCREENSHOTS=1 playwright test -c e2e/playwright.config.ts --project=screenshots",
     "api:gen": "bun scripts/api-gen.ts",
     "api:check": "bun scripts/api-gen.ts --check"
   },

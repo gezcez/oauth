@@ -1,0 +1,38 @@
+# Real-backend e2e (oauth.md section 11): e2e/playwright.real.config.ts starts the backend in
+# NODE_ENV=test, a production build of this app pointed at it and the PKCE test client.
+# The backend runs from source at the ref in e2e/backend-version (E2E_BACKEND=source); switch
+# to E2E_BACKEND=image once ghcr.io/gezcez/backend publishes a tag (pin it in backend-version).
+name: E2E (real backend)
+
+on:
+  workflow_dispatch:
+  pull_request:
+  schedule:
+    - cron: "0 5 * * *"
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  e2e-real:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - run: bun install --frozen-lockfile && bunx playwright install --with-deps chromium
+      - run: bun run e2e:real
+        env:
+          CI: "1"
+          E2E_BACKEND: source
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-real
+          path: |
+            playwright-report/real
+            test-results/real
+          retention-days: 7
