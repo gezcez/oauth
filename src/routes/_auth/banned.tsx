@@ -4,11 +4,10 @@ import { Mail } from "lucide-react"
 import { AuthHeader } from "@/components/auth-header"
 import { FormError } from "@/components/form-error"
 import { Button } from "@/components/ui/button"
-import { decideRequest } from "@/features/authorize/api"
+import { decideRequest, useDispatchNext } from "@/features/authorize/api"
 import { env } from "@/env"
 import { useI18n } from "@/i18n"
 import { secretStore } from "@/lib/flow-memory"
-import { followRedirect } from "@/lib/navigation"
 import { authSearch } from "@/lib/search"
 
 /** Neutral tone, no red page: the account can't sign in, here's why, here's who to ask. */
@@ -21,9 +20,10 @@ function BannedPage() {
   const { req } = Route.useSearch()
   const { t, formatDate } = useI18n()
   const details = secretStore.get("banned")
+  const dispatch = useDispatchNext()
   const back = useMutation({
     mutationFn: () => decideRequest(req!, "deny"),
-    onSuccess: (res) => followRedirect(res.redirect_to),
+    onSuccess: (res) => dispatch(res.next, req!, res.redirect_to),
   })
   const reason = typeof details?.public_reason === "string" ? details.public_reason : null
   return (

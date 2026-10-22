@@ -19,4 +19,11 @@ describe("targetForNext", () => {
   ] as const)("%s goes to %s with req", (next, to) => {
     expect(targetForNext(next, req)).toEqual({ kind: "route", to, search: { req } })
   })
+  it("handles the request id being null when the backend rejected the request up front", () => {
+    expect(targetForNext("redirect", null, "http://localhost:4710/callback?error=invalid_scope")).toEqual({
+      kind: "external",
+      url: "http://localhost:4710/callback?error=invalid_scope",
+    })
+    expect(targetForNext("login", null)).toEqual({ kind: "error", code: "OAUTH_REQUEST_NOT_FOUND" })
+  })
 })

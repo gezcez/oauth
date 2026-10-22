@@ -75,7 +75,9 @@ function AppCard({ app }: { app: ConnectedApp }) {
             ) : null}
           </div>
           <p className="text-sm text-muted">
-            {t("account.apps.granted", { date: formatDate(app.granted_at) })} ·{" "}
+            {app.granted_at ? (
+              <>{t("account.apps.granted", { date: formatDate(app.granted_at) })} · </>
+            ) : null}
             {app.last_used_at
               ? t("account.apps.lastUsed", { time: formatRelative(app.last_used_at) })
               : t("account.apps.neverUsed")}

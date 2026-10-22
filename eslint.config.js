@@ -16,6 +16,7 @@ export default tseslint.config(
       "playwright-report",
       "test-results",
       "e2e/fixtures/test-client/dist",
+      "dist-e2e",
     ],
   },
   js.configs.recommended,

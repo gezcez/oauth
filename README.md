@@ -58,7 +58,8 @@ The mock clients are `dashboard` and `mobile` (first party), `e2e_client`, and `
 | `preview` | serves `dist/` on :5174 with the CSP and security headers from `public/_headers` |
 | `e2e` | Playwright (Chromium desktop + Pixel 7) against `build:mock`, including axe checks in en/tr and light/dark |
 | `screenshots` | writes every main screen in light/dark × desktop/mobile to `SCREENSHOT_DIR` (default `/mnt/project-files/revamp/screens/oauth`) |
-| `e2e:real:up`, `e2e:real`, `e2e:real:down` | real-backend e2e: `ghcr.io/gezcez/backend` (tag in `e2e/backend-version`) behind Caddy on `*.localtest.me` with the PKCE test client in `e2e/fixtures/test-client`. Skipped until an image is published |
+| `e2e:real` | real-backend e2e (`e2e/real`, see below): backend from source by default, `e2e:real:image` for the ghcr image |
+| `e2e:client` | the PKCE test client on :4710 on its own |
 | `api:gen` / `api:check` | regenerate / check `src/api/schema.gen.ts` from `OPENAPI_SOURCE` (default staging `openapi.json`) |
 
 Set `PLAYWRIGHT_BROWSERS_PATH` if your browsers live outside the default cache. WebKit projects are
@@ -86,25 +87,39 @@ merges the two. When the backend publishes an endpoint, delete its manual entry 
 production with `wrangler deploy`. It needs the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`
 secrets and the `VITE_API_URL` and `VITE_TURNSTILE_SITE_KEY` variables per environment.
 
+## End-to-end tests
+
+- `bun run e2e`: Playwright against the MSW build (`build:mock`), no backend needed.
+- `bun run e2e:real`: the specs in `e2e/real` against the real backend (oauth.md section 11).
+  `e2e/playwright.real.config.ts` starts three servers on localhost:
+  - the backend in `NODE_ENV=test` through `scripts/e2e-backend.ts`. `E2E_BACKEND=source` (default)
+    runs a checkout with Bun: `E2E_BACKEND_DIR=<path>` uses yours, otherwise the ref in
+    `e2e/backend-version` is cloned into `node_modules/.cache/gezcez-backend`.
+    `E2E_BACKEND=image` runs `ghcr.io/gezcez/backend:<E2E_BACKEND_TAG>` and
+    `E2E_BACKEND=docker-source` builds that image from the git ref, both through
+    `e2e/docker-compose.e2e.yml`. `E2E_BACKEND=external` uses one already on `E2E_API_URL`.
+  - this app, built with `VITE_API_URL` pointing at that backend and served by `vite preview`
+    with the production headers (`PREVIEW_CONNECT_SRC` adds the API to `connect-src`).
+  - the test client (`e2e/fixtures/test-client`, `bun run e2e:client`) on port 4710, which the
+    backend's test seed registers for `e2e_client` and `e2e_third_party`. It builds PKCE and
+    state, exchanges the code server-side, calls `/v1/me` and shows the result as JSON.
+
+  Ports: `E2E_API_PORT` (8080), `E2E_OAUTH_PORT` (5174), `TEST_CLIENT_PORT` (4710). Rate
+  limits are multiplied by `E2E_RATE_LIMIT_SCALE` (10). Codes come from the backend's test
+  mailbox; Turnstile is stubbed in the browser (the backend has no secret in test mode).
+  Chromium only: plain-http localhost works for the API's `__Host-` cookies there; WebKit needs
+  the `*.localtest.me` plus TLS set-up described in oauth.md section 11.
+
 ## Backend gaps
 
-The UI is built against `backend.md` 7.1. Here is what the backend branch was missing when this was
-written (it is also marked in `schema.manual.ts`):
+Checked against the backend `rewrite` branch by the real e2e suite. Every endpoint in `backend.md`
+7.1 that this UI calls is in `openapi.json` except these (typed by hand in `schema.manual.ts`):
 
-- **Not in openapi.json yet (controllers exist):** `GET /v1/account/csrf`, `GET /v1/account/session`,
-  `GET /v1/account/device-accounts`, `POST /v1/account/session/switch`,
-  `POST /v1/account/email/{start,resend,verify}`, `POST /v1/account/signup/complete`.
-- **Missing:**
-  - `POST /v1/account/password/login`, `POST /v1/account/password/reset`, `POST /v1/account/reauth`
-  - `GET|PATCH /v1/account/profile`, `POST /v1/account/email/change`, `POST /v1/account/email/change/verify`
-  - `GET /v1/account/sessions`, `DELETE /v1/account/sessions/:id`, `POST /v1/account/sessions/revoke-others`
-  - `GET /v1/account/apps`, `DELETE /v1/account/apps/:clientId`
-  - `GET /v1/account/security`, `PUT|DELETE /v1/account/password`
-  - `GET|PATCH /v1/account/privacy`, `GET|POST /v1/account/export`, `GET /v1/account/export/:id`, `GET /v1/account/export/:id/download`
-  - `POST /v1/account/delete`, `POST /v1/account/delete/cancel`
-  - `POST /v1/oauth/authorize`, `GET /v1/oauth/authorize/:id`, `POST /v1/oauth/authorize/:id/continue`, `POST /v1/oauth/authorize/:id/decision`
-  - `POST /v1/oauth/logout`
+- **Missing:** `GET|POST /v1/account/export`, `GET /v1/account/export/:id`,
+  `GET /v1/account/export/:id/download`, `POST /v1/account/delete`, `POST /v1/account/delete/cancel`.
+  `e2e/real/account-privacy.spec.ts` marks those flows fixme until they exist.
 - **Not in the plan, but this UI needs them:**
   - `DELETE /v1/account/device-accounts/:sessionId` to forget a signed-out account on this device (the chooser's "Remove").
-  - `decision: "deny"` must work without a session, so the banned page's "Back to app" can return `access_denied`.
-  - `POST /v1/account/email/resend` must also accept the email-change flow.
+  - `decision: "deny"` must work without a session, so the banned page's "Back to app" can return
+    `access_denied` (the backend's decision route requires a session).
+- **Quirk:** auth request ids are `ar__<ULID>` (double underscore); the `req` search param accepts it.

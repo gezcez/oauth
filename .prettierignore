@@ -6,3 +6,4 @@ public/mockServiceWorker.js
 bun.lock
 playwright-report
 test-results
+dist-e2e

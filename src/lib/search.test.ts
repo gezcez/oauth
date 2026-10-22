@@ -6,6 +6,9 @@ describe("search params", () => {
     expect(authSearch.parse({ req: "ar_01JABCDEFGHJKMNPQRSTVWXYZ0" }).req).toBe(
       "ar_01JABCDEFGHJKMNPQRSTVWXYZ0",
     )
+    expect(authSearch.parse({ req: "ar__01JABCDEFGHJKMNPQRSTVWXYZ0" }).req).toBe(
+      "ar__01JABCDEFGHJKMNPQRSTVWXYZ0",
+    )
     expect(authSearch.parse({ req: "ar_<script>" }).req).toBeUndefined()
     expect(authSearch.parse({ req: 42 }).req).toBeUndefined()
   })

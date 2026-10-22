@@ -50,7 +50,8 @@ function mockServiceWorker(enabled: boolean): Plugin {
 /**
  * `vite preview` serves the production security headers from public/_headers so e2e runs
  * catch CSP violations. upgrade-insecure-requests and report-to are dropped on plain-http
- * localhost; connect-src keeps 'self' (the MSW build talks to its own origin).
+ * localhost; connect-src keeps 'self' (the MSW build talks to its own origin) and adds
+ * PREVIEW_CONNECT_SRC when set (the real-backend e2e build talks to a local API origin).
  */
 function previewSecurityHeaders(): Plugin {
   return {
@@ -66,6 +67,7 @@ function previewSecurityHeaders(): Plugin {
         .map((l) => [l.slice(0, l.indexOf(": ")), l.slice(l.indexOf(": ") + 2)] as const)
         .filter(([k]) => k !== "Strict-Transport-Security" && k !== "Reporting-Endpoints")
         .map(([k, v]) => [k, k === "Content-Security-Policy" ? v.replace(/;\s*upgrade-insecure-requests/, "").replace(/;\s*report-to \w+/, "") : v] as const)
+        .map(([k, v]) => [k, k === "Content-Security-Policy" && process.env.PREVIEW_CONNECT_SRC ? v.replace("connect-src 'self'", `connect-src 'self' ${process.env.PREVIEW_CONNECT_SRC}`) : v] as const)
       server.middlewares.use((req, res, next) => {
         const isAsset = req.url?.startsWith("/assets/")
         for (const [k, v] of headers) if (!(isAsset && k === "Cache-Control")) res.setHeader(k, v)
@@ -92,7 +94,12 @@ export default defineConfig(({ mode }) => ({
     environment: "jsdom",
     globals: false,
     setupFiles: ["./vitest.setup.ts"],
-    include: ["src/**/*.test.{ts,tsx}", "eslint-rules/**/*.test.ts", "scripts/**/*.test.ts", "e2e/fixtures/**/*.test.ts"],
+    include: [
+      "src/**/*.test.{ts,tsx}",
+      "eslint-rules/**/*.test.ts",
+      "scripts/**/*.test.ts",
+      "e2e/fixtures/**/*.test.ts",
+    ],
     css: false,
     testTimeout: 20_000,
   },
