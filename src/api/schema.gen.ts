@@ -67,6 +67,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/account/apps": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Authorized apps (grants and active tokens) */
+        get: operations["SelfService_apps"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/account/apps/{clientId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Revoke an app's grant and its refresh tokens */
+        delete: operations["SelfService_revokeApp"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/account/csrf": {
         parameters: {
             query?: never;
@@ -95,6 +129,40 @@ export interface paths {
         get: operations["Account_deviceAccounts"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/account/email/change": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Start an email change: a code to the new address (step-up) */
+        post: operations["SelfService_startEmailChange"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/account/email/change/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Confirm the new address; the old one gets a notice (step-up) */
+        post: operations["SelfService_verifyEmailChange"];
         delete?: never;
         options?: never;
         head?: never;
@@ -152,6 +220,128 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/account/password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Set or change the password (step-up) */
+        put: operations["Password_set"];
+        post?: never;
+        /** Remove the password, back to email codes only (step-up) */
+        delete: operations["Password_remove"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/account/password/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Password login (optional method, Turnstile, fails closed) */
+        post: operations["Password_login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/account/password/reset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Set a new password with reset_token; revokes every session */
+        post: operations["Password_reset"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/account/privacy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Privacy toggles */
+        get: operations["SelfService_privacy"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Change privacy toggles */
+        patch: operations["SelfService_updatePrivacy"];
+        trace?: never;
+    };
+    "/v1/account/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Account details */
+        get: operations["SelfService_profile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Change display name or locale */
+        patch: operations["SelfService_updateProfile"];
+        trace?: never;
+    };
+    "/v1/account/reauth": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Re-verify with the password; refreshes auth_time and amr */
+        post: operations["Password_reauth"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/account/security": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Sign-in methods and the last 20 security events */
+        get: operations["SelfService_security"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/account/session": {
         parameters: {
             query?: never;
@@ -186,6 +376,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/account/sessions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Own sessions with device label, approximate location and apps */
+        get: operations["SelfService_sessions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/account/sessions/{sessionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Revoke one session and its refresh families */
+        delete: operations["SelfService_revokeSession"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/account/sessions/revoke-others": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Sign out everywhere else (step-up) */
+        post: operations["SelfService_revokeOthers"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/account/signup/complete": {
         parameters: {
             query?: never;
@@ -197,6 +438,430 @@ export interface paths {
         put?: never;
         /** Create the account after a sign-up code (no username) */
         post: operations["Account_completeSignup"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/audit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Audit log, newest first; before/after redacted */
+        get: operations["Audit_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/moderation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Moderation log, newest first; `active=true` lists bans in force */
+        get: operations["Moderation_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/networks/{networkId}/audit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Audit entries of one network */
+        get: operations["Audit_network"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/permissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Permission keys (from code) and the guarded route registry */
+        get: operations["Roles_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * User search
+         * @description `q` matches the display name, a username prefix or a public id; with users.pii.read also an email prefix. Sort: created_at, display_name, last_active_at.
+         */
+        get: operations["DashUsers_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/users/{userId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** User detail with roles everywhere and the active ban */
+        get: operations["DashUsers_detail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/users/{userId}/activity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Audit entries where the user is the actor or the target */
+        get: operations["DashUsers_activity"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/users/{userId}/ban": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Ban a user
+         * @description Sets the user banned, ends every session and refresh family immediately and writes the moderation log.
+         */
+        post: operations["Moderation_ban"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/users/{userId}/reveal-email": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Unmasked email of one user; writes an audit row */
+        post: operations["DashUsers_revealEmail"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/users/{userId}/roles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Grant or revoke global roles in a batch
+         * @description Level rules apply per operation: your level must be above the role's and the user's, and nobody edits themselves.
+         */
+        post: operations["DashUsers_assignRoles"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/users/{userId}/sessions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Live SSO sessions (sso_*) and refresh families per app (rf_*) */
+        get: operations["DashUsers_sessions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/users/{userId}/sessions/{sessionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Revoke one session (and the refresh families issued under it) or one family */
+        delete: operations["DashUsers_revokeSession"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/users/{userId}/sessions/revoke-all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Revoke every session and refresh family of the user */
+        post: operations["DashUsers_revokeAll"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/users/{userId}/unban": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Lift a ban */
+        post: operations["Moderation_unban"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The signed-in user, auth_time, amr, roles and permissions */
+        get: operations["Users_me"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Change display name or locale */
+        patch: operations["Users_update"];
+        trace?: never;
+    };
+    "/v1/oauth/apps/{clientId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Client name, logo, scopes and first_party (display only) */
+        get: operations["OAuth_app"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/oauth/authorize": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create the authorization request from the raw /authorize query
+         * @description Client and redirect URI failures are errors (never redirected); later failures come back as next=redirect with an OAuth error redirect_to.
+         */
+        post: operations["OAuth_start"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/oauth/authorize/{requestId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Re-fetch the authorization request, next recomputed */
+        get: operations["OAuth_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/oauth/authorize/{requestId}/continue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Continue after sign-in or account choice */
+        post: operations["OAuth_continue"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/oauth/authorize/{requestId}/decision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Consent answer (third-party clients) */
+        post: operations["OAuth_decision"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/oauth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** End the SSO session (scope session) or every session of this browser (device) */
+        post: operations["OAuth_logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/oauth/revoke": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Revoke a refresh token family (RFC 7009) */
+        post: operations["Token_revoke"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/oauth/scopes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Scope keys with i18n keys */
+        get: operations["OAuth_scopes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/oauth/token": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * authorization_code and refresh_token grants
+         * @description Cookie clients (refresh_cookie) get the refresh token as the gz_rt cookie (Path=/v1/oauth) and may refresh with an empty body.
+         */
+        post: operations["Token_token"];
         delete?: never;
         options?: never;
         head?: never;
@@ -242,8 +907,153 @@ export interface components {
             message: string;
             request_id: string;
         };
+        AppInfoDto: {
+            client_id: string;
+            first_party: boolean;
+            homepage_url?: string;
+            logo_url?: string;
+            name: string;
+            scopes: {
+                i18n_key: string;
+                key: string;
+            }[];
+            /** @enum {string} */
+            type: "public" | "confidential";
+        };
+        AuditEntry: {
+            action: string;
+            actor: components["schemas"]["UserRef"] | null;
+            after: {
+                [key: string]: unknown;
+            } | null;
+            /** Format: date-time */
+            at: string;
+            before: {
+                [key: string]: unknown;
+            } | null;
+            id: string;
+            ip_prefix: string | null;
+            network_id: number | null;
+            request_id: string | null;
+            /** @enum {string} */
+            severity: "info" | "warn" | "critical";
+            target_id: string | null;
+            target_label: string | null;
+            target_type: string | null;
+        };
+        AuditPageDto: {
+            items: components["schemas"]["AuditEntry"][];
+            next_cursor: string | null;
+            prev_cursor: string | null;
+            total: number | null;
+        };
+        AuthorizeContinueDto: {
+            session_id?: string;
+        };
+        AuthorizedAppsDto: {
+            apps: {
+                active_sessions: number;
+                client_id: string;
+                first_party: boolean;
+                granted_at: string | null;
+                last_used_at: string | null;
+                logo_url?: string;
+                name: string;
+                scopes: {
+                    i18n_key: string;
+                    key: string;
+                }[];
+            }[];
+        };
+        AuthorizeDecisionDto: {
+            /** @enum {string} */
+            decision: "approve" | "deny";
+        };
+        AuthorizeDto: {
+            params: {
+                [key: string]: string;
+            };
+        };
+        AuthorizeNextDto: {
+            /** @enum {string} */
+            next: "redirect" | "login" | "reauth" | "choose_account" | "consent";
+            redirect_to?: string;
+        };
+        AuthorizeSnapshotDto: {
+            client: {
+                client_id: string;
+                first_party: boolean;
+                homepage_url?: string;
+                logo_url?: string;
+                name: string;
+                /** @enum {string} */
+                type: "public" | "confidential";
+            };
+            login_hint?: string;
+            /** @enum {string} */
+            next: "redirect" | "login" | "reauth" | "choose_account" | "consent";
+            prompt?: string;
+            redirect_to?: string;
+            request_id: string | null;
+            scopes: {
+                i18n_key: string;
+                key: string;
+            }[];
+            ui_locales?: string;
+        };
+        Ban: {
+            /** Format: date-time */
+            created_at: string;
+            created_by: components["schemas"]["UserRef"] | null;
+            private_reason: string | null;
+            public_reason: string;
+            until: string | null;
+        };
+        BanRequestDto: {
+            /** @enum {string} */
+            duration: "1d" | "7d" | "30d" | "permanent";
+            private_reason?: string;
+            public_reason: string;
+        };
         CsrfDto: {
             token: string;
+        };
+        DashUser: {
+            ban: components["schemas"]["Ban"] | null;
+            /** Format: date-time */
+            created_at: string;
+            display_name: string;
+            email_masked: string;
+            email_verified: boolean;
+            id: string;
+            last_active_at: string | null;
+            /** @enum {string} */
+            locale: "tr" | "en";
+            methods: {
+                email_code: boolean;
+                passkeys: number;
+                password: boolean;
+            };
+            roles: components["schemas"]["RoleAssignment"][];
+            status: components["schemas"]["UserStatus"];
+            username: string | null;
+        };
+        DashUserListItem: {
+            /** Format: date-time */
+            created_at: string;
+            display_name: string;
+            email_masked: string;
+            id: string;
+            last_active_at: string | null;
+            role_count: number;
+            status: components["schemas"]["UserStatus"];
+            username: string | null;
+        };
+        DashUserPageDto: {
+            items: components["schemas"]["DashUserListItem"][];
+            next_cursor: string | null;
+            prev_cursor: string | null;
+            total: number | null;
         };
         DeviceAccountsDto: {
             accounts: {
@@ -260,6 +1070,16 @@ export interface components {
                 session_id: string;
                 signed_out: boolean;
             }[];
+        };
+        EmailChangeDto: {
+            /** @enum {string} */
+            locale?: "tr" | "en";
+            /** Format: email */
+            new_email: string;
+            turnstile_token?: string;
+        };
+        EmailChangeResultDto: {
+            email: string;
         };
         EmailFlowDto: {
             /** @constant */
@@ -345,6 +1165,77 @@ export interface components {
                 y: string;
             }[];
         };
+        LogoutDto: {
+            client_id?: string;
+            post_logout_redirect_uri?: string;
+            /**
+             * @default session
+             * @enum {string}
+             */
+            scope: "session" | "device";
+            state?: string;
+        };
+        LogoutResultDto: {
+            redirect_to?: string;
+            signed_out: boolean;
+        };
+        MeDto: {
+            amr: ("otp" | "pwd" | "webauthn")[];
+            auth_time: number;
+            global: {
+                permissions: components["schemas"]["PermissionKey"][];
+                roles: components["schemas"]["RoleRef"][];
+            };
+            networks: {
+                city: {
+                    id: number;
+                    name: string;
+                    slug: string;
+                };
+                id: number;
+                name: string;
+                permissions: components["schemas"]["PermissionKey"][];
+                roles: components["schemas"]["RoleRef"][];
+                slug: string;
+            }[];
+            user: {
+                avatar_initials: string;
+                display_name: string;
+                email_masked: string;
+                id: string;
+                /** @enum {string} */
+                locale: "tr" | "en";
+                username: string | null;
+            };
+        };
+        ModerationAction: {
+            /** @enum {string} */
+            action: "ban" | "unban" | "warn" | "note";
+            active: boolean;
+            /** Format: date-time */
+            at: string;
+            by: components["schemas"]["UserRef"] | null;
+            id: string;
+            private_reason: string | null;
+            public_reason: string | null;
+            until: string | null;
+            user: components["schemas"]["UserRef"];
+        };
+        ModerationPageDto: {
+            items: components["schemas"]["ModerationAction"][];
+            next_cursor: string | null;
+            prev_cursor: string | null;
+            total: number | null;
+        };
+        NetworkRef: {
+            id: number;
+            name: string;
+            slug: string;
+        };
+        OAuthErrorDto: {
+            error: string;
+            error_description?: string;
+        };
         OpenIdConfigurationDto: {
             authorization_endpoint: string;
             claims_supported: string[];
@@ -365,12 +1256,157 @@ export interface components {
             ui_locales_supported: string[];
             userinfo_endpoint: string;
         };
+        PasswordLoginDto: {
+            /** Format: email */
+            email: string;
+            password: string;
+            request_id?: string;
+            turnstile_token?: string;
+        };
+        PasswordResetDto: {
+            new_password: string;
+            reset_token: string;
+        };
+        PasswordSetDto: {
+            /** @default false */
+            keep_sessions: boolean;
+            new_password: string;
+        };
+        PatchMeDto: {
+            display_name?: string;
+            /** @enum {string} */
+            locale?: "tr" | "en";
+        };
+        /** @enum {string} */
+        PermissionKey: "system.health.read" | "system.config.read" | "ops.logs" | "users.read" | "users.pii.read" | "users.sessions.revoke" | "moderation.read" | "moderation.write" | "roles.read" | "roles.write" | "roles.assign" | "permissions.read" | "permissions.write" | "apps.read" | "apps.write" | "apps.secrets.rotate" | "networks.read.all" | "catalog.admin" | "providers.read" | "providers.kill" | "archive.read" | "archive.write" | "email.read" | "email.test.send" | "email.test.send.any" | "settings.read" | "settings.write" | "flags.write" | "jobs.read" | "jobs.run" | "audit.read" | "network.overview.read" | "vehicles.live.read" | "vehicles.history.read" | "tracker.read" | "tracker.control" | "tracker.config.write" | "catalog.read" | "catalog.write" | "catalog.sync" | "analytics.read" | "analytics.export" | "members.read" | "members.roles.write" | "support.read" | "support.reply";
+        PermissionListDto: {
+            keys: {
+                description: string;
+                key: string;
+                orphaned: boolean;
+                /** @enum {string} */
+                scope: "global" | "network";
+                sudo: boolean;
+            }[];
+            routes: {
+                description: string;
+                method: string;
+                path: string;
+                permission_key: string;
+                /** @enum {string} */
+                scope: "global" | "network";
+                sudo: boolean;
+            }[];
+        };
+        PrivacyDto: {
+            location_history_opt_in: boolean;
+            product_emails: boolean;
+        };
+        PrivacyPatchDto: {
+            location_history_opt_in?: boolean;
+            product_emails?: boolean;
+        };
+        ProfileDto: {
+            /** Format: date-time */
+            created_at: string;
+            deletion?: {
+                /** Format: date-time */
+                delete_at: string;
+            };
+            display_name: string;
+            email: string;
+            email_verified_at: string | null;
+            has_password: boolean;
+            id: string;
+            /** @enum {string} */
+            locale: "tr" | "en";
+            passkey_count: number;
+        };
+        ProfilePatchDto: {
+            display_name?: string;
+            /** @enum {string} */
+            locale?: "tr" | "en";
+        };
         ReadyDto: {
             checks: {
                 name: string;
                 ok: boolean;
             }[];
             ready: boolean;
+        };
+        ReasonDto: {
+            reason: string;
+        };
+        ReauthDto: {
+            password: string;
+        };
+        RevealEmailDto: {
+            /** Format: email */
+            email: string;
+        };
+        RevokedCountDto: {
+            revoked: number;
+        };
+        RevokeRequestDto: {
+            client_id?: string;
+            client_secret?: string;
+            token?: string;
+            token_type_hint?: string;
+        };
+        RoleAssignment: {
+            /** Format: date-time */
+            granted_at: string;
+            granted_by: components["schemas"]["UserRef"] | null;
+            network: components["schemas"]["NetworkRef"] | null;
+            role: components["schemas"]["RoleRef"];
+        };
+        RoleOperationResultsDto: {
+            results: {
+                error_code: components["schemas"]["ErrorCode"] | null;
+                ok: boolean;
+                /** @enum {string} */
+                op: "grant" | "revoke";
+                role_id: number;
+            }[];
+        };
+        RoleOperationsDto: {
+            operations: {
+                /** @enum {string} */
+                op: "grant" | "revoke";
+                role_id: number;
+            }[];
+        };
+        RoleRef: {
+            id: number;
+            key: string;
+            level: number;
+            name: string;
+        };
+        ScopeListDto: {
+            scopes: {
+                i18n_key: string;
+                key: string;
+            }[];
+        };
+        SecurityDto: {
+            has_password: boolean;
+            passkeys: {
+                /** Format: date-time */
+                created_at: string;
+                device_hint: string | null;
+                id: string;
+                last_used_at: string | null;
+                name: string;
+            }[];
+            /** Format: date-time */
+            password_updated_at?: string;
+            recent_events: {
+                approx_location?: string;
+                /** Format: date-time */
+                at: string;
+                device_label?: string;
+                type: string;
+            }[];
         };
         SessionInfoDto: {
             account: {
@@ -391,6 +1427,44 @@ export interface components {
                 id: string;
             };
         };
+        SessionListDto: {
+            sessions: {
+                amr: ("otp" | "pwd" | "webauthn")[];
+                approx_location?: string;
+                apps: {
+                    client_id: string;
+                    name: string;
+                }[];
+                /** Format: date-time */
+                created_at: string;
+                current: boolean;
+                device: {
+                    browser: string;
+                    /** @enum {string} */
+                    kind: "desktop" | "mobile" | "app";
+                    label: string;
+                    os: string;
+                };
+                id: string;
+                /** Format: date-time */
+                last_seen_at: string;
+            }[];
+        };
+        SignedInDto: {
+            account: {
+                avatar_initials: string;
+                display_name: string;
+                email?: string;
+                email_masked: string;
+                id: string;
+                /** @enum {string} */
+                locale: "tr" | "en";
+            };
+            /** Format: date-time */
+            auth_time: string;
+            /** @constant */
+            status: "signed_in";
+        };
         SignupCompleteDto: {
             display_name: string;
             /** @enum {string} */
@@ -402,8 +1476,56 @@ export interface components {
         SwitchSessionDto: {
             session_id: string;
         };
+        TokenRequestDto: {
+            client_id?: string;
+            client_secret?: string;
+            code?: string;
+            code_verifier?: string;
+            /** @enum {string} */
+            grant_type?: "authorization_code" | "refresh_token";
+            redirect_uri?: string;
+            refresh_token?: string;
+            scope?: string;
+        };
+        TokenResponseDto: {
+            access_token: string;
+            expires_in: number;
+            refresh_token?: string;
+            scope: string;
+            /** @constant */
+            token_type: "Bearer";
+        };
+        UnbanRequestDto: {
+            reason: string;
+        };
+        UnbanResultDto: {
+            unbanned: boolean;
+        };
+        UserRef: {
+            display_name: string;
+            id: string;
+            username: string | null;
+        };
+        UserSession: {
+            app: {
+                client_id: string;
+                name: string;
+            } | null;
+            /** Format: date-time */
+            created_at: string;
+            device: string;
+            /** Format: date-time */
+            expires_at: string;
+            id: string;
+            ip_prefix: string | null;
+            /** @enum {string} */
+            kind: "sso" | "refresh";
+            last_used_at: string | null;
+        };
+        /** @enum {string} */
+        UserStatus: "active" | "unverified" | "banned" | "pending_deletion";
         VersionDto: {
-            build_time: string[];
+            build_time: string | null;
             env: string;
             git_sha: string;
             /** @enum {string} */
@@ -536,6 +1658,80 @@ export interface operations {
             };
         };
     };
+    SelfService_apps: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AuthorizedAppsDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    SelfService_revokeApp: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path: {
+                clientId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: null;
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     Account_getCsrf: {
         parameters: {
             query?: never;
@@ -592,6 +1788,86 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["DeviceAccountsDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    SelfService_startEmailChange: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EmailChangeDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["EmailFlowDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    SelfService_verifyEmailChange: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EmailVerifyDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["EmailChangeResultDto"];
                         /** @enum {boolean} */
                         ok: true;
                     };
@@ -728,6 +2004,390 @@ export interface operations {
             };
         };
     };
+    Password_set: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PasswordSetDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: null;
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Password_remove: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: null;
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Password_login: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PasswordLoginDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["SignedInDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Password_reset: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PasswordResetDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["SignedInDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    SelfService_privacy: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["PrivacyDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    SelfService_updatePrivacy: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PrivacyPatchDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["PrivacyDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    SelfService_profile: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["ProfileDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    SelfService_updateProfile: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProfilePatchDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["ProfileDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Password_reauth: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReauthDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["SignedInDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    SelfService_security: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["SecurityDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     Account_getSession: {
         parameters: {
             query?: never;
@@ -804,6 +2464,116 @@ export interface operations {
             };
         };
     };
+    SelfService_sessions: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["SessionListDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    SelfService_revokeSession: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path: {
+                sessionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: null;
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    SelfService_revokeOthers: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["RevokedCountDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     Account_completeSignup: {
         parameters: {
             query?: never;
@@ -831,6 +2601,988 @@ export interface operations {
                         /** @enum {boolean} */
                         ok: true;
                     };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Audit_list: {
+        parameters: {
+            query?: {
+                action?: string;
+                actor?: string;
+                cursor?: string;
+                from?: string;
+                limit?: number;
+                network_id?: number;
+                q?: string;
+                sort?: string;
+                target_id?: string;
+                target_type?: string;
+                to?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AuditPageDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Moderation_list: {
+        parameters: {
+            query?: {
+                action?: "ban" | "unban" | "warn" | "note";
+                active?: "true" | "false";
+                cursor?: string;
+                limit?: number;
+                q?: string;
+                sort?: string;
+                user_id?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["ModerationPageDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Audit_network: {
+        parameters: {
+            query?: {
+                action?: string;
+                actor?: string;
+                cursor?: string;
+                from?: string;
+                limit?: number;
+                q?: string;
+                sort?: string;
+                target_id?: string;
+                target_type?: string;
+                to?: string;
+            };
+            header?: never;
+            path: {
+                networkId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AuditPageDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Roles_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["PermissionListDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    DashUsers_list: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                from?: string;
+                limit?: number;
+                network_id?: number;
+                q?: string;
+                role?: string;
+                sort?: string;
+                status?: components["schemas"]["UserStatus"];
+                to?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DashUserPageDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    DashUsers_detail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DashUser"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    DashUsers_activity: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+                q?: string;
+                sort?: string;
+            };
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AuditPageDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Moderation_ban: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BanRequestDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["Ban"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    DashUsers_revealEmail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["RevealEmailDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    DashUsers_assignRoles: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RoleOperationsDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["RoleOperationResultsDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    DashUsers_sessions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["UserSession"][];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    DashUsers_revokeSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionId: string;
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReasonDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["RevokedCountDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    DashUsers_revokeAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReasonDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["RevokedCountDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Moderation_unban: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UnbanRequestDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["UnbanResultDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Users_me: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["MeDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Users_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PatchMeDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["MeDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    OAuth_app: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clientId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AppInfoDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    OAuth_start: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AuthorizeDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AuthorizeSnapshotDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    OAuth_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AuthorizeSnapshotDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    OAuth_continue: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AuthorizeContinueDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AuthorizeNextDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    OAuth_decision: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path: {
+                requestId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AuthorizeDecisionDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AuthorizeNextDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    OAuth_logout: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required on writes; from GET /v1/account/csrf */
+                "X-CSRF-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LogoutDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["LogoutResultDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Token_revoke: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RevokeRequestDto"];
+                "application/x-www-form-urlencoded": components["schemas"]["RevokeRequestDto"];
+            };
+        };
+        responses: {
+            /** @description Revoked, or the token was unknown */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RFC 6749 error */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OAuthErrorDto"];
+                };
+            };
+            /** @description invalid_client */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OAuthErrorDto"];
+                };
+            };
+        };
+    };
+    OAuth_scopes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["ScopeListDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Token_token: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TokenRequestDto"];
+                "application/x-www-form-urlencoded": components["schemas"]["TokenRequestDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TokenResponseDto"];
+                };
+            };
+            /** @description RFC 6749 error */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OAuthErrorDto"];
+                };
+            };
+            /** @description invalid_client */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OAuthErrorDto"];
                 };
             };
             /** @description Error envelope */

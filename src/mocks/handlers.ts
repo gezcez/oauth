@@ -232,15 +232,15 @@ function snapshot(db: MockDb, ar: MockAuthRequest): AuthRequestSnapshot {
       name: client.name,
       first_party: client.first_party,
       type: client.type,
-      homepage_url: client.homepage_url ?? null,
-      logo_url: client.logo_url ?? null,
+      ...(client.homepage_url ? { homepage_url: client.homepage_url } : {}),
+      ...(client.logo_url ? { logo_url: client.logo_url } : {}),
     },
     scopes: scopes.map((key) => ({ key, i18n_key: `scopes.${key}` })),
-    prompt: ar.params.prompt ?? null,
-    login_hint: ar.params.login_hint ?? null,
-    ui_locales: ar.params.ui_locales ?? null,
+    ...(ar.params.prompt ? { prompt: ar.params.prompt } : {}),
+    ...(ar.params.login_hint ? { login_hint: ar.params.login_hint } : {}),
+    ...(ar.params.ui_locales ? { ui_locales: ar.params.ui_locales } : {}),
     next: n.next,
-    redirect_to: n.redirect_to ?? null,
+    ...(n.redirect_to ? { redirect_to: n.redirect_to } : {}),
   }
 }
 
@@ -302,7 +302,7 @@ export const handlers = [
     if (bad) return bad
     db.sessions = db.sessions.filter((s) => !(s.id === params.sessionId && s.on_this_device && s.signed_out))
     saveDb()
-    return ok({})
+    return ok(null)
   }),
 
   http.post(`${A}/session/switch`, async ({ request }) => {
@@ -514,7 +514,11 @@ export const handlers = [
     db.csrf_seq++
     event(r.cu.u, "auth.reauth")
     saveDb()
-    return ok({ auth_time: new Date(r.cu.s.auth_time).toISOString() })
+    return ok({
+      status: "signed_in",
+      account: summary(r.cu.u, true),
+      auth_time: new Date(r.cu.s.auth_time).toISOString(),
+    })
   }),
 
   http.get(`${A}/profile`, () => {
@@ -631,7 +635,7 @@ export const handlers = [
     if (!s.on_this_device) db.sessions = db.sessions.filter((x) => x.id !== s.id)
     event(r.cu.u, "session.revoked")
     saveDb()
-    return ok({})
+    return ok(null)
   }),
 
   http.post(`${A}/sessions/revoke-others`, ({ request }) => {
@@ -666,7 +670,7 @@ export const handlers = [
     db.grants = db.grants.filter((g) => !(g.user_id === r.cu.u.id && g.client_id === params.clientId))
     event(r.cu.u, "app.revoked")
     saveDb()
-    return ok({})
+    return ok(null)
   }),
 
   http.get(`${A}/security`, () => {
@@ -701,7 +705,7 @@ export const handlers = [
       )
     event(r.cu.u, had ? "password.changed" : "password.set")
     saveDb()
-    return ok({})
+    return ok(null)
   }),
 
   http.delete(`${A}/password`, ({ request }) => {
@@ -716,7 +720,7 @@ export const handlers = [
     delete r.cu.u.password_updated_at
     event(r.cu.u, "password.removed")
     saveDb()
-    return ok({})
+    return ok(null)
   }),
 
   http.get(`${A}/privacy`, () => {
@@ -821,7 +825,7 @@ export const handlers = [
     r.cu.u.status = "active"
     delete r.cu.u.delete_at
     saveDb()
-    return ok({})
+    return ok(null)
   }),
 
   // ---------- /v1/oauth ----------
@@ -890,7 +894,7 @@ export const handlers = [
     r.ar.chosen_session = db.active_session ?? undefined
     const n = requestNext(db, r.ar)
     saveDb()
-    return ok({ next: n.next, redirect_to: n.redirect_to ?? null })
+    return ok({ next: n.next, ...(n.redirect_to ? { redirect_to: n.redirect_to } : {}) })
   }),
 
   http.post(`${O}/authorize/:requestId/decision`, async ({ request, params }) => {
@@ -903,6 +907,7 @@ export const handlers = [
     const p = r.ar.params
     if (decision === "deny") {
       return ok({
+        next: "redirect",
         redirect_to: `${p.redirect_uri}?error=access_denied&state=${encodeURIComponent(p.state ?? "")}`,
       })
     }
@@ -921,10 +926,7 @@ export const handlers = [
     r.ar.params = { ...p, prompt: (p.prompt ?? "").replace("consent", "") }
     const n = requestNext(db, r.ar)
     saveDb()
-    return ok({
-      redirect_to:
-        n.redirect_to ?? `${p.redirect_uri}?error=server_error&state=${encodeURIComponent(p.state ?? "")}`,
-    })
+    return ok({ next: n.next, ...(n.redirect_to ? { redirect_to: n.redirect_to } : {}) })
   }),
 
   http.post(`${O}/logout`, async ({ request }) => {
@@ -943,15 +945,15 @@ export const handlers = [
         client &&
         b.post_logout_redirect_uri &&
         client.post_logout_redirect_uris.includes(b.post_logout_redirect_uri)
-      if (!registered) return ok({ redirect_to: null })
+      if (!registered) return ok({ signed_out: false })
       endSessions(db, "session")
       const state = b.state ? `?state=${encodeURIComponent(b.state)}` : ""
       saveDb()
-      return ok({ redirect_to: `${b.post_logout_redirect_uri}${state}` })
+      return ok({ signed_out: true, redirect_to: `${b.post_logout_redirect_uri}${state}` })
     }
     endSessions(db, b.scope)
     saveDb()
-    return ok({ redirect_to: null })
+    return ok({ signed_out: true })
   }),
 ]
 

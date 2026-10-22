@@ -33,7 +33,7 @@ export function decideRequest(requestId: string, decision: "approve" | "deny") {
 export function useDispatchNext() {
   const navigate = useNavigate()
   return useCallback(
-    async (next: Next, req: string, redirectTo?: string | null) => {
+    async (next: Next, req: string | null, redirectTo?: string | null) => {
       const target = targetForNext(next, req, redirectTo)
       if (target.kind === "external") {
         followRedirect(target.url)

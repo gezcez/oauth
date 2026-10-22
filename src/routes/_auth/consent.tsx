@@ -8,13 +8,12 @@ import { Lead, PageHeading } from "@/components/brand/page-heading"
 import { FormError } from "@/components/form-error"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
-import { decideRequest } from "@/features/authorize/api"
+import { decideRequest, useDispatchNext } from "@/features/authorize/api"
 import { ClientLogo } from "@/features/authorize/client-header"
 import { ScopeList } from "@/features/consent/scope-list"
 import { AccountChip } from "@/features/session/account-chip"
 import { useAuthRequest } from "@/features/session/use-auth-request"
 import { useI18n } from "@/i18n"
-import { followRedirect } from "@/lib/navigation"
 import { authSearch } from "@/lib/search"
 import { MissingFlow } from "@/features/email-code/missing-flow"
 
@@ -28,9 +27,10 @@ function ConsentPage() {
   const { t } = useI18n()
   const request = useAuthRequest(req)
   const session = useQuery(sessionQuery)
+  const dispatch = useDispatchNext()
   const decide = useMutation({
     mutationFn: (d: "approve" | "deny") => decideRequest(req!, d),
-    onSuccess: (res) => followRedirect(res.redirect_to),
+    onSuccess: (res) => dispatch(res.next, req!, res.redirect_to),
   })
 
   if (!req) return <MissingFlow to="/signin" />

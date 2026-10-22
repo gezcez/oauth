@@ -48,7 +48,8 @@ async function peekErrorCode(res: Response): Promise<string | undefined> {
 }
 
 interface FetchResult<T> {
-  data?: { ok: true; data: T } | undefined
+  /** `data` is optional because openapi-fetch drops it from `{ ok: true, data: null }` envelopes. */
+  data?: { ok: true; data?: T } | undefined
   error?: unknown
   response: Response
 }
@@ -56,7 +57,7 @@ interface FetchResult<T> {
 /** Turn an openapi-fetch result into the envelope's `data`, or throw a GezcezError. */
 export async function unwrap<T>(promise: Promise<FetchResult<T>>): Promise<T> {
   const { data, error, response } = await promise
-  if (response.ok && data && data.ok) return data.data
+  if (response.ok && data && data.ok) return data.data as T
   throw errorFromBody(error, response)
 }
 

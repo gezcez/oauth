@@ -52,7 +52,7 @@ function Start() {
       .then(async (snap) => {
         setClient(snap.client.name)
         // Drop the raw OAuth params from the address bar so reload resumes instead of retrying.
-        replaceUrl(`/authorize?req=${encodeURIComponent(snap.request_id)}`)
+        if (snap.request_id) replaceUrl(`/authorize?req=${encodeURIComponent(snap.request_id)}`)
         await dispatch(snap.next, snap.request_id, snap.redirect_to)
       })
       .catch((e) => {
