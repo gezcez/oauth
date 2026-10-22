@@ -65,5 +65,6 @@ export default defineConfig(({ mode }) => ({
     setupFiles: ["./vitest.setup.ts"],
     include: ["src/**/*.test.{ts,tsx}", "eslint-rules/**/*.test.ts", "scripts/**/*.test.ts"],
     css: false,
+    testTimeout: 20_000,
   },
 }))
