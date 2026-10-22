@@ -23,6 +23,7 @@ export function EmailForm({
   submitLabel,
   onStarted,
   footer,
+  autoComplete = "email",
 }: {
   intent: Exclude<EmailIntent, "reauth">
   req?: string | undefined
@@ -30,6 +31,8 @@ export function EmailForm({
   submitLabel?: string
   onStarted: (flow: EmailFlow, email: string) => void | Promise<void>
   footer?: ReactNode
+  /** Sign-in uses "username webauthn" so the browser offers passkeys in the autofill sheet. */
+  autoComplete?: string
 }) {
   const { t, locale, formatDuration } = useI18n()
   const turnstile = useRef<TurnstileHandle>(null)
@@ -80,7 +83,7 @@ export function EmailForm({
       <Field label={t("auth.email.label")} error={fieldError}>
         <Input
           type="email"
-          autoComplete="email"
+          autoComplete={autoComplete}
           inputMode="email"
           autoCapitalize="none"
           spellCheck={false}

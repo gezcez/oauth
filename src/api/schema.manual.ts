@@ -8,10 +8,19 @@
  *   [backend: in progress]  controller exists on the backend rewrite branch, not in openapi.json yet
  *   [backend: missing]      not implemented in the backend yet
  *   [backend: not in plan]  needed by this UI but not in backend.md 7.1 (see README "Backend gaps")
+ *   [backend: passkeys]     P5 passkeys, typed by hand from backend.md 7.1 and oauth.md 4.3/4.4 while
+ *                           the backend's rewrite-passkeys branch is being built; check these first
+ *                           when that branch lands in openapi.json
  *
  * When `bun run api:gen` starts producing a path, delete it here: ./schema.ts merges both and
  * the generated type wins at compile time if the shapes disagree.
  */
+import type {
+  AuthenticationResponseJSON,
+  PublicKeyCredentialCreationOptionsJSON,
+  PublicKeyCredentialRequestOptionsJSON,
+  RegistrationResponseJSON,
+} from "@simplewebauthn/browser"
 import type { components } from "./schema.gen"
 
 export type ErrorCode = components["schemas"]["ErrorCode"]
@@ -150,18 +159,27 @@ export interface SecurityEvent {
   approx_location?: string | null
 }
 
+export interface Passkey {
+  id: string
+  name: string
+  created_at: string
+  last_used_at?: string | null
+  /** Backend's guess at where the passkey lives ("iCloud Keychain", "Google Password Manager"). */
+  device_hint?: string | null
+}
+
 export interface SecurityOverview {
   has_password: boolean
   password_updated_at?: string | null
-  passkeys: {
-    id: string
-    name: string
-    created_at: string
-    last_used_at?: string | null
-    device_hint?: string | null
-  }[]
+  passkeys: Passkey[]
   recent_events: SecurityEvent[]
 }
+
+/** WebAuthn options as JSON (what @simplewebauthn/server generates) plus the backend's challenge id. */
+export type PasskeyRequestOptions = PublicKeyCredentialRequestOptionsJSON & { challenge_id: string }
+export type PasskeyCreationOptions = PublicKeyCredentialCreationOptionsJSON & { challenge_id: string }
+export type PasskeyAssertion = AuthenticationResponseJSON
+export type PasskeyAttestation = RegistrationResponseJSON
 
 export interface PrivacySettings {
   location_history_opt_in: boolean
@@ -273,6 +291,30 @@ export interface paths {
   "/v1/account/password": Item<{
     put: Write<Empty, { new_password: string; keep_sessions?: boolean }>
     delete: Write<Empty>
+  }>
+  /** [backend: passkeys] sign-in step 1. Discoverable credentials, so allowCredentials is empty. */
+  "/v1/account/passkeys/signin/options": Item<{
+    post: Write<PasskeyRequestOptions, { request_id?: string }>
+  }>
+  /** [backend: passkeys] sign-in step 2. Sets gz_session like email/verify. */
+  "/v1/account/passkeys/signin/verify": Item<{
+    post: Write<{ account: AccountSummary }, { challenge_id: string; credential: PasskeyAssertion }>
+  }>
+  /** [backend: passkeys] sudo, registration step 1 */
+  "/v1/account/passkeys/options": Item<{ post: Write<PasskeyCreationOptions> }>
+  /** [backend: passkeys] sudo, registration step 2 */
+  "/v1/account/passkeys": Item<{
+    post: Write<
+      Passkey,
+      { challenge_id: string; credential: PasskeyAttestation; name: string },
+      NoParams,
+      201
+    >
+  }>
+  /** [backend: passkeys] sudo, rename and remove */
+  "/v1/account/passkeys/{passkeyId}": Item<{
+    patch: Write<Passkey, { name: string }, PathParams<{ passkeyId: string }>>
+    delete: Write<Empty, undefined, PathParams<{ passkeyId: string }>>
   }>
   /** [backend: missing] */
   "/v1/account/privacy": Item<{

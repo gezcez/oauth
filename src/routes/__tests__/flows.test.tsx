@@ -62,7 +62,9 @@ describe("sign-in with an email code", () => {
     await user.click(screen.getByRole("checkbox", { name: /Terms of Use/ }))
     await user.click(screen.getByRole("button", { name: "Create account" }))
     await waitFor(() => expect(router.state.location.pathname).toBe("/account"), { timeout: 4000 })
-    expect(await screen.findByText("Welcome to gezcez. Your account is ready.", undefined, { timeout: 4000 })).toBeInTheDocument()
+    expect(
+      await screen.findByText("Welcome to gezcez. Your account is ready.", undefined, { timeout: 4000 }),
+    ).toBeInTheDocument()
   })
 
   it("validates the email before calling the API", async () => {

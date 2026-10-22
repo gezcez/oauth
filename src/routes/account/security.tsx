@@ -15,6 +15,13 @@ import { toast } from "@/components/ui/toaster"
 import { ConfirmDialog } from "@/features/account/confirm-dialog"
 import { AccountPage, LoadError, Loading, Section } from "@/features/account/page"
 import { useSudo } from "@/features/account/use-sudo"
+import {
+  AddPasskeyDialog,
+  PasskeyList,
+  RemovePasskeyDialog,
+  RenamePasskeyDialog,
+  usePasskeyManager,
+} from "@/features/passkeys/manage"
 import { MAX_PASSWORD, MIN_PASSWORD, NewPasswordField } from "@/features/password/new-password-field"
 import { useI18n } from "@/i18n"
 import { lookup, catalogs } from "@/i18n/translate"
@@ -33,6 +40,7 @@ function SecurityPage() {
   const handle = useHandleApiError()
   const [editing, setEditing] = useState(false)
   const [removing, setRemoving] = useState(false)
+  const passkeys = usePasskeyManager()
   const remove = useMutation({
     mutationFn: () => unwrap(api.DELETE("/v1/account/password")),
     onSuccess: async () => {
@@ -86,8 +94,25 @@ function SecurityPage() {
           <MethodRow
             icon={<Fingerprint className="size-5" aria-hidden />}
             title={t("account.security.passkeys")}
-            body={t("account.security.passkeysSoon")}
-          />
+            body={
+              passkeys.supported
+                ? t("account.security.passkeysBody")
+                : t("account.security.passkeysUnsupported")
+            }
+            below={
+              <PasskeyList
+                passkeys={s.passkeys}
+                onRename={(passkey) => passkeys.open({ kind: "rename", passkey })}
+                onRemove={(passkey) => passkeys.open({ kind: "remove", passkey })}
+              />
+            }
+          >
+            {passkeys.supported ? (
+              <Button size="sm" variant="secondary" onClick={() => passkeys.open({ kind: "add" })}>
+                {t("account.security.addPasskey")}
+              </Button>
+            ) : null}
+          </MethodRow>
         </ul>
       </Section>
 
@@ -125,6 +150,15 @@ function SecurityPage() {
         loading={remove.isPending}
         onConfirm={() => remove.mutate()}
       />
+      <AddPasskeyDialog open={passkeys.dialog?.kind === "add"} onOpenChange={(o) => !o && passkeys.close()} />
+      <RenamePasskeyDialog
+        passkey={passkeys.dialog?.kind === "rename" ? passkeys.dialog.passkey : null}
+        onOpenChange={(o) => !o && passkeys.close()}
+      />
+      <RemovePasskeyDialog
+        passkey={passkeys.dialog?.kind === "remove" ? passkeys.dialog.passkey : null}
+        onOpenChange={(o) => !o && passkeys.close()}
+      />
     </AccountPage>
   )
 }
@@ -134,22 +168,28 @@ function MethodRow({
   title,
   body,
   children,
+  below,
 }: {
   icon: ReactNode
   title: string
   body: string
   children?: ReactNode
+  /** Full-width content under the row, such as the passkey list. */
+  below?: ReactNode
 }) {
   return (
-    <li className="flex flex-col gap-3 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-center">
-      <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-surface-muted ring-1 ring-line">
-        {icon}
-      </span>
-      <div className="min-w-0 flex-1">
-        <p className="font-semibold">{title}</p>
-        <p className="text-sm text-muted">{body}</p>
+    <li className="space-y-4 py-4 first:pt-0 last:pb-0">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-surface-muted ring-1 ring-line">
+          {icon}
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="font-semibold">{title}</p>
+          <p className="text-sm text-muted">{body}</p>
+        </div>
+        {children}
       </div>
-      {children}
+      {below}
     </li>
   )
 }

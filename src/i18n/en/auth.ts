@@ -27,6 +27,15 @@ export const auth = {
     signedOutAs: "Sign back in as {email}.",
     sessionExpired: "Please sign in again.",
   },
+  passkey: {
+    or: "or",
+    button: "Sign in with a passkey",
+    cancelled: "No passkey was used. Try again, or use an email code.",
+    unsupported: "This browser can't use passkeys here. Use an email code instead.",
+    failed: "Your passkey didn't work. Try again, or use an email code.",
+    unknown:
+      "We don't recognise this passkey. It may have been removed from your account. Use an email code instead.",
+  },
   signup: {
     title: "Create your gezcez account",
     lead: "Enter your email and we'll send you a code to confirm it.",

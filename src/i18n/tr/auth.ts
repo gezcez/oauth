@@ -29,6 +29,15 @@ export const auth: Catalog["auth"] = {
     signedOutAs: "{email} olarak yeniden giriş yapın.",
     sessionExpired: "Lütfen yeniden giriş yapın.",
   },
+  passkey: {
+    or: "ya da",
+    button: "Geçiş anahtarıyla giriş yapın",
+    cancelled: "Geçiş anahtarı kullanılmadı. Yeniden deneyin ya da e-posta kodu kullanın.",
+    unsupported: "Bu tarayıcı burada geçiş anahtarı kullanamıyor. Bunun yerine e-posta kodu kullanın.",
+    failed: "Geçiş anahtarınız çalışmadı. Yeniden deneyin ya da e-posta kodu kullanın.",
+    unknown:
+      "Bu geçiş anahtarını tanımıyoruz. Hesabınızdan kaldırılmış olabilir. Bunun yerine e-posta kodu kullanın.",
+  },
   signup: {
     title: "gezcez hesabınızı oluşturun",
     lead: "E-posta adresinizi girin, doğrulamak için size bir kod gönderelim.",

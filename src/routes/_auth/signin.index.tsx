@@ -2,6 +2,8 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
 import { AuthHeader } from "@/components/auth-header"
 import { ClientEyebrow } from "@/features/authorize/client-eyebrow"
 import { EmailForm } from "@/features/email-code/email-form"
+import { usePasskeySignIn } from "@/features/passkeys/signin"
+import { PasskeySignIn } from "@/features/passkeys/signin-button"
 import { useAuthRequest } from "@/features/session/use-auth-request"
 import { useI18n } from "@/i18n"
 import { authSearch } from "@/lib/search"
@@ -16,6 +18,7 @@ function SignInPage() {
   const { t } = useI18n()
   const navigate = useNavigate()
   const request = useAuthRequest(req)
+  const passkey = usePasskeySignIn({ req, returnTo })
   return (
     <>
       <ClientEyebrow request={request.data} fallback={t("auth.eyebrow.signin")} />
@@ -25,30 +28,36 @@ function SignInPage() {
         intent="signin"
         req={req}
         defaultEmail={request.data?.login_hint ?? undefined}
+        autoComplete={passkey.supported ? "username webauthn" : "email"}
         onStarted={(flow) =>
           navigate({ to: "/signin/code", search: { req, return: returnTo, flow: flow.flow_id } })
         }
         footer={
-          <div className="space-y-3 border-t border-line pt-5 text-sm">
-            <p>
-              <Link
-                to="/signin/password"
-                search={{ req, return: returnTo }}
-                className="font-medium text-link underline-offset-4 hover:underline"
-              >
-                {t("auth.signin.usePassword")}
-              </Link>
-            </p>
-            <p>
-              <Link
-                to="/signup"
-                search={{ req, return: returnTo }}
-                className="font-medium text-link underline-offset-4 hover:underline"
-              >
-                {t("auth.signin.createAccount")}
-              </Link>
-            </p>
-          </div>
+          <>
+            {passkey.supported ? (
+              <PasskeySignIn pending={passkey.pending} problem={passkey.problem} onStart={passkey.start} />
+            ) : null}
+            <div className="space-y-3 border-t border-line pt-5 text-sm">
+              <p>
+                <Link
+                  to="/signin/password"
+                  search={{ req, return: returnTo }}
+                  className="font-medium text-link underline-offset-4 hover:underline"
+                >
+                  {t("auth.signin.usePassword")}
+                </Link>
+              </p>
+              <p>
+                <Link
+                  to="/signup"
+                  search={{ req, return: returnTo }}
+                  className="font-medium text-link underline-offset-4 hover:underline"
+                >
+                  {t("auth.signin.createAccount")}
+                </Link>
+              </p>
+            </div>
+          </>
         }
       />
     </>

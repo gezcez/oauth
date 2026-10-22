@@ -13,6 +13,9 @@
  *   turnstile@example.com    AUTH_TURNSTILE_FAILED on email/start
  *   any other address    new account (needs_profile)
  *   password "breached-password-123" -> AUTH_PASSWORD_BREACHED
+ *   passkeys: ada@example.com has a seeded one (shows in the list, no real authenticator holds it).
+ *     Add your own on /account/security with a real authenticator or Chrome DevTools > WebAuthn
+ *     (virtual authenticator); the mock checks the challenge but not signatures.
  */
 import type {
   Amr,
@@ -50,6 +53,23 @@ export interface MockUser {
   privacy: PrivacySettings
   events: SecurityEvent[]
   exports: DataExport[]
+  passkeys?: MockPasskey[]
+}
+
+export interface MockPasskey {
+  id: string
+  credential_id: string
+  name: string
+  created_at: string
+  last_used_at: string | null
+  device_hint: string | null
+}
+
+export interface MockPasskeyChallenge {
+  challenge: string
+  kind: "signin" | "register"
+  user_id?: string
+  expires_at: number
 }
 
 export interface MockSession {
@@ -103,6 +123,7 @@ export interface MockDb {
   profile_tokens: Record<string, { email: string; expires_at: number }>
   reset_tokens: Record<string, { user_id: string; expires_at: number }>
   email_counts: Record<string, number[]>
+  passkey_challenges?: Record<string, MockPasskeyChallenge>
   csrf_seq: number
   seq: number
 }
@@ -193,6 +214,16 @@ export function seed(): MockDb {
     password_updated_at: iso(now - 40 * DAY),
     created_at: iso(now - 300 * DAY),
     privacy: { location_history_opt_in: false, product_emails: true },
+    passkeys: [
+      {
+        id: "pk_ada_mac",
+        credential_id: "bW9jay1hZGEtbWFj",
+        name: "MacBook Pro",
+        created_at: iso(now - 60 * DAY),
+        last_used_at: iso(now - 5 * DAY),
+        device_hint: "iCloud Keychain",
+      },
+    ],
     events: [
       {
         type: "auth.login",

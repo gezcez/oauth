@@ -72,9 +72,13 @@ function Overview() {
           icon={<ShieldCheck className="size-5" aria-hidden />}
           title={t("account.overview.cards.security.title")}
           body={
-            p.has_password
-              ? t("account.overview.cards.security.withPassword")
-              : t("account.overview.cards.security.codesOnly")
+            p.has_password && p.passkey_count > 0
+              ? t("account.overview.cards.security.withBoth")
+              : p.passkey_count > 0
+                ? t("account.overview.cards.security.withPasskey")
+                : p.has_password
+                  ? t("account.overview.cards.security.withPassword")
+                  : t("account.overview.cards.security.codesOnly")
           }
         />
         <ShortcutCard

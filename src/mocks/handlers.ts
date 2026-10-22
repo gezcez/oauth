@@ -12,6 +12,7 @@ import {
   newSessionFor,
   saveDb,
   type MockDb,
+  type MockPasskey,
   type MockSession,
   type MockUser,
 } from "./db"
@@ -35,6 +36,7 @@ const STATUS: Partial<Record<ErrorCode, number>> = {
   USER_BANNED: 403,
   USER_PENDING_DELETION: 403,
   EMAIL_TAKEN: 409,
+  CONFLICT: 409,
   NOT_FOUND: 404,
   RATE_LIMITED: 429,
   INTERNAL: 500,
@@ -153,7 +155,7 @@ function emailRateLimited(db: MockDb, email: string): number | null {
 }
 
 /** Sign in after proof of ownership; banned and pending-deletion rules as in the backend. */
-function signIn(db: MockDb, u: MockUser, amr: "otp" | "pwd") {
+function signIn(db: MockDb, u: MockUser, amr: "otp" | "pwd" | "webauthn") {
   if (u.status === "banned" && u.ban) {
     return { error: fail("USER_BANNED", { ...u.ban }) } as const
   }
@@ -176,6 +178,77 @@ function signIn(db: MockDb, u: MockUser, amr: "otp" | "pwd") {
   }
   return { s } as const
 }
+
+// ---------- passkeys ----------
+
+const PASSKEY_TTL = 5 * 60_000
+
+function b64url(bytes: Uint8Array): string {
+  let bin = ""
+  for (const b of bytes) bin += String.fromCharCode(b)
+  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
+}
+
+function fromB64url(s: string): string {
+  try {
+    return atob(s.replace(/-/g, "+").replace(/_/g, "/"))
+  } catch {
+    return ""
+  }
+}
+
+/** The page's host: in dev:mock the "backend" runs in the same origin, so that is the RP id. */
+function rpId(): string {
+  return typeof location !== "undefined" && location.hostname ? location.hostname : "localhost"
+}
+
+function newChallenge(db: MockDb, kind: "signin" | "register", userId?: string) {
+  const challenge = b64url(crypto.getRandomValues(new Uint8Array(32)))
+  const id = mockId("pkc")
+  db.passkey_challenges ??= {}
+  db.passkey_challenges[id] = {
+    challenge,
+    kind,
+    ...(userId ? { user_id: userId } : {}),
+    expires_at: Date.now() + PASSKEY_TTL,
+  }
+  return { id, challenge }
+}
+
+/** Single use. The mock checks the signed challenge in clientDataJSON, not the signature. */
+function takeChallenge(
+  db: MockDb,
+  id: string | undefined,
+  kind: "signin" | "register",
+  clientDataJSON: string | undefined,
+) {
+  const c = id ? db.passkey_challenges?.[id] : undefined
+  if (id && db.passkey_challenges) delete db.passkey_challenges[id]
+  if (!c || c.kind !== kind || Date.now() > c.expires_at) return null
+  try {
+    const data = JSON.parse(fromB64url(clientDataJSON ?? "")) as { challenge?: string }
+    return data.challenge === c.challenge ? c : null
+  } catch {
+    return null
+  }
+}
+
+function passkeyOut(p: MockPasskey) {
+  return {
+    id: p.id,
+    name: p.name,
+    created_at: p.created_at,
+    last_used_at: p.last_used_at,
+    device_hint: p.device_hint,
+  }
+}
+
+function passkeyName(name: unknown): string | null {
+  const n = typeof name === "string" ? name.trim() : ""
+  return n && n.length <= 64 ? n : null
+}
+
+type Credential = { id?: string; response?: { clientDataJSON?: string; transports?: string[] } }
 
 // ---------- authorization requests ----------
 
@@ -519,6 +592,143 @@ export const handlers = [
     return ok({ auth_time: new Date(r.cu.s.auth_time).toISOString() })
   }),
 
+  http.post(`${A}/passkeys/signin/options`, ({ request }) => {
+    const db = getDb()
+    const bad = checkCsrf(request, db)
+    if (bad) return bad
+    const c = newChallenge(db, "signin")
+    saveDb()
+    return ok({
+      challenge_id: c.id,
+      challenge: c.challenge,
+      rpId: rpId(),
+      timeout: PASSKEY_TTL,
+      userVerification: "preferred" as const,
+      allowCredentials: [],
+    })
+  }),
+
+  http.post(`${A}/passkeys/signin/verify`, async ({ request }) => {
+    const db = getDb()
+    const bad = checkCsrf(request, db)
+    if (bad) return bad
+    const b = await body<{ challenge_id?: string; credential?: Credential }>(request)
+    const c = takeChallenge(db, b.challenge_id, "signin", b.credential?.response?.clientDataJSON)
+    if (!c) {
+      saveDb()
+      return fail("VALIDATION_FAILED", { fields: { credential: "challenge" } })
+    }
+    const u = db.users.find((x) => x.passkeys?.some((p) => p.credential_id === b.credential?.id))
+    const pk = u?.passkeys?.find((p) => p.credential_id === b.credential?.id)
+    if (!u || !pk) {
+      saveDb()
+      return fail("NOT_FOUND")
+    }
+    pk.last_used_at = new Date().toISOString()
+    const r = signIn(db, u, "webauthn")
+    saveDb()
+    if ("error" in r) return r.error
+    return ok({ account: summary(u, true) })
+  }),
+
+  http.post(`${A}/passkeys/options`, ({ request }) => {
+    const db = getDb()
+    const bad = checkCsrf(request, db)
+    if (bad) return bad
+    const r = requireSession(db)
+    if ("error" in r) return r.error
+    const sudo = requireSudo(r.cu.s)
+    if (sudo) return sudo
+    const u = r.cu.u
+    const c = newChallenge(db, "register", u.id)
+    saveDb()
+    return ok({
+      challenge_id: c.id,
+      challenge: c.challenge,
+      rp: { id: rpId(), name: "gezcez" },
+      user: { id: b64url(new TextEncoder().encode(u.id)), name: u.email, displayName: u.display_name },
+      pubKeyCredParams: [
+        { type: "public-key" as const, alg: -7 },
+        { type: "public-key" as const, alg: -257 },
+      ],
+      timeout: PASSKEY_TTL,
+      attestation: "none" as const,
+      excludeCredentials: (u.passkeys ?? []).map((p) => ({
+        id: p.credential_id,
+        type: "public-key" as const,
+      })),
+      authenticatorSelection: { residentKey: "required" as const, userVerification: "preferred" as const },
+    })
+  }),
+
+  http.post(`${A}/passkeys`, async ({ request }) => {
+    const db = getDb()
+    const bad = checkCsrf(request, db)
+    if (bad) return bad
+    const r = requireSession(db)
+    if ("error" in r) return r.error
+    const sudo = requireSudo(r.cu.s)
+    if (sudo) return sudo
+    const b = await body<{ challenge_id?: string; credential?: Credential; name?: string }>(request)
+    const name = passkeyName(b.name)
+    if (!name) return fail("VALIDATION_FAILED", { fields: { name: "length" } })
+    const c = takeChallenge(db, b.challenge_id, "register", b.credential?.response?.clientDataJSON)
+    if (!c || c.user_id !== r.cu.u.id || !b.credential?.id) {
+      saveDb()
+      return fail("VALIDATION_FAILED", { fields: { credential: "challenge" } })
+    }
+    if (db.users.some((x) => x.passkeys?.some((p) => p.credential_id === b.credential!.id))) {
+      saveDb()
+      return fail("CONFLICT")
+    }
+    const pk: MockPasskey = {
+      id: mockId("pk"),
+      credential_id: b.credential.id,
+      name,
+      created_at: new Date().toISOString(),
+      last_used_at: null,
+      device_hint: b.credential.response?.transports?.includes("hybrid") ? "Phone" : null,
+    }
+    r.cu.u.passkeys = [...(r.cu.u.passkeys ?? []), pk]
+    event(r.cu.u, "passkey.added")
+    saveDb()
+    return ok(passkeyOut(pk), 201)
+  }),
+
+  http.patch(`${A}/passkeys/:passkeyId`, async ({ request, params }) => {
+    const db = getDb()
+    const bad = checkCsrf(request, db)
+    if (bad) return bad
+    const r = requireSession(db)
+    if ("error" in r) return r.error
+    const sudo = requireSudo(r.cu.s)
+    if (sudo) return sudo
+    const pk = r.cu.u.passkeys?.find((p) => p.id === params.passkeyId)
+    if (!pk) return fail("NOT_FOUND")
+    const name = passkeyName((await body<{ name?: string }>(request)).name)
+    if (!name) return fail("VALIDATION_FAILED", { fields: { name: "length" } })
+    pk.name = name
+    event(r.cu.u, "passkey.renamed")
+    saveDb()
+    return ok(passkeyOut(pk))
+  }),
+
+  http.delete(`${A}/passkeys/:passkeyId`, ({ request, params }) => {
+    const db = getDb()
+    const bad = checkCsrf(request, db)
+    if (bad) return bad
+    const r = requireSession(db)
+    if ("error" in r) return r.error
+    const sudo = requireSudo(r.cu.s)
+    if (sudo) return sudo
+    const before = r.cu.u.passkeys ?? []
+    if (!before.some((p) => p.id === params.passkeyId)) return fail("NOT_FOUND")
+    r.cu.u.passkeys = before.filter((p) => p.id !== params.passkeyId)
+    event(r.cu.u, "passkey.removed")
+    saveDb()
+    return ok({})
+  }),
+
   http.get(`${A}/profile`, () => {
     const db = getDb()
     const r = requireSession(db)
@@ -678,7 +888,7 @@ export const handlers = [
     return ok({
       has_password: Boolean(r.cu.u.password),
       password_updated_at: r.cu.u.password_updated_at ?? null,
-      passkeys: [],
+      passkeys: (r.cu.u.passkeys ?? []).map(passkeyOut),
       recent_events: r.cu.u.events,
     })
   }),
@@ -974,7 +1184,7 @@ function profileOf(u: MockUser) {
     locale: u.locale,
     created_at: u.created_at,
     has_password: Boolean(u.password),
-    passkey_count: 0,
+    passkey_count: u.passkeys?.length ?? 0,
     deletion: u.delete_at ? { delete_at: u.delete_at } : null,
   }
 }
