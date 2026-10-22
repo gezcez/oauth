@@ -17,8 +17,10 @@
     "test:watch": "vitest",
     "i18n:check": "vitest run src/i18n",
     "e2e": "playwright test -c e2e/playwright.config.ts",
-    "e2e:real": "E2E_REAL_BACKEND=1 playwright test -c e2e/playwright.config.ts",
-    "screenshots": "playwright test -c e2e/playwright.config.ts --project=screenshots",
+    "e2e:real:up": "VITE_API_URL=https://api.localtest.me vite build && BACKEND_VERSION=$(cat e2e/backend-version) docker compose -f e2e/docker-compose.e2e.yml up -d --wait",
+    "e2e:real": "E2E_REAL_BACKEND=1 playwright test -c e2e/playwright.config.ts --project=real",
+    "e2e:real:down": "BACKEND_VERSION=x docker compose -f e2e/docker-compose.e2e.yml down -v",
+    "screenshots": "SCREENSHOTS=1 playwright test -c e2e/playwright.config.ts --project=screenshots",
     "api:gen": "bun scripts/api-gen.ts",
     "api:check": "bun scripts/api-gen.ts --check"
   },

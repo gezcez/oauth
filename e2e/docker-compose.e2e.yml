@@ -1,0 +1,46 @@
+# Real-backend e2e stack. Used by `bun run e2e:real` and .github/workflows/e2e.yml.
+# Skipped until ghcr.io/gezcez/backend publishes an image; pin the tag in e2e/backend-version.
+#
+# Both sites share the registrable domain localtest.me (resolves to 127.0.0.1), so the
+# SameSite=Lax session cookie set by the API is sent from the SPA, as in production:
+#   https://oauth.localtest.me  -> the built SPA (dist/, VITE_API_URL=https://api.localtest.me)
+#   https://api.localtest.me    -> the backend in NODE_ENV=test (memory mailbox at /v1/__test/mailbox)
+# The test client (e2e/fixtures/test-client) runs on the host at http://localhost:4710.
+name: gezcez-oauth-e2e
+
+services:
+  api:
+    image: ghcr.io/gezcez/backend:${BACKEND_VERSION:?set BACKEND_VERSION from e2e/backend-version}
+    environment:
+      NODE_ENV: test
+      MODE: all
+      PORT: "8080"
+      PUBLIC_API_URL: https://api.localtest.me
+      OAUTH_UI_URL: https://oauth.localtest.me
+      CORS_ORIGINS: https://oauth.localtest.me
+      EMAIL_TRANSPORT: memory
+      RATE_LIMIT_SCALE: "100"
+      DATA_DIR: /data
+    tmpfs:
+      - /data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "bun",
+          "-e",
+          "fetch('http://127.0.0.1:8080/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 2s
+      retries: 30
+
+  caddy:
+    image: caddy:2.10.2-alpine
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "443:443"
+    volumes:
+      - ../dist:/srv/oauth:ro
+      - ./Caddyfile.e2e:/etc/caddy/Caddyfile:ro
