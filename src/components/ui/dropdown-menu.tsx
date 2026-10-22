@@ -2,7 +2,10 @@ import * as Menu from "@radix-ui/react-dropdown-menu"
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from "react"
 import { cn } from "@/lib/cn"
 
-export const DropdownMenu = Menu.Root
+/** Non-modal: the modal variant locks scroll by injecting a <style> element, which the CSP blocks. */
+export function DropdownMenu(props: ComponentPropsWithoutRef<typeof Menu.Root>) {
+  return <Menu.Root modal={false} {...props} />
+}
 export const DropdownMenuTrigger = Menu.Trigger
 
 export const DropdownMenuContent = forwardRef<

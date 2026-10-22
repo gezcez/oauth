@@ -202,7 +202,9 @@ function requestNext(db: MockDb, ar: MockAuthRequest): { next: Next; redirect_to
     return prompt === "none" ? errorRedirect("account_selection_required") : { next: "choose_account" }
   const maxAge = p.max_age !== undefined ? Number(p.max_age) : undefined
   const loginForced = prompt.includes("login") && cu.s.auth_time < ar.created_at
-  const tooOld = maxAge !== undefined && Date.now() - cu.s.auth_time > maxAge * 1000
+  // A sign-in made during this request satisfies max_age, however long the user took.
+  const tooOld =
+    maxAge !== undefined && Date.now() - cu.s.auth_time > maxAge * 1000 && cu.s.auth_time < ar.created_at
   if (loginForced || tooOld) return prompt === "none" ? errorRedirect("login_required") : { next: "reauth" }
   const scopes = (p.scope ?? "").split(/\s+/).filter(Boolean)
   if (!client.first_party) {

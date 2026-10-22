@@ -12,7 +12,7 @@ export const Route = createFileRoute("/")({
   beforeLoad: async ({ context, search }) => {
     // The old UI was entered as /?app=dashboard; that entry now explains itself.
     if (search.app) return
-    const session = await context.queryClient.ensureQueryData(sessionQuery)
+    const session = await context.queryClient.fetchQuery({ ...sessionQuery, staleTime: 60_000 }) // refetches once invalidated (sign-in, sign-out)
     throw redirect({ to: session ? "/account" : "/signin", replace: true })
   },
   component: OutdatedEntry,

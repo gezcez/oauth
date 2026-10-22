@@ -25,10 +25,27 @@ export function NumberBadge({
   )
 }
 
-export function Avatar({ initials, className }: { initials: string; className?: string }) {
+/**
+ * `decorative`: draw the initials with CSS generated content so they stay out of the accessible
+ * name and the visible-label text of a control that already names the person.
+ */
+export function Avatar({
+  initials,
+  className,
+  decorative,
+}: {
+  initials: string
+  className?: string
+  decorative?: boolean
+}) {
+  const text = initials.slice(0, 2).toUpperCase()
   return (
     <NumberBadge shape="circle" className={cn("size-9 text-sm", className)}>
-      {initials.slice(0, 2).toUpperCase()}
+      {decorative ? (
+        <span aria-hidden data-initials={text} className="before:content-[attr(data-initials)]" />
+      ) : (
+        text
+      )}
     </NumberBadge>
   )
 }
