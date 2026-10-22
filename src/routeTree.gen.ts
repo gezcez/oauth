@@ -23,6 +23,12 @@ import { Route as AuthPendingDeletionRouteImport } from './routes/_auth/pending-
 import { Route as AuthReauthRouteImport } from './routes/_auth/reauth'
 import { Route as AuthSignedOutRouteImport } from './routes/_auth/signed-out'
 import { Route as AccountIndexRouteImport } from './routes/account/index'
+import { Route as AccountAppsRouteImport } from './routes/account/apps'
+import { Route as AccountEmailRouteImport } from './routes/account/email'
+import { Route as AccountLanguageRouteImport } from './routes/account/language'
+import { Route as AccountProfileRouteImport } from './routes/account/profile'
+import { Route as AccountSecurityRouteImport } from './routes/account/security'
+import { Route as AccountSessionsRouteImport } from './routes/account/sessions'
 import { Route as AuthResetIndexRouteImport } from './routes/_auth/reset.index'
 import { Route as AuthResetCodeRouteImport } from './routes/_auth/reset.code'
 import { Route as AuthResetNewRouteImport } from './routes/_auth/reset.new'
@@ -31,6 +37,8 @@ import { Route as AuthSigninCodeRouteImport } from './routes/_auth/signin.code'
 import { Route as AuthSigninPasswordRouteImport } from './routes/_auth/signin.password'
 import { Route as AuthSignupIndexRouteImport } from './routes/_auth/signup.index'
 import { Route as AuthSignupProfileRouteImport } from './routes/_auth/signup.profile'
+import { Route as AccountPrivacyIndexRouteImport } from './routes/account/privacy.index'
+import { Route as AccountPrivacyDeleteRouteImport } from './routes/account/privacy.delete'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -101,6 +109,36 @@ const AccountIndexRoute = AccountIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AccountRoute,
 } as any)
+const AccountAppsRoute = AccountAppsRouteImport.update({
+  id: '/apps',
+  path: '/apps',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountEmailRoute = AccountEmailRouteImport.update({
+  id: '/email',
+  path: '/email',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountLanguageRoute = AccountLanguageRouteImport.update({
+  id: '/language',
+  path: '/language',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountProfileRoute = AccountProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountSecurityRoute = AccountSecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountSessionsRoute = AccountSessionsRouteImport.update({
+  id: '/sessions',
+  path: '/sessions',
+  getParentRoute: () => AccountRoute,
+} as any)
 const AuthResetIndexRoute = AuthResetIndexRouteImport.update({
   id: '/reset/',
   path: '/reset/',
@@ -141,6 +179,16 @@ const AuthSignupProfileRoute = AuthSignupProfileRouteImport.update({
   path: '/signup/profile',
   getParentRoute: () => AuthRoute,
 } as any)
+const AccountPrivacyIndexRoute = AccountPrivacyIndexRouteImport.update({
+  id: '/privacy/',
+  path: '/privacy/',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountPrivacyDeleteRoute = AccountPrivacyDeleteRouteImport.update({
+  id: '/privacy/delete',
+  path: '/privacy/delete',
+  getParentRoute: () => AccountRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -155,15 +203,23 @@ export interface FileRoutesByFullPath {
   '/pending-deletion': typeof AuthPendingDeletionRoute
   '/reauth': typeof AuthReauthRoute
   '/signed-out': typeof AuthSignedOutRoute
+  '/account/apps': typeof AccountAppsRoute
+  '/account/email': typeof AccountEmailRoute
+  '/account/language': typeof AccountLanguageRoute
+  '/account/profile': typeof AccountProfileRoute
+  '/account/security': typeof AccountSecurityRoute
+  '/account/sessions': typeof AccountSessionsRoute
   '/account/': typeof AccountIndexRoute
   '/reset/code': typeof AuthResetCodeRoute
   '/reset/new': typeof AuthResetNewRoute
   '/signin/code': typeof AuthSigninCodeRoute
   '/signin/password': typeof AuthSigninPasswordRoute
   '/signup/profile': typeof AuthSignupProfileRoute
+  '/account/privacy/delete': typeof AccountPrivacyDeleteRoute
   '/reset/': typeof AuthResetIndexRoute
   '/signin/': typeof AuthSigninIndexRoute
   '/signup/': typeof AuthSignupIndexRoute
+  '/account/privacy/': typeof AccountPrivacyIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -177,15 +233,23 @@ export interface FileRoutesByTo {
   '/pending-deletion': typeof AuthPendingDeletionRoute
   '/reauth': typeof AuthReauthRoute
   '/signed-out': typeof AuthSignedOutRoute
+  '/account/apps': typeof AccountAppsRoute
+  '/account/email': typeof AccountEmailRoute
+  '/account/language': typeof AccountLanguageRoute
+  '/account/profile': typeof AccountProfileRoute
+  '/account/security': typeof AccountSecurityRoute
+  '/account/sessions': typeof AccountSessionsRoute
   '/account': typeof AccountIndexRoute
   '/reset/code': typeof AuthResetCodeRoute
   '/reset/new': typeof AuthResetNewRoute
   '/signin/code': typeof AuthSigninCodeRoute
   '/signin/password': typeof AuthSigninPasswordRoute
   '/signup/profile': typeof AuthSignupProfileRoute
+  '/account/privacy/delete': typeof AccountPrivacyDeleteRoute
   '/reset': typeof AuthResetIndexRoute
   '/signin': typeof AuthSigninIndexRoute
   '/signup': typeof AuthSignupIndexRoute
+  '/account/privacy': typeof AccountPrivacyIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -202,15 +266,23 @@ export interface FileRoutesById {
   '/_auth/pending-deletion': typeof AuthPendingDeletionRoute
   '/_auth/reauth': typeof AuthReauthRoute
   '/_auth/signed-out': typeof AuthSignedOutRoute
+  '/account/apps': typeof AccountAppsRoute
+  '/account/email': typeof AccountEmailRoute
+  '/account/language': typeof AccountLanguageRoute
+  '/account/profile': typeof AccountProfileRoute
+  '/account/security': typeof AccountSecurityRoute
+  '/account/sessions': typeof AccountSessionsRoute
   '/account/': typeof AccountIndexRoute
   '/_auth/reset/code': typeof AuthResetCodeRoute
   '/_auth/reset/new': typeof AuthResetNewRoute
   '/_auth/signin/code': typeof AuthSigninCodeRoute
   '/_auth/signin/password': typeof AuthSigninPasswordRoute
   '/_auth/signup/profile': typeof AuthSignupProfileRoute
+  '/account/privacy/delete': typeof AccountPrivacyDeleteRoute
   '/_auth/reset/': typeof AuthResetIndexRoute
   '/_auth/signin/': typeof AuthSigninIndexRoute
   '/_auth/signup/': typeof AuthSignupIndexRoute
+  '/account/privacy/': typeof AccountPrivacyIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -227,15 +299,23 @@ export interface FileRouteTypes {
     | '/pending-deletion'
     | '/reauth'
     | '/signed-out'
+    | '/account/apps'
+    | '/account/email'
+    | '/account/language'
+    | '/account/profile'
+    | '/account/security'
+    | '/account/sessions'
     | '/account/'
     | '/reset/code'
     | '/reset/new'
     | '/signin/code'
     | '/signin/password'
     | '/signup/profile'
+    | '/account/privacy/delete'
     | '/reset/'
     | '/signin/'
     | '/signup/'
+    | '/account/privacy/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -249,15 +329,23 @@ export interface FileRouteTypes {
     | '/pending-deletion'
     | '/reauth'
     | '/signed-out'
+    | '/account/apps'
+    | '/account/email'
+    | '/account/language'
+    | '/account/profile'
+    | '/account/security'
+    | '/account/sessions'
     | '/account'
     | '/reset/code'
     | '/reset/new'
     | '/signin/code'
     | '/signin/password'
     | '/signup/profile'
+    | '/account/privacy/delete'
     | '/reset'
     | '/signin'
     | '/signup'
+    | '/account/privacy'
   id:
     | '__root__'
     | '/'
@@ -273,15 +361,23 @@ export interface FileRouteTypes {
     | '/_auth/pending-deletion'
     | '/_auth/reauth'
     | '/_auth/signed-out'
+    | '/account/apps'
+    | '/account/email'
+    | '/account/language'
+    | '/account/profile'
+    | '/account/security'
+    | '/account/sessions'
     | '/account/'
     | '/_auth/reset/code'
     | '/_auth/reset/new'
     | '/_auth/signin/code'
     | '/_auth/signin/password'
     | '/_auth/signup/profile'
+    | '/account/privacy/delete'
     | '/_auth/reset/'
     | '/_auth/signin/'
     | '/_auth/signup/'
+    | '/account/privacy/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -391,6 +487,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountIndexRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/account/apps': {
+      id: '/account/apps'
+      path: '/apps'
+      fullPath: '/account/apps'
+      preLoaderRoute: typeof AccountAppsRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/email': {
+      id: '/account/email'
+      path: '/email'
+      fullPath: '/account/email'
+      preLoaderRoute: typeof AccountEmailRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/language': {
+      id: '/account/language'
+      path: '/language'
+      fullPath: '/account/language'
+      preLoaderRoute: typeof AccountLanguageRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/profile': {
+      id: '/account/profile'
+      path: '/profile'
+      fullPath: '/account/profile'
+      preLoaderRoute: typeof AccountProfileRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/security': {
+      id: '/account/security'
+      path: '/security'
+      fullPath: '/account/security'
+      preLoaderRoute: typeof AccountSecurityRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/sessions': {
+      id: '/account/sessions'
+      path: '/sessions'
+      fullPath: '/account/sessions'
+      preLoaderRoute: typeof AccountSessionsRouteImport
+      parentRoute: typeof AccountRoute
+    }
     '/_auth/reset/': {
       id: '/_auth/reset/'
       path: '/reset'
@@ -447,6 +585,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignupProfileRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/account/privacy/': {
+      id: '/account/privacy/'
+      path: '/privacy'
+      fullPath: '/account/privacy/'
+      preLoaderRoute: typeof AccountPrivacyIndexRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/privacy/delete': {
+      id: '/account/privacy/delete'
+      path: '/privacy/delete'
+      fullPath: '/account/privacy/delete'
+      preLoaderRoute: typeof AccountPrivacyDeleteRouteImport
+      parentRoute: typeof AccountRoute
+    }
   }
 }
 
@@ -493,11 +645,27 @@ const AuthRouteChildren: AuthRouteChildren = {
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface AccountRouteChildren {
+  AccountAppsRoute: typeof AccountAppsRoute
+  AccountEmailRoute: typeof AccountEmailRoute
+  AccountLanguageRoute: typeof AccountLanguageRoute
+  AccountProfileRoute: typeof AccountProfileRoute
+  AccountSecurityRoute: typeof AccountSecurityRoute
+  AccountSessionsRoute: typeof AccountSessionsRoute
   AccountIndexRoute: typeof AccountIndexRoute
+  AccountPrivacyDeleteRoute: typeof AccountPrivacyDeleteRoute
+  AccountPrivacyIndexRoute: typeof AccountPrivacyIndexRoute
 }
 
 const AccountRouteChildren: AccountRouteChildren = {
+  AccountAppsRoute: AccountAppsRoute,
+  AccountEmailRoute: AccountEmailRoute,
+  AccountLanguageRoute: AccountLanguageRoute,
+  AccountProfileRoute: AccountProfileRoute,
+  AccountSecurityRoute: AccountSecurityRoute,
+  AccountSessionsRoute: AccountSessionsRoute,
   AccountIndexRoute: AccountIndexRoute,
+  AccountPrivacyDeleteRoute: AccountPrivacyDeleteRoute,
+  AccountPrivacyIndexRoute: AccountPrivacyIndexRoute,
 }
 
 const AccountRouteWithChildren =
