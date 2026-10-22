@@ -97,6 +97,8 @@ export default function MockPanel() {
     saveDb()
     refresh()
   }
+  // Hidden in automated browsers (Playwright e2e and screenshots).
+  if (typeof navigator !== "undefined" && navigator.webdriver) return null
   return (
     <div className="fixed bottom-3 left-3 z-50 text-sm" data-mock-panel>
       {open ? (

@@ -1,0 +1,28 @@
+// Cloudflare Worker with static assets only (oauth.md section 12). No Worker script yet:
+// security headers come from public/_headers and unknown paths fall back to index.html.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "oauth-gezcez-com",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application",
+    "html_handling": "auto-trailing-slash"
+  },
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "oauth.gezcez.com", "custom_domain": true }],
+  "env": {
+    "staging": {
+      "name": "oauth-gezcez-com-staging",
+      "routes": [{ "pattern": "oauth-staging.gezcez.com", "custom_domain": true }]
+    },
+    "preview": {
+      // PR previews run the MSW build (VITE_API_MODE=mock) for visual review only.
+      "name": "oauth-gezcez-com-preview",
+      "workers_dev": true,
+      "preview_urls": true,
+      "routes": []
+    }
+  }
+}

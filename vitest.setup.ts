@@ -17,6 +17,14 @@ Element.prototype.scrollIntoView ??= function scrollIntoView() {}
 Element.prototype.hasPointerCapture ??= () => false
 Element.prototype.releasePointerCapture ??= () => {}
 document.elementFromPoint ??= () => null
+// jsdom has <dialog> but not its modal methods.
+HTMLDialogElement.prototype.showModal ??= function showModal(this: HTMLDialogElement) {
+  this.setAttribute("open", "")
+}
+HTMLDialogElement.prototype.close ??= function close(this: HTMLDialogElement) {
+  this.removeAttribute("open")
+  this.dispatchEvent(new Event("close"))
+}
 
 beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
 afterEach(() => {

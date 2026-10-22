@@ -159,13 +159,17 @@ describe("password sign-in", () => {
     await user.type(screen.getByLabelText("Email"), "ada@example.com")
     await user.type(screen.getByLabelText("Password"), "wrong password")
     await user.click(screen.getByRole("button", { name: "Sign in" }))
-    const first = (await screen.findByRole("alert")).textContent
+    const alertText = async () => {
+      await screen.findByText(/Email or password is not right/)
+      return (await screen.findAllByRole("alert")).map((a) => a.textContent).find(Boolean)
+    }
+    const first = await alertText()
     await user.clear(screen.getByLabelText("Email"))
     await user.type(screen.getByLabelText("Email"), "nobody@example.com")
     await user.type(screen.getByLabelText("Password"), "whatever123")
     await user.click(screen.getByRole("button", { name: "Sign in" }))
     await waitFor(() => expect(screen.getByLabelText("Password")).toHaveValue(""))
-    expect((await screen.findByRole("alert")).textContent).toBe(first)
+    expect(await alertText()).toBe(first)
     expect(first).toContain("Email or password is not right.")
   })
 
