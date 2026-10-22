@@ -21,6 +21,8 @@
     "e2e:real": "E2E_REAL_BACKEND=1 playwright test -c e2e/playwright.config.ts --project=real",
     "e2e:real:down": "BACKEND_VERSION=x docker compose -f e2e/docker-compose.e2e.yml down -v",
     "screenshots": "SCREENSHOTS=1 playwright test -c e2e/playwright.config.ts --project=screenshots",
+    "visual": "VISUAL=1 playwright test -c e2e/playwright.config.ts",
+    "visual:update": "VISUAL=1 playwright test -c e2e/playwright.config.ts --update-snapshots=all",
     "api:gen": "bun scripts/api-gen.ts",
     "api:check": "bun scripts/api-gen.ts --check"
   },
