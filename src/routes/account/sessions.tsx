@@ -45,7 +45,17 @@ function SessionsPage() {
   )
   const others = list.filter((s) => !s.current)
   return (
-    <AccountPage title={t("account.sessions.title")} lead={t("account.sessions.lead")}>
+    <AccountPage
+      title={t("account.sessions.title")}
+      lead={t("account.sessions.lead")}
+      aside={
+        others.length > 0 ? (
+          <Button variant="destructive" size="md" onClick={() => sudo() && setConfirmOthers(true)}>
+            {t("account.sessions.signOutOthers")}
+          </Button>
+        ) : undefined
+      }
+    >
       <ul className="space-y-4">
         {list.map((s) => (
           <li key={s.id}>
@@ -54,13 +64,6 @@ function SessionsPage() {
         ))}
       </ul>
       {others.length === 0 ? <p className="text-muted">{t("account.sessions.empty")}</p> : null}
-      {others.length > 0 ? (
-        <div className="flex justify-end">
-          <Button variant="destructive" onClick={() => sudo() && setConfirmOthers(true)}>
-            {t("account.sessions.signOutOthers")}
-          </Button>
-        </div>
-      ) : null}
       <ConfirmDialog
         open={confirmOthers}
         onOpenChange={setConfirmOthers}

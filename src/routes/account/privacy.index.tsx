@@ -43,7 +43,7 @@ function PrivacyPage() {
       >
         <a
           href={`${env.wwwUrl}/privacy/providers`}
-          className="inline-flex items-center gap-1 font-medium text-link underline-offset-4 hover:underline"
+          className="inline-flex min-h-11 items-center gap-1 font-medium text-link underline-offset-4 hover:underline"
           target="_blank"
           rel="noreferrer"
         >
@@ -195,24 +195,24 @@ function ExportRow({ item }: { item: DataExport }) {
   })
   const size = item.size_bytes ? `${Math.max(1, Math.round(item.size_bytes / 1024))} KB` : null
   return (
-    <li className="flex flex-wrap items-center justify-between gap-3 py-3">
-      <div className="min-w-0">
-        <p className="flex items-center gap-2 font-medium">
+    <li className="grid grid-cols-[1fr_auto] items-center gap-3 py-3">
+      <div className="min-w-0 space-y-1">
+        <p className="font-medium">
+          {t("account.privacy.exportRequestedAt", { date: formatDate(item.created_at) })}
+        </p>
+        <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted">
           <span
             className={cn(
               "rounded-full px-2.5 py-0.5 text-xs font-semibold",
               item.status === "ready"
                 ? "bg-success-bg text-success"
                 : item.status === "queued"
-                  ? "bg-info-bg"
-                  : "bg-surface-muted text-subtle",
+                  ? "bg-info-bg text-foreground"
+                  : "bg-surface-muted text-muted",
             )}
           >
             {t(`account.privacy.exportStatus.${item.status}`)}
           </span>
-          {t("account.privacy.exportRequestedAt", { date: formatDate(item.created_at) })}
-        </p>
-        <p className="text-sm text-muted">
           {[
             item.status === "ready" && item.expires_at
               ? t("account.privacy.exportExpires", { date: formatDate(item.expires_at) })

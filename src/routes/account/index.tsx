@@ -37,9 +37,16 @@ function Overview() {
     <AccountPage
       title={t("account.overview.title", { name: p.display_name })}
       lead={
-        <>
-          {p.email} · {t("account.overview.memberSince", { date: formatDate(p.created_at) })}
-        </>
+        <span className="flex flex-col sm:flex-row sm:flex-wrap sm:gap-x-1.5">
+          <span className="break-all">{p.email}</span>
+          <span aria-hidden className="hidden sm:inline">
+            ·
+          </span>
+          {/* Non-breaking spaces keep "26 December 2025" together when the line wraps. */}
+          <span>
+            {t("account.overview.memberSince", { date: formatDate(p.created_at).replace(/ /g, "\u00a0") })}
+          </span>
+        </span>
       }
     >
       {welcome ? (
@@ -114,7 +121,7 @@ function ShortcutCard({
   return (
     <Link
       to={to}
-      className="group flex items-start gap-4 rounded-2xl bg-surface p-5 ring-1 ring-line transition-colors hover:ring-line-strong focus-visible:outline-2 focus-visible:outline-focus"
+      className="group flex items-start gap-4 rounded-2xl bg-surface p-5 ring-1 ring-line transition-colors hover:ring-line-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
     >
       <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-brand-yellow-400 to-brand-amber-500 text-navy">
         {icon}

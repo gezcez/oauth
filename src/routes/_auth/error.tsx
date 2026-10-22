@@ -25,8 +25,12 @@ export const Route = createFileRoute("/_auth/error")({
 })
 
 function OAuthErrorPage() {
-  const { code, ref } = Route.useSearch()
+  const search = Route.useSearch()
   const { t } = useI18n()
+  // Always give support something to ask for: the API's request id, or a client-made one
+  // (prefixed "web-") with the time, when the error never reached the API.
+  const [ref] = useState(() => search.ref ?? clientReference())
+  const code = search.code
   const [copied, setCopied] = useState(false)
   const copy = code ?? "generic"
   return (
@@ -40,26 +44,30 @@ function OAuthErrorPage() {
         title={t(`auth.error.${copy}.title`)}
         lead={t(`auth.error.${copy}.body`)}
       />
-      {ref ? (
-        <div className="mb-6 flex items-center justify-between gap-3 rounded-xl bg-surface-muted px-4 py-3 text-sm ring-1 ring-line">
-          <span>
-            {t("common.reference")}: <code className="font-mono break-all">{ref}</code>
-          </span>
-          <Button
-            variant="ghost"
-            size="icon"
-            aria-label={copied ? t("common.copied") : t("common.copyReference")}
-            onClick={() => {
-              void navigator.clipboard?.writeText(ref).then(() => setCopied(true))
-            }}
-          >
-            {copied ? <Check className="size-4" aria-hidden /> : <Copy className="size-4" aria-hidden />}
-          </Button>
-        </div>
-      ) : null}
+      <div className="mb-6 flex items-center justify-between gap-3 rounded-xl bg-surface-muted px-4 py-3 text-sm ring-1 ring-line">
+        <span>
+          {t("common.reference")}: <code className="font-mono text-sm break-all text-subtle">{ref}</code>
+        </span>
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label={copied ? t("common.copied") : t("common.copyReference")}
+          onClick={() => {
+            void navigator.clipboard?.writeText(ref).then(() => setCopied(true))
+          }}
+        >
+          {copied ? <Check className="size-4" aria-hidden /> : <Copy className="size-4" aria-hidden />}
+        </Button>
+      </div>
       <Button asChild block>
         <a href={env.wwwUrl}>{t("common.goHome")}</a>
       </Button>
     </>
   )
+}
+
+function clientReference(): string {
+  const bytes = crypto.getRandomValues(new Uint8Array(6))
+  const rand = Array.from(bytes, (b) => b.toString(36).padStart(2, "0")).join("")
+  return `web-${Date.now().toString(36)}-${rand}`
 }

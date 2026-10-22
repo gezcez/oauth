@@ -1,7 +1,6 @@
 import type { ReactNode } from "react"
 import { Lead, PageHeading } from "@/components/brand/page-heading"
 import { Card } from "@/components/ui/card"
-import { Spinner } from "@/components/ui/spinner"
 import { FormError } from "@/components/form-error"
 import { Button } from "@/components/ui/button"
 import { useI18n } from "@/i18n"
@@ -68,8 +67,17 @@ export function Section({
 export function Loading() {
   const { t } = useI18n()
   return (
-    <div className="flex justify-center py-16">
-      <Spinner className="size-6" label={t("common.loading")} />
+    // A skeleton of the page (heading, lead, cards) so the layout does not jump when data lands.
+    <div role="status" aria-label={t("common.loading")} aria-busy className="space-y-6">
+      <div className="space-y-3">
+        <div className="h-8 w-1/2 rounded-lg bg-line motion-safe:animate-pulse" />
+        <div className="h-4 w-2/3 rounded-md bg-line motion-safe:animate-pulse" />
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {[0, 1, 2, 3].map((i) => (
+          <div key={i} className="h-24 rounded-2xl bg-line motion-safe:animate-pulse" />
+        ))}
+      </div>
     </div>
   )
 }

@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { createFileRoute, Link } from "@tanstack/react-router"
-import { ArrowRight, ExternalLink } from "lucide-react"
+import { ArrowRight, ExternalLink, Info } from "lucide-react"
 import { sessionQuery } from "@/api/queries"
 import { Logo } from "@/components/brand/logo"
 import { Eyebrow } from "@/components/brand/eyebrow"
-import { Lead, PageHeading } from "@/components/brand/page-heading"
+import { PageHeading } from "@/components/brand/page-heading"
 import { FormError } from "@/components/form-error"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
@@ -46,15 +46,23 @@ function ConsentPage() {
   const homepage = safeHttps(client.homepage_url)
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3" aria-hidden>
-        <Logo wordmark={false} size={40} />
-        <ArrowRight className="size-4 text-subtle" />
-        <ClientLogo client={client} size={40} />
+      <div className="space-y-3">
+        <div className="flex items-center gap-3" aria-hidden>
+          <Logo wordmark={false} size={40} />
+          <ArrowRight className="size-4 text-subtle" />
+          <ClientLogo client={client} size={40} />
+        </div>
+        {/* The main trust signal on this screen, so it is a chip, not a footnote. */}
+        {!client.first_party ? (
+          <p className="inline-flex items-center gap-1.5 rounded-full bg-info-bg px-3 py-1 text-sm font-medium text-foreground">
+            <Info className="size-4 shrink-0" aria-hidden />
+            {t("auth.consent.madeBy")}
+          </p>
+        ) : null}
       </div>
       <div className="space-y-3">
         <Eyebrow>{t("auth.eyebrow.consent")}</Eyebrow>
-        <PageHeading>{t("auth.consent.title", { client: client.name })}</PageHeading>
-        {!client.first_party ? <Lead className="text-sm">{t("auth.consent.madeBy")}</Lead> : null}
+        <PageHeading className="sm:text-2xl">{t("auth.consent.title", { client: client.name })}</PageHeading>
       </div>
 
       {session.data ? (
@@ -64,7 +72,7 @@ function ConsentPage() {
           <Link
             to="/choose"
             search={{ req }}
-            className="text-sm font-medium text-link underline-offset-4 hover:underline"
+            className="inline-flex min-h-11 items-center text-sm font-medium text-link underline-offset-4 hover:underline"
           >
             {t("auth.consent.notYou")}
           </Link>
@@ -83,7 +91,7 @@ function ConsentPage() {
           href={homepage}
           target="_blank"
           rel="noreferrer noopener"
-          className="inline-flex items-center gap-1 text-sm font-medium text-link underline-offset-4 hover:underline"
+          className="inline-flex min-h-11 items-center gap-1 text-sm font-medium text-link underline-offset-4 hover:underline"
         >
           {t("auth.consent.homepage", { client: client.name })}
           <ExternalLink className="size-3.5" aria-hidden />
