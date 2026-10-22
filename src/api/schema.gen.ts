@@ -444,6 +444,161 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/cities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Cities_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/cities/{slug}/manifest": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Cities_manifest"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/apps": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** OAuth clients with usage counts; sort name, created_at, tokens_24h */
+        get: operations["Apps_list"];
+        put?: never;
+        /** Create a client; a confidential client's secret is shown once */
+        post: operations["Apps_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/apps/{appId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Client detail, secret metadata and tokens issued per day */
+        get: operations["Apps_detail"];
+        put?: never;
+        post?: never;
+        /** Delete a client with its grants and tokens (not system apps) */
+        delete: operations["Apps_delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Edit a client
+         * @description redirect_uris and first_party changes additionally need a fresh sign-in (403 AUTH_STEP_UP_REQUIRED).
+         */
+        patch: operations["Apps_update"];
+        trace?: never;
+    };
+    "/v1/dash/apps/{appId}/revoke-all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Revoke every refresh family of the client */
+        post: operations["Apps_revokeAll"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/apps/{appId}/secret": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Rotate the secret (shown once); the previous one works for the grace */
+        post: operations["Apps_rotate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/apps/{appId}/secret/previous": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** End the previous secret's grace now */
+        delete: operations["Apps_revokePrevious"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/archive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ArchiveAdmin_status"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/archive/{bindingId}/{date}/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["ArchiveAdmin_export"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/dash/audit": {
         parameters: {
             query?: never;
@@ -453,6 +608,22 @@ export interface paths {
         };
         /** Audit log, newest first; before/after redacted */
         get: operations["Audit_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/cities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Networks_cities"];
         put?: never;
         post?: never;
         delete?: never;
@@ -478,6 +649,86 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/dash/networks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Networks_networks"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/networks/{networkId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Networks_network"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/networks/{networkId}/analytics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Analytics_catalog"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/networks/{networkId}/analytics/{metric}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Analytics_metric"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/networks/{networkId}/analytics/{metric}/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Analytics_export"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/dash/networks/{networkId}/audit": {
         parameters: {
             query?: never;
@@ -495,6 +746,205 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/dash/networks/{networkId}/bindings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Networks_bindings"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/networks/{networkId}/bindings/{bindingId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Networks_binding"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/networks/{networkId}/bindings/{bindingId}/control": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["TrackerAdmin_control"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/networks/{networkId}/bindings/{bindingId}/polls": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["TrackerAdmin_polls"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/networks/{networkId}/bindings/{bindingId}/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["TrackerAdmin_stats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/networks/{networkId}/bindings/{bindingId}/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["TransitAdmin_run"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/networks/{networkId}/members": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Users holding a role in the network, emails masked
+         * @description Filter `role` (key); sort display_name, level (default desc), last_active_at.
+         */
+        get: operations["Members_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/networks/{networkId}/members/{userId}/roles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Grant or revoke network roles in a batch; level rules per operation */
+        post: operations["Members_assign"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/networks/{networkId}/members/assignable-roles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Roles strictly below your level in this network */
+        get: operations["Members_assignable"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/networks/{networkId}/members/candidates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Users to add: username or name prefix (2+ characters); exact email with users.pii.read */
+        get: operations["Members_candidates"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/networks/{networkId}/sync-runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["TransitAdmin_runs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/networks/{networkId}/tracker": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["TrackerAdmin_overview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/dash/permissions": {
         parameters: {
             query?: never;
@@ -502,10 +952,179 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Permission keys (from code) and the guarded route registry */
-        get: operations["Roles_list"];
+        /** Permission keys from code with scope, sudo and description */
+        get: operations["Roles_permissions"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/permissions/{key}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Delete a key that is no longer in code (409 otherwise) */
+        delete: operations["Roles_deletePermission"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/permissions/registry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Every stored key with its routes, holders and orphan flag */
+        get: operations["Roles_registry"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/providers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Networks_providers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/providers/{key}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Networks_provider"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/providers/{key}/kill": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["Networks_kill"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/roles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Roles with permission and member counts */
+        get: operations["Roles_list"];
+        put?: never;
+        /** Create a role (no permissions yet); its level must be below yours */
+        post: operations["Roles_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/roles/{roleId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Role detail with its permissions and members per network */
+        get: operations["Roles_detail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Edit a role's name, description or level (not immutable roles) */
+        patch: operations["Roles_update"];
+        trace?: never;
+    };
+    "/v1/dash/roles/{roleId}/permissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Replace a role's permissions (only keys you hold can be added) */
+        put: operations["Roles_replacePermissions"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/roles/permission-matrix": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Roles x permissions */
+        get: operations["Roles_matrix"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dash/roles/permissions:batch": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Matrix editor batch: grant or revoke (role, permission) pairs, a result each */
+        post: operations["Roles_batch"];
         delete?: never;
         options?: never;
         head?: never;
@@ -709,6 +1328,120 @@ export interface paths {
         patch: operations["Users_update"];
         trace?: never;
     };
+    "/v1/me/favourites": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The favourites document, with ETag "<version>" */
+        get: operations["Favourites_get"];
+        /** Replace the favourites document; 412 VERSION_CONFLICT when If-Match is stale */
+        put: operations["Favourites_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/networks/{networkId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Cities_network"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/networks/{networkId}/alerts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Transit_networkAlerts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/networks/{networkId}/pack": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Pack_pack"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/networks/{networkId}/routes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Transit_routes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/networks/{networkId}/stops": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Transit_stops"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/networks/{networkId}/vehicles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Vehicles_snapshot"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/oauth/apps/{clientId}": {
         parameters: {
             query?: never;
@@ -868,6 +1601,150 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/providers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Cities_providers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/routes/{routeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Transit_route"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/routes/{routeId}/history/departures": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Vehicles_history"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/routes/{routeId}/shape": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Transit_shape"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/routes/{routeId}/timetable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Transit_timetable"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Transit_search"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stops/{stopId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Transit_stop"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stops/{stopId}/departures": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Vehicles_departures"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stops/nearby": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Transit_nearby"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/system/version": {
         parameters: {
             query?: never;
@@ -876,6 +1753,39 @@ export interface paths {
             cookie?: never;
         };
         get: operations["System_version"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/telemetry/counters": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add a day's aggregate app counters (no identifiers) */
+        post: operations["Telemetry_counters"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/vehicles/{vehicleId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["Vehicles_vehicle"];
         put?: never;
         post?: never;
         delete?: never;
@@ -899,6 +1809,18 @@ export interface components {
                 locale: "tr" | "en";
             };
         };
+        AlertDto: {
+            active_from: string;
+            active_to: string[];
+            body: string;
+            id: string;
+            network_id: number;
+            route_ids: string[];
+            /** @enum {string} */
+            severity: "info" | "warning" | "severe";
+            title: string;
+            url: string[];
+        };
         ApiError: {
             code: components["schemas"]["ErrorCode"];
             details?: {
@@ -906,6 +1828,33 @@ export interface components {
             };
             message: string;
             request_id: string;
+        };
+        AppDetail: {
+            access_ttl_s: number;
+            active_families: number;
+            client_id: string;
+            /** Format: date-time */
+            created_at: string;
+            description: string;
+            first_party: boolean;
+            homepage_url: string | null;
+            logo_url: string | null;
+            name: string;
+            platform: components["schemas"]["AppPlatform"];
+            redirect_uris: string[];
+            refresh_max_s: number;
+            refresh_ttl_s: number;
+            scopes: string[];
+            secrets: components["schemas"]["AppSecret"][];
+            system: boolean;
+            tokens_24h: number;
+            type: components["schemas"]["AppType"];
+            /** Format: date-time */
+            updated_at: string;
+            usage: {
+                date: string;
+                tokens: number;
+            }[];
         };
         AppInfoDto: {
             client_id: string;
@@ -919,6 +1868,75 @@ export interface components {
             }[];
             /** @enum {string} */
             type: "public" | "confidential";
+        };
+        AppListItem: {
+            active_families: number;
+            client_id: string;
+            /** Format: date-time */
+            created_at: string;
+            first_party: boolean;
+            name: string;
+            platform: components["schemas"]["AppPlatform"];
+            redirect_uri_count: number;
+            system: boolean;
+            tokens_24h: number;
+            type: components["schemas"]["AppType"];
+        };
+        AppPageDto: {
+            items: components["schemas"]["AppListItem"][];
+            next_cursor: string | null;
+            prev_cursor: string | null;
+            total: number | null;
+        };
+        /** @enum {string} */
+        AppPlatform: "web" | "native" | "dev";
+        AppReasonDto: {
+            reason: string;
+        };
+        AppSecret: {
+            /** Format: date-time */
+            created_at: string;
+            expires_at: string | null;
+            id: string;
+            last_used_at: string | null;
+            prefix: string;
+            /** @enum {string} */
+            state: "current" | "previous";
+        };
+        /** @enum {string} */
+        AppType: "public" | "confidential";
+        ArchiveStatusDto: {
+            can_write: boolean;
+            entries: {
+                binding_id: number;
+                bytes: number;
+                /** @enum {string} */
+                dataset: "positions" | "trip_runs" | "polls";
+                date: string;
+                exported_at: string;
+                path: string;
+                rows: number;
+                sha256: string;
+                /** @enum {string} */
+                state: "failed" | "verified" | "uploaded";
+                uploaded_at: string | null;
+                verified_at: string | null;
+            }[];
+            last_run: {
+                days: number;
+                failures: number;
+                finished_at: string;
+                pruned: number;
+                started_at: string;
+                uploads_retried: number;
+            } | null;
+            schedules: {
+                /** @enum {string} */
+                key: "archive.export" | "analytics.aggregates";
+                next_run_at: string | null;
+            }[];
+            /** @enum {string} */
+            uploader: "none" | "local" | "s3";
         };
         AuditEntry: {
             action: string;
@@ -1015,8 +2033,445 @@ export interface components {
             private_reason?: string;
             public_reason: string;
         };
+        BindingStatsDto: {
+            binding_id: number;
+            live_vehicles: number;
+            open_runs: number;
+            polls: {
+                [key: string]: number;
+            };
+            positions_hot: number;
+            success_rate: number[];
+            window_hours: number;
+        };
+        CityDto: {
+            bbox: [
+                number,
+                number,
+                number,
+                number
+            ] | null;
+            centre: [
+                number,
+                number
+            ] | null;
+            country_code: string;
+            id: number;
+            name: {
+                en: string;
+                tr: string;
+            };
+            networks: {
+                colour: string | null;
+                id: number;
+                modes: ("tram" | "metro" | "rail" | "bus" | "ferry" | "cable_tram" | "aerial_lift" | "funicular" | "trolleybus" | "monorail")[];
+                name: string;
+                operator_name: string | null;
+                slug: string;
+                /** @enum {string} */
+                status: "active" | "degraded" | "disabled";
+                status_message: string | null;
+            }[];
+            slug: string;
+            timezone: string;
+        };
+        CityManifestDto: {
+            city: {
+                bbox: [
+                    number,
+                    number,
+                    number,
+                    number
+                ] | null;
+                centre: [
+                    number,
+                    number
+                ] | null;
+                country_code: string;
+                id: number;
+                name: {
+                    en: string;
+                    tr: string;
+                };
+                slug: string;
+                timezone: string;
+            };
+            generated_at: string;
+            map: {
+                bbox: [
+                    number,
+                    number,
+                    number,
+                    number
+                ] | null;
+                centre: [
+                    number,
+                    number
+                ] | null;
+                initial_zoom: number;
+            };
+            networks: {
+                attribution: {
+                    name: string;
+                    provider: string;
+                    url: string | null;
+                }[];
+                capabilities: {
+                    alerts: boolean;
+                    /** @constant */
+                    bike_share: false;
+                    card: {
+                        balance: boolean;
+                        history: boolean;
+                        label: {
+                            en: string;
+                            tr: string;
+                        };
+                        number_format: string | null;
+                        requires_provider_account: boolean;
+                    } | null;
+                    /** @enum {string} */
+                    realtime_departures: "none" | "estimated" | "live";
+                    realtime_vehicles: boolean;
+                    routes: boolean;
+                    shapes: boolean;
+                    stops: boolean;
+                    timetables: boolean;
+                    /** @constant */
+                    trip_planner: false;
+                    trip_updates: boolean;
+                };
+                city_id: number;
+                colour: string | null;
+                freshness: {
+                    realtime_feed_at: string | null;
+                    static_may_be_outdated: boolean;
+                    static_synced_at: string | null;
+                };
+                id: number;
+                modes: ("tram" | "metro" | "rail" | "bus" | "ferry" | "cable_tram" | "aerial_lift" | "funicular" | "trolleybus" | "monorail")[];
+                name: string;
+                operator_name: string | null;
+                /** @description Changes whenever the static data changes */
+                pack_version: string | null;
+                privacy: {
+                    provider: string;
+                    pulled_data: {
+                        can_optout: boolean;
+                        details: string;
+                        is_collected: boolean;
+                        key: string;
+                    }[];
+                }[];
+                slug: string;
+                /** @enum {string} */
+                status: "active" | "degraded" | "disabled";
+                status_message: string | null;
+            }[];
+            route_types: {
+                label: {
+                    en: string;
+                    tr: string;
+                };
+                /** @enum {string} */
+                mode: "tram" | "metro" | "rail" | "bus" | "ferry" | "cable_tram" | "aerial_lift" | "funicular" | "trolleybus" | "monorail";
+            }[];
+        };
+        ControlResultDto: {
+            error: string[];
+            ok: boolean;
+            status: {
+                binding_id: number;
+                consecutive_failures: number;
+                credentials: {
+                    expires_at: string | null;
+                    failures: number;
+                    realm: string;
+                    refreshed_at: string | null;
+                    secrets_set: {
+                        [key: string]: boolean;
+                    };
+                    /** @enum {string} */
+                    state: "ok" | "missing" | "refreshing" | "auth_failed" | "unknown";
+                } | null;
+                interval_s: number | null;
+                last_feed_at: string | null;
+                last_outcome: string | null;
+                last_poll_at: string | null;
+                live_vehicles: number;
+                message: string | null;
+                next_poll_at: string | null;
+                /** @enum {string} */
+                state: "ok" | "degraded" | "down" | "paused" | "killed" | "unknown";
+                subscribers: number;
+                url_variant: ("primary" | "fallback") | null;
+            } | null;
+        };
+        CreateAppDto: {
+            /** @default  */
+            description: string;
+            /** @default null */
+            homepage_url: string | null;
+            name: string;
+            platform: components["schemas"]["AppPlatform"];
+            redirect_uris: string[];
+            type: components["schemas"]["AppType"];
+        };
+        CreatedAppDto: {
+            app: components["schemas"]["AppDetail"];
+            secret: string | null;
+        };
+        CreateRoleDto: {
+            /** @default  */
+            description: string;
+            key: string;
+            level: number;
+            name: string;
+        };
         CsrfDto: {
             token: string;
+        };
+        DashBindingDto: {
+            capabilities: {
+                alerts: boolean;
+                /** @constant */
+                bike_share: false;
+                card: {
+                    balance: boolean;
+                    history: boolean;
+                    label: {
+                        en: string;
+                        tr: string;
+                    };
+                    number_format: string | null;
+                    requires_provider_account: boolean;
+                } | null;
+                /** @enum {string} */
+                realtime_departures: "none" | "estimated" | "live";
+                realtime_vehicles: boolean;
+                routes: boolean;
+                shapes: boolean;
+                stops: boolean;
+                timetables: boolean;
+                /** @constant */
+                trip_planner: false;
+                trip_updates: boolean;
+            };
+            config: {
+                [key: string]: unknown;
+            };
+            created_at: string;
+            disabled_reason: string[];
+            external_ref: string;
+            id: number;
+            idle_poll_interval_s: number;
+            last_feed_at: string[];
+            network_id: number;
+            poll_interval_s: number;
+            provider_key: string;
+            /** @description Served by the fake provider (PROVIDER_REPLAY) */
+            replayed: boolean;
+            /** @enum {string} */
+            state: "ok" | "degraded" | "down" | "paused" | "killed" | "unknown";
+            state_message: string[];
+            /** @enum {string} */
+            status: "active" | "paused" | "disabled";
+            updated_at: string[];
+        };
+        DashCityDto: {
+            bbox: [
+                number,
+                number,
+                number,
+                number
+            ] | null;
+            center_lat: number[];
+            center_lon: number[];
+            country_code: string;
+            id: number;
+            name: {
+                en: string;
+                tr: string;
+            };
+            slug: string;
+            sort: number;
+            /** @enum {string} */
+            status: "draft" | "public" | "hidden";
+            timezone: string;
+        };
+        DashNetworkDto: {
+            bindings: {
+                capabilities: {
+                    alerts: boolean;
+                    /** @constant */
+                    bike_share: false;
+                    card: {
+                        balance: boolean;
+                        history: boolean;
+                        label: {
+                            en: string;
+                            tr: string;
+                        };
+                        number_format: string | null;
+                        requires_provider_account: boolean;
+                    } | null;
+                    /** @enum {string} */
+                    realtime_departures: "none" | "estimated" | "live";
+                    realtime_vehicles: boolean;
+                    routes: boolean;
+                    shapes: boolean;
+                    stops: boolean;
+                    timetables: boolean;
+                    /** @constant */
+                    trip_planner: false;
+                    trip_updates: boolean;
+                };
+                config: {
+                    [key: string]: unknown;
+                };
+                created_at: string;
+                disabled_reason: string | null;
+                external_ref: string;
+                id: number;
+                idle_poll_interval_s: number;
+                last_feed_at: string | null;
+                network_id: number;
+                poll_interval_s: number;
+                provider_key: string;
+                /** @description Served by the fake provider (PROVIDER_REPLAY) */
+                replayed: boolean;
+                /** @enum {string} */
+                state: "ok" | "degraded" | "down" | "paused" | "killed" | "unknown";
+                state_message: string | null;
+                /** @enum {string} */
+                status: "active" | "paused" | "disabled";
+                updated_at: string | null;
+            }[];
+            city_id: number;
+            colour: string[];
+            created_at: string;
+            id: number;
+            name: string;
+            /** @enum {string} */
+            network_status: "active" | "degraded" | "disabled";
+            network_status_message: string[];
+            operator_name: string[];
+            slug: string;
+            /** @enum {string} */
+            status: "draft" | "public" | "hidden";
+            updated_at: string[];
+        };
+        DashProviderDetailDto: {
+            /** @description An adapter for this key exists in this build */
+            adapter: boolean;
+            binding_count: number;
+            capabilities: {
+                alerts: boolean;
+                /** @constant */
+                bike_share: false;
+                card: {
+                    balance: boolean;
+                    history: boolean;
+                    label: {
+                        en: string;
+                        tr: string;
+                    };
+                    number_format: string | null;
+                    requires_provider_account: boolean;
+                } | null;
+                /** @enum {string} */
+                realtime_departures: "none" | "estimated" | "live";
+                realtime_vehicles: boolean;
+                routes: boolean;
+                shapes: boolean;
+                stops: boolean;
+                timetables: boolean;
+                /** @constant */
+                trip_planner: false;
+                trip_updates: boolean;
+            } | null;
+            config_schema: {
+                [key: string]: unknown;
+            } | null;
+            credentials: {
+                expires_at: string | null;
+                failures: number;
+                realm: string;
+                refreshed_at: string | null;
+                secrets_set: {
+                    [key: string]: boolean;
+                };
+                /** @enum {string} */
+                state: "ok" | "missing" | "refreshing" | "auth_failed" | "unknown";
+            }[];
+            disabled_reason: string[];
+            /** @description Dashboard kill switch (providers.enabled) */
+            enabled: boolean;
+            /** @description PROVIDER_<KEY>_ENABLED hard kill */
+            env_enabled: boolean;
+            image_url: string[];
+            key: string;
+            legal_note: string[];
+            name: string;
+            pulled_data: {
+                can_optout: boolean;
+                details: string;
+                is_collected: boolean;
+                key: string;
+            }[];
+            rate_hint: {
+                host: string;
+                requests_per_second: number;
+            } | null;
+            replayed: boolean;
+            url: string[];
+        };
+        DashProviderDto: {
+            /** @description An adapter for this key exists in this build */
+            adapter: boolean;
+            binding_count: number;
+            capabilities: {
+                alerts: boolean;
+                /** @constant */
+                bike_share: false;
+                card: {
+                    balance: boolean;
+                    history: boolean;
+                    label: {
+                        en: string;
+                        tr: string;
+                    };
+                    number_format: string | null;
+                    requires_provider_account: boolean;
+                } | null;
+                /** @enum {string} */
+                realtime_departures: "none" | "estimated" | "live";
+                realtime_vehicles: boolean;
+                routes: boolean;
+                shapes: boolean;
+                stops: boolean;
+                timetables: boolean;
+                /** @constant */
+                trip_planner: false;
+                trip_updates: boolean;
+            } | null;
+            disabled_reason: string[];
+            /** @description Dashboard kill switch (providers.enabled) */
+            enabled: boolean;
+            /** @description PROVIDER_<KEY>_ENABLED hard kill */
+            env_enabled: boolean;
+            image_url: string[];
+            key: string;
+            legal_note: string[];
+            name: string;
+            pulled_data: {
+                can_optout: boolean;
+                details: string;
+                is_collected: boolean;
+                key: string;
+            }[];
+            replayed: boolean;
+            url: string[];
         };
         DashUser: {
             ban: components["schemas"]["Ban"] | null;
@@ -1054,6 +2509,60 @@ export interface components {
             next_cursor: string | null;
             prev_cursor: string | null;
             total: number | null;
+        };
+        DayExportDto: {
+            binding_id: number;
+            datasets: {
+                bytes: number;
+                /** @enum {string} */
+                dataset: "positions" | "trip_runs" | "polls";
+                error: string | null;
+                rows: number;
+                sha256: string | null;
+                uploaded: boolean;
+                verified: boolean;
+            }[];
+            date: string;
+            skipped: boolean;
+        };
+        DeletedDto: {
+            deleted: boolean;
+        };
+        DeparturesDto: {
+            generated_at: string;
+            items: {
+                cancelled: boolean;
+                headsign: string | null;
+                predicted_at: string | null;
+                route: {
+                    agency: string | null;
+                    colour: string | null;
+                    /** @description Stable public id, e.g. 1.42041 */
+                    id: string;
+                    long_name: string;
+                    /** @enum {string} */
+                    mode: "tram" | "metro" | "rail" | "bus" | "ferry" | "cable_tram" | "aerial_lift" | "funicular" | "trolleybus" | "monorail";
+                    network_id: number;
+                    route_type: number;
+                    short_name: string;
+                    text_colour: string | null;
+                };
+                scheduled_at: string | null;
+                /** @enum {string} */
+                source: "schedule" | "live" | "live_eta";
+                stops_away: number | null;
+                trip_id: string | null;
+                vehicle_id: string | null;
+            }[];
+            stop: {
+                code: string | null;
+                /** @description Stable public id, e.g. 1.41003 */
+                id: string;
+                lat: number;
+                lon: number;
+                name: string;
+                network_id: number;
+            };
         };
         DeviceAccountsDto: {
             accounts: {
@@ -1148,9 +2657,70 @@ export interface components {
             /** @enum {boolean} */
             ok: false;
         };
+        FavouritesDocDto: {
+            groups: {
+                /** @enum {string} */
+                colour: "amber" | "navy" | "teal" | "rose" | "violet" | "green" | "orange" | "slate";
+                id: string;
+                items: {
+                    /** Format: date-time */
+                    added_at: string;
+                    direction?: 0 | 1;
+                    id: string;
+                    /** @enum {string} */
+                    kind: "stop" | "route";
+                    label: string;
+                    /** @description Network slug (returned) or numeric id (accepted) */
+                    network_id: string | number;
+                    /** @description Stable public stop or route id */
+                    ref_id: string;
+                    /** Format: date-time */
+                    updated_at?: string;
+                }[];
+                name: string;
+                position: number;
+                /** Format: date-time */
+                updated_at?: string;
+            }[];
+            /** @description Deletes from the last 30 days */
+            tombstones: {
+                /** Format: date-time */
+                deleted_at: string;
+                id: string;
+            }[];
+            updated_at: string | null;
+            version: number;
+        };
         HealthDto: {
             /** @constant */
             status: "ok";
+        };
+        HistoryDeparturesDto: {
+            date: string;
+            items: {
+                clock: string;
+                direction: number | null;
+                end_reason: string | null;
+                ended_at: string | null;
+                scheduled_clock: string | null;
+                start_delay_s: number | null;
+                started_at: string;
+                trip_id: string | null;
+            }[];
+            route: {
+                agency: string | null;
+                colour: string | null;
+                /** @description Stable public id, e.g. 1.42041 */
+                id: string;
+                long_name: string;
+                /** @enum {string} */
+                mode: "tram" | "metro" | "rail" | "bus" | "ferry" | "cable_tram" | "aerial_lift" | "funicular" | "trolleybus" | "monorail";
+                network_id: number;
+                route_type: number;
+                short_name: string;
+                text_colour: string | null;
+            };
+            weekday: number;
         };
         JwksDto: {
             keys: {
@@ -1208,6 +2778,54 @@ export interface components {
                 username: string | null;
             };
         };
+        Member: {
+            email_masked: string;
+            last_active_at: string | null;
+            roles: {
+                /** Format: date-time */
+                granted_at: string;
+                granted_by: components["schemas"]["UserRef"] | null;
+                role: components["schemas"]["RoleRef"];
+            }[];
+            user: components["schemas"]["UserRef"];
+        };
+        MemberPageDto: {
+            items: components["schemas"]["Member"][];
+            next_cursor: string | null;
+            prev_cursor: string | null;
+            total: number | null;
+        };
+        MetricCatalogDto: {
+            archive: {
+                first_date: string | null;
+                last_date: string | null;
+            };
+            /** @enum {string} */
+            h3: "extension" | "js";
+            max_days: number;
+            metrics: {
+                datasets: string[];
+                description: string;
+                /** @enum {string} */
+                key: "fleet.hourly" | "fleet.vehicle-days" | "runs.runtime" | "runs.departures" | "headways.observed" | "adherence.departure" | "speed.heatmap" | "segments.travel-time" | "dwell.stops" | "quality.feed" | "coverage.routes" | "headways.marey";
+            }[];
+        };
+        MetricResultDto: {
+            columns: string[];
+            meta: {
+                binding_ids: number[];
+                from: string;
+                generated_at: string;
+                /** @enum {string} */
+                metric: "fleet.hourly" | "fleet.vehicle-days" | "runs.runtime" | "runs.departures" | "headways.observed" | "adherence.departure" | "speed.heatmap" | "segments.travel-time" | "dwell.stops" | "quality.feed" | "coverage.routes" | "headways.marey";
+                n: number;
+                /** @enum {string} */
+                source: "hot" | "archive" | "rollup";
+                timezone: string;
+                to: string;
+            };
+            rows: (number | string | boolean | null)[][];
+        };
         ModerationAction: {
             /** @enum {string} */
             action: "ban" | "unban" | "warn" | "note";
@@ -1226,6 +2844,77 @@ export interface components {
             next_cursor: string | null;
             prev_cursor: string | null;
             total: number | null;
+        };
+        NearbyDto: {
+            items: {
+                code: string | null;
+                distance_m: number;
+                /** @description Stable public id, e.g. 1.41003 */
+                id: string;
+                lat: number;
+                lon: number;
+                name: string;
+                network_id: number;
+                route_ids: string[];
+            }[];
+        };
+        NetworkManifestDto: {
+            attribution: {
+                name: string;
+                provider: string;
+                url: string | null;
+            }[];
+            capabilities: {
+                alerts: boolean;
+                /** @constant */
+                bike_share: false;
+                card: {
+                    balance: boolean;
+                    history: boolean;
+                    label: {
+                        en: string;
+                        tr: string;
+                    };
+                    number_format: string | null;
+                    requires_provider_account: boolean;
+                } | null;
+                /** @enum {string} */
+                realtime_departures: "none" | "estimated" | "live";
+                realtime_vehicles: boolean;
+                routes: boolean;
+                shapes: boolean;
+                stops: boolean;
+                timetables: boolean;
+                /** @constant */
+                trip_planner: false;
+                trip_updates: boolean;
+            };
+            city_id: number;
+            colour: string[];
+            freshness: {
+                realtime_feed_at: string | null;
+                static_may_be_outdated: boolean;
+                static_synced_at: string | null;
+            };
+            id: number;
+            modes: ("tram" | "metro" | "rail" | "bus" | "ferry" | "cable_tram" | "aerial_lift" | "funicular" | "trolleybus" | "monorail")[];
+            name: string;
+            operator_name: string[];
+            /** @description Changes whenever the static data changes */
+            pack_version: string[];
+            privacy: {
+                provider: string;
+                pulled_data: {
+                    can_optout: boolean;
+                    details: string;
+                    is_collected: boolean;
+                    key: string;
+                }[];
+            }[];
+            slug: string;
+            /** @enum {string} */
+            status: "active" | "degraded" | "disabled";
+            status_message: string[];
         };
         NetworkRef: {
             id: number;
@@ -1256,6 +2945,38 @@ export interface components {
             ui_locales_supported: string[];
             userinfo_endpoint: string;
         };
+        PackDto: {
+            built_at: string;
+            /** @description Network slug */
+            network: string;
+            network_id: number;
+            /** @description Same value as the manifest's pack_version */
+            pack_version: string;
+            routes: {
+                colour: string | null;
+                directions: {
+                    direction: 0 | 1;
+                    headsign: string;
+                    /** @description Ordered stops of the main pattern */
+                    stop_ids: string[];
+                }[];
+                id: string;
+                long_name: string;
+                /** @enum {string} */
+                mode: "tram" | "metro" | "rail" | "bus" | "ferry" | "cable_tram" | "aerial_lift" | "funicular" | "trolleybus" | "monorail";
+                short_name: string;
+                text_colour: string | null;
+            }[];
+            stops: {
+                code: string | null;
+                id: string;
+                lat: number;
+                lon: number;
+                modes: ("tram" | "metro" | "rail" | "bus" | "ferry" | "cable_tram" | "aerial_lift" | "funicular" | "trolleybus" | "monorail")[];
+                name: string;
+                route_ids: string[];
+            }[];
+        };
         PasswordLoginDto: {
             /** Format: email */
             email: string;
@@ -1277,26 +2998,80 @@ export interface components {
             /** @enum {string} */
             locale?: "tr" | "en";
         };
+        PermissionBatchDto: {
+            operations: {
+                /** @enum {string} */
+                op: "grant" | "revoke";
+                permission_key: components["schemas"]["PermissionKey"];
+                role_id: number;
+            }[];
+        };
+        PermissionBatchResultDto: {
+            results: {
+                error_code: components["schemas"]["ErrorCode"] | null;
+                ok: boolean;
+                /** @enum {string} */
+                op: "grant" | "revoke";
+                permission_key: components["schemas"]["PermissionKey"];
+                role_id: number;
+            }[];
+        };
+        PermissionInfo: {
+            description: string;
+            key: components["schemas"]["PermissionKey"];
+            /** @enum {string} */
+            scope: "global" | "network";
+            sudo: boolean;
+        };
         /** @enum {string} */
         PermissionKey: "system.health.read" | "system.config.read" | "ops.logs" | "users.read" | "users.pii.read" | "users.sessions.revoke" | "moderation.read" | "moderation.write" | "roles.read" | "roles.write" | "roles.assign" | "permissions.read" | "permissions.write" | "apps.read" | "apps.write" | "apps.secrets.rotate" | "networks.read.all" | "catalog.admin" | "providers.read" | "providers.kill" | "archive.read" | "archive.write" | "email.read" | "email.test.send" | "email.test.send.any" | "settings.read" | "settings.write" | "flags.write" | "jobs.read" | "jobs.run" | "audit.read" | "network.overview.read" | "vehicles.live.read" | "vehicles.history.read" | "tracker.read" | "tracker.control" | "tracker.config.write" | "catalog.read" | "catalog.write" | "catalog.sync" | "analytics.read" | "analytics.export" | "members.read" | "members.roles.write" | "support.read" | "support.reply";
-        PermissionListDto: {
-            keys: {
-                description: string;
-                key: string;
-                orphaned: boolean;
-                /** @enum {string} */
-                scope: "global" | "network";
-                sudo: boolean;
+        PermissionMatrixDto: {
+            grants: {
+                permissions: components["schemas"]["PermissionKey"][];
+                role_id: number;
             }[];
+            permissions: components["schemas"]["PermissionInfo"][];
+            roles: components["schemas"]["Role"][];
+        };
+        PermissionRegistryEntry: {
+            description: string;
+            /** Format: date-time */
+            first_registered_at: string;
+            key: string;
+            /** Format: date-time */
+            last_seen_at: string;
+            orphaned_at: string | null;
+            roles: components["schemas"]["RoleRef"][];
             routes: {
-                description: string;
                 method: string;
                 path: string;
-                permission_key: string;
-                /** @enum {string} */
-                scope: "global" | "network";
                 sudo: boolean;
             }[];
+            /** @enum {string} */
+            scope: "global" | "network";
+            sudo: boolean;
+        };
+        PollPageDto: {
+            items: {
+                accepted: number;
+                binding_id: number;
+                dropped: {
+                    [key: string]: number;
+                } | null;
+                duration_ms: number;
+                entities: number;
+                error: string | null;
+                feed_at: string | null;
+                http_status: number | null;
+                id: number;
+                inserted: number;
+                outcome: string;
+                started_at: string;
+                url_variant: ("primary" | "fallback") | null;
+            }[];
+            next_cursor: string[];
+            prev_cursor: string[];
+            total: number | null;
         };
         PrivacyDto: {
             location_history_opt_in: boolean;
@@ -1327,6 +3102,58 @@ export interface components {
             /** @enum {string} */
             locale?: "tr" | "en";
         };
+        ProviderKillDto: {
+            enabled: boolean;
+            reason: string;
+        };
+        ProviderPublicDto: {
+            enabled: boolean;
+            image_url: string[];
+            key: string;
+            legal_note: string[];
+            name: string;
+            pulled_data: {
+                can_optout: boolean;
+                details: string;
+                is_collected: boolean;
+                key: string;
+            }[];
+            url: string[];
+        };
+        PutFavouritesDto: {
+            groups: {
+                /** @enum {string} */
+                colour: "amber" | "navy" | "teal" | "rose" | "violet" | "green" | "orange" | "slate";
+                id: string;
+                items: {
+                    /** Format: date-time */
+                    added_at: string;
+                    direction?: 0 | 1;
+                    id: string;
+                    /** @enum {string} */
+                    kind: "stop" | "route";
+                    label: string;
+                    /** @description Network slug (returned) or numeric id (accepted) */
+                    network_id: string | number;
+                    /** @description Stable public stop or route id */
+                    ref_id: string;
+                    /** Format: date-time */
+                    updated_at?: string;
+                }[];
+                name: string;
+                position: number;
+                /** Format: date-time */
+                updated_at?: string;
+            }[];
+            /** @default [] */
+            tombstones: {
+                /** Format: date-time */
+                deleted_at: string;
+                id: string;
+            }[];
+            updated_at?: string | null;
+            version?: number;
+        };
         ReadyDto: {
             checks: {
                 name: string;
@@ -1339,6 +3166,9 @@ export interface components {
         };
         ReauthDto: {
             password: string;
+        };
+        ReplacePermissionsDto: {
+            permissions: components["schemas"]["PermissionKey"][];
         };
         RevealEmailDto: {
             /** Format: email */
@@ -1353,12 +3183,41 @@ export interface components {
             token?: string;
             token_type_hint?: string;
         };
+        Role: {
+            description: string;
+            id: number;
+            immutable: boolean;
+            key: string;
+            level: number;
+            member_count: number;
+            name: string;
+            permission_count: number;
+        };
         RoleAssignment: {
             /** Format: date-time */
             granted_at: string;
             granted_by: components["schemas"]["UserRef"] | null;
             network: components["schemas"]["NetworkRef"] | null;
             role: components["schemas"]["RoleRef"];
+        };
+        RoleDetail: {
+            /** Format: date-time */
+            created_at: string;
+            description: string;
+            id: number;
+            immutable: boolean;
+            key: string;
+            level: number;
+            member_count: number;
+            members_by_network: {
+                count: number;
+                network: components["schemas"]["NetworkRef"] | null;
+            }[];
+            name: string;
+            permission_count: number;
+            permissions: components["schemas"]["PermissionKey"][];
+            /** Format: date-time */
+            updated_at: string;
         };
         RoleOperationResultsDto: {
             results: {
@@ -1382,11 +3241,106 @@ export interface components {
             level: number;
             name: string;
         };
+        RotatedSecretDto: {
+            meta: components["schemas"]["AppSecret"];
+            secret: string;
+        };
+        RotateSecretDto: {
+            /** @enum {string} */
+            grace: "none" | "24h" | "7d";
+        };
+        RouteDetailDto: {
+            agency: string[];
+            colour: string[];
+            directions: {
+                direction: number;
+                headsign: string | null;
+                patterns: {
+                    headsign: string;
+                    id: string;
+                    length_m: number;
+                    stops: {
+                        /** @description Stable public id, e.g. 1.41003 */
+                        id: string;
+                        lat: number;
+                        lon: number;
+                        name: string;
+                        network_id: number;
+                        offset_s: number | null;
+                        seq: number;
+                    }[];
+                }[];
+            }[];
+            /** @description Stable public id, e.g. 1.42041 */
+            id: string;
+            long_name: string;
+            /** @enum {string} */
+            mode: "tram" | "metro" | "rail" | "bus" | "ferry" | "cable_tram" | "aerial_lift" | "funicular" | "trolleybus" | "monorail";
+            network_id: number;
+            route_type: number;
+            short_name: string;
+            text_colour: string[];
+        };
+        RoutePageDto: {
+            items: {
+                agency: string | null;
+                colour: string | null;
+                /** @description Stable public id, e.g. 1.42041 */
+                id: string;
+                long_name: string;
+                /** @enum {string} */
+                mode: "tram" | "metro" | "rail" | "bus" | "ferry" | "cable_tram" | "aerial_lift" | "funicular" | "trolleybus" | "monorail";
+                network_id: number;
+                route_type: number;
+                short_name: string;
+                text_colour: string | null;
+            }[];
+            next_cursor: string[];
+            prev_cursor: string[];
+            total: number | null;
+        };
+        RouteShapeDto: {
+            /** @constant */
+            precision: 6;
+            route_id: string;
+            shapes: {
+                direction: number;
+                pattern_id: string;
+                polyline: string;
+            }[];
+        };
         ScopeListDto: {
             scopes: {
                 i18n_key: string;
                 key: string;
             }[];
+        };
+        SearchResultDto: {
+            routes: {
+                agency: string | null;
+                colour: string | null;
+                /** @description Stable public id, e.g. 1.42041 */
+                id: string;
+                long_name: string;
+                /** @enum {string} */
+                mode: "tram" | "metro" | "rail" | "bus" | "ferry" | "cable_tram" | "aerial_lift" | "funicular" | "trolleybus" | "monorail";
+                network_id: number;
+                route_type: number;
+                short_name: string;
+                text_colour: string | null;
+            }[];
+            stops: {
+                code: string | null;
+                /** @description Stable public id, e.g. 1.41003 */
+                id: string;
+                lat: number;
+                lon: number;
+                name: string;
+                network_id: number;
+            }[];
+        };
+        SecretRevokedDto: {
+            revoked: boolean;
         };
         SecurityDto: {
             has_password: boolean;
@@ -1473,8 +3427,117 @@ export interface components {
             profile_token: string;
             tos_version: string;
         };
+        StopDetailDto: {
+            code: string[];
+            /** @description Stable public id, e.g. 1.41003 */
+            id: string;
+            lat: number;
+            lon: number;
+            name: string;
+            network_id: number;
+            routes: {
+                agency: string | null;
+                colour: string | null;
+                /** @description Stable public id, e.g. 1.42041 */
+                id: string;
+                long_name: string;
+                /** @enum {string} */
+                mode: "tram" | "metro" | "rail" | "bus" | "ferry" | "cable_tram" | "aerial_lift" | "funicular" | "trolleybus" | "monorail";
+                network_id: number;
+                route_type: number;
+                short_name: string;
+                text_colour: string | null;
+            }[];
+        };
+        StopPageDto: {
+            items: {
+                code: string | null;
+                /** @description Stable public id, e.g. 1.41003 */
+                id: string;
+                lat: number;
+                lon: number;
+                name: string;
+                network_id: number;
+            }[];
+            next_cursor: string[];
+            prev_cursor: string[];
+            total: number | null;
+        };
         SwitchSessionDto: {
             session_id: string;
+        };
+        SyncResultDto: {
+            binding_id: number;
+            counts: {
+                [key: string]: number;
+            };
+            error: string[];
+            run_id: number;
+            /** @enum {string} */
+            status: "ok" | "unchanged" | "failed";
+            version_id: number | null;
+            warnings: string[];
+        };
+        SyncRunPageDto: {
+            items: {
+                binding_id: number;
+                counts: {
+                    [key: string]: number;
+                } | null;
+                error: string | null;
+                finished_at: string | null;
+                id: number;
+                started_at: string;
+                /** @enum {string} */
+                status: "running" | "ok" | "unchanged" | "failed";
+                trigger: string;
+                version_id: number | null;
+                warnings: string[] | null;
+            }[];
+            next_cursor: string[];
+            prev_cursor: string[];
+            total: number | null;
+        };
+        TelemetryAcceptedDto: {
+            accepted: boolean;
+        };
+        TelemetryCountersDto: {
+            app_version: string;
+            /** @description City slug, or null before one is chosen */
+            city: string | null;
+            counters: {
+                [key: string]: number;
+            };
+            /**
+             * Format: date
+             * @description The app's local day, YYYY-MM-DD; within two days of today
+             */
+            day: string;
+            /** @enum {string} */
+            platform: "ios" | "android";
+        };
+        TimetableDto: {
+            date: string[];
+            /** @enum {string} */
+            day_type: "weekday" | "saturday" | "sunday";
+            patterns: {
+                departures: {
+                    headsign: string | null;
+                    start: string;
+                    start_s: number;
+                    trip_id: string;
+                }[];
+                direction: number;
+                headsign: string;
+                id: string;
+                stops: {
+                    id: string;
+                    name: string;
+                    offset_s: number | null;
+                }[];
+            }[];
+            route_id: string;
+            service_labels: string[];
         };
         TokenRequestDto: {
             client_id?: string;
@@ -1495,11 +3558,64 @@ export interface components {
             /** @constant */
             token_type: "Bearer";
         };
+        TrackerControlDto: {
+            /** @enum {string} */
+            action: "pause" | "resume" | "poll-now" | "reset-url" | "refresh-token";
+            reason?: string;
+        };
+        TrackerOverviewDto: {
+            bindings: {
+                binding_id: number;
+                consecutive_failures: number;
+                credentials: {
+                    expires_at: string | null;
+                    failures: number;
+                    realm: string;
+                    refreshed_at: string | null;
+                    secrets_set: {
+                        [key: string]: boolean;
+                    };
+                    /** @enum {string} */
+                    state: "ok" | "missing" | "refreshing" | "auth_failed" | "unknown";
+                } | null;
+                interval_s: number | null;
+                last_feed_at: string | null;
+                last_outcome: string | null;
+                last_poll_at: string | null;
+                live_vehicles: number;
+                message: string | null;
+                next_poll_at: string | null;
+                /** @enum {string} */
+                state: "ok" | "degraded" | "down" | "paused" | "killed" | "unknown";
+                subscribers: number;
+                url_variant: ("primary" | "fallback") | null;
+            }[];
+            /** @enum {string} */
+            runner: "worker" | "inline" | "manual" | "external" | "off";
+            running: boolean;
+        };
         UnbanRequestDto: {
             reason: string;
         };
         UnbanResultDto: {
             unbanned: boolean;
+        };
+        UpdateAppDto: {
+            access_ttl_s?: number;
+            description?: string;
+            first_party?: boolean;
+            homepage_url?: string | null;
+            logo_url?: string | null;
+            name?: string;
+            redirect_uris?: string[];
+            refresh_max_s?: number;
+            refresh_ttl_s?: number;
+            scopes?: string[];
+        };
+        UpdateRoleDto: {
+            description?: string;
+            level?: number;
+            name?: string;
         };
         UserRef: {
             display_name: string;
@@ -1524,6 +3640,75 @@ export interface components {
         };
         /** @enum {string} */
         UserStatus: "active" | "unverified" | "banned" | "pending_deletion";
+        VehicleDetailDto: {
+            accessible: boolean[];
+            current_run: {
+                direction: number | null;
+                end_reason: string | null;
+                ended_at: string | null;
+                first_stop_seq: number | null;
+                last_stop_seq: number | null;
+                route_id: string | null;
+                scheduled_start: string | null;
+                start_delay_s: number | null;
+                started_at: string;
+                trip_id: string | null;
+            } | null;
+            direction: number | null;
+            id: string;
+            label: string[];
+            last_seen_at: string;
+            live: boolean;
+            network_id: number;
+            plate: string[];
+            position: {
+                bearing: number | null;
+                feed_ts: number;
+                lat: number;
+                lon: number;
+                speed_ms: number | null;
+                stale: boolean;
+                vehicle_ts: number;
+            } | null;
+            route: {
+                agency: string | null;
+                colour: string | null;
+                /** @description Stable public id, e.g. 1.42041 */
+                id: string;
+                long_name: string;
+                /** @enum {string} */
+                mode: "tram" | "metro" | "rail" | "bus" | "ferry" | "cable_tram" | "aerial_lift" | "funicular" | "trolleybus" | "monorail";
+                network_id: number;
+                route_type: number;
+                short_name: string;
+                text_colour: string | null;
+            } | null;
+            runs_today: {
+                direction: number | null;
+                end_reason: string | null;
+                ended_at: string | null;
+                first_stop_seq: number | null;
+                last_stop_seq: number | null;
+                route_id: string | null;
+                scheduled_start: string | null;
+                start_delay_s: number | null;
+                started_at: string;
+                trip_id: string | null;
+            }[];
+            stop_id: string[];
+            stop_seq: number | null;
+            trip_id: string[];
+        };
+        VehicleSnapshotDto: {
+            /** @description Unix seconds of the newest poll */
+            feed_ts: number | null;
+            fields: string[];
+            message: string[];
+            network_id: number;
+            /** @enum {string} */
+            status: "active" | "degraded" | "disabled";
+            vehicles: (string | number | null)[][];
+        };
         VersionDto: {
             build_time: string | null;
             env: string;
@@ -1532,6 +3717,148 @@ export interface components {
             mode: "api" | "tracker" | "all";
             uptime_s: number;
             version: string;
+        };
+        WsClientMessage: {
+            token: string;
+            /** @constant */
+            type: "auth";
+        } | {
+            /** @enum {string} */
+            channel: "vehicles" | "departures" | "tracker.status" | "tracker.logs";
+            id: string;
+            /** @default {} */
+            params: {
+                [key: string]: unknown;
+            };
+            /** @constant */
+            type: "subscribe";
+        } | {
+            id: string;
+            /** @constant */
+            type: "unsubscribe";
+        } | {
+            t?: number;
+            /** @constant */
+            type: "ping";
+        } | {
+            t?: number;
+            /** @constant */
+            type: "pong";
+        };
+        WsDeparturesParams: {
+            /** @default 10 */
+            limit: number;
+            stop: string;
+        };
+        WsServerMessage: {
+            heartbeat_s: number;
+            limits: {
+                max_bbox_span_deg: number;
+                max_routes_per_sub: number;
+                max_subs: number;
+            };
+            /** @constant */
+            type: "hello";
+            /** @constant */
+            v: 1;
+        } | {
+            exp: number;
+            /** @constant */
+            type: "auth_ok";
+        } | {
+            feed_ts: number | null;
+            fields: string[];
+            seq: number;
+            sub: string;
+            /** @constant */
+            type: "snapshot";
+            vehicles: (string | number | null)[][];
+        } | {
+            feed_ts: number | null;
+            remove: string[];
+            seq: number;
+            sub: string;
+            /** @constant */
+            type: "delta";
+            upsert: (string | number | null)[][];
+        } | {
+            generated_at: string;
+            items: {
+                cancelled: boolean;
+                headsign: string | null;
+                predicted_at: string | null;
+                route: {
+                    agency: string | null;
+                    colour: string | null;
+                    /** @description Stable public id, e.g. 1.42041 */
+                    id: string;
+                    long_name: string;
+                    /** @enum {string} */
+                    mode: "tram" | "metro" | "rail" | "bus" | "ferry" | "cable_tram" | "aerial_lift" | "funicular" | "trolleybus" | "monorail";
+                    network_id: number;
+                    route_type: number;
+                    short_name: string;
+                    text_colour: string | null;
+                };
+                scheduled_at: string | null;
+                /** @enum {string} */
+                source: "schedule" | "live" | "live_eta";
+                stops_away: number | null;
+                trip_id: string | null;
+                vehicle_id: string | null;
+            }[];
+            seq: number;
+            stop: string;
+            sub: string;
+            /** @constant */
+            type: "departures";
+        } | {
+            binding: number;
+            message?: string | null;
+            network: number;
+            seq: number;
+            /** @enum {string} */
+            state: "ok" | "degraded" | "down" | "paused" | "killed" | "unknown";
+            sub: string;
+            /** @constant */
+            type: "status";
+        } | {
+            data: unknown;
+            seq: number;
+            sub: string;
+            /** @constant */
+            type: "event";
+        } | {
+            code: string;
+            id?: string;
+            message: string;
+            /** @constant */
+            type: "error";
+        } | {
+            t: number;
+            /** @constant */
+            type: "ping";
+        } | {
+            t?: number;
+            /** @constant */
+            type: "pong";
+        };
+        WsVehiclesParams: {
+            /** @description [west, south, east, north] */
+            bbox?: [
+                number,
+                number,
+                number,
+                number
+            ];
+            /**
+             * @default compact
+             * @enum {string}
+             */
+            detail: "compact" | "full";
+            direction?: 0 | 1;
+            network: string | number;
+            routes?: string[];
         };
     };
     responses: never;
@@ -2614,6 +4941,445 @@ export interface operations {
             };
         };
     };
+    Cities_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Public cities with centre, bbox and networks */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["CityDto"][];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Cities_manifest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description City manifest; honours If-None-Match */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["CityManifestDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Apps_list: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+                q?: string;
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AppPageDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Apps_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateAppDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["CreatedAppDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Apps_detail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                appId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AppDetail"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Apps_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                appId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DeletedDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Apps_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                appId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateAppDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AppDetail"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Apps_revokeAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                appId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AppReasonDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["RevokedCountDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Apps_rotate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                appId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RotateSecretDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["RotatedSecretDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Apps_revokePrevious: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                appId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["SecretRevokedDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    ArchiveAdmin_status: {
+        parameters: {
+            query?: {
+                binding_id?: number;
+                from?: string;
+                limit?: number;
+                to?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["ArchiveStatusDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    ArchiveAdmin_export: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bindingId: number;
+                date: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DayExportDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     Audit_list: {
         parameters: {
             query?: {
@@ -2643,6 +5409,39 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["AuditPageDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Networks_cities: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DashCityDto"][];
                         /** @enum {boolean} */
                         ok: true;
                     };
@@ -2700,6 +5499,219 @@ export interface operations {
             };
         };
     };
+    Networks_networks: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Networks where the caller holds a role, or all with networks.read.all */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DashNetworkDto"][];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Networks_network: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DashNetworkDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Analytics_catalog: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["MetricCatalogDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Analytics_metric: {
+        parameters: {
+            query?: {
+                /** @description One binding of the network */
+                binding_id?: number;
+                /** @description One local day (sets from and to) */
+                date?: string;
+                day_type?: "all" | "weekday" | "saturday" | "sunday";
+                direction?: number;
+                /** @description First local date (default: 6 days before `to`) */
+                from?: string;
+                /** @description fleet.hourly bucket size */
+                granularity?: "5m" | "1h" | "1d";
+                /** @description speed.heatmap: one local hour */
+                hour?: number;
+                hour_from?: number;
+                hour_to?: number;
+                /** @description dwell.stops: top N */
+                limit?: number;
+                /** @description speed.heatmap: minimum samples per cell */
+                min_samples?: number;
+                /** @description runs.runtime: minimum max_stop_seq of a run */
+                min_stops?: number;
+                /** @description speed.heatmap H3 resolution */
+                res?: number;
+                /** @description Route id(s), comma separated: external or public `<binding>.<external>` */
+                route_id?: string;
+                /** @description dwell.stops: one stop, by hour */
+                stop_id?: string;
+                /** @description Last local date, inclusive (default: today) */
+                to?: string;
+            };
+            header?: never;
+            path: {
+                metric: "fleet.hourly" | "fleet.vehicle-days" | "runs.runtime" | "runs.departures" | "headways.observed" | "adherence.departure" | "speed.heatmap" | "segments.travel-time" | "dwell.stops" | "quality.feed" | "coverage.routes" | "headways.marey";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["MetricResultDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Analytics_export: {
+        parameters: {
+            query?: {
+                /** @description One binding of the network */
+                binding_id?: number;
+                /** @description One local day (sets from and to) */
+                date?: string;
+                day_type?: "all" | "weekday" | "saturday" | "sunday";
+                direction?: number;
+                format?: "csv" | "parquet";
+                /** @description First local date (default: 6 days before `to`) */
+                from?: string;
+                /** @description fleet.hourly bucket size */
+                granularity?: "5m" | "1h" | "1d";
+                /** @description speed.heatmap: one local hour */
+                hour?: number;
+                hour_from?: number;
+                hour_to?: number;
+                /** @description dwell.stops: top N */
+                limit?: number;
+                /** @description speed.heatmap: minimum samples per cell */
+                min_samples?: number;
+                /** @description runs.runtime: minimum max_stop_seq of a run */
+                min_stops?: number;
+                /** @description speed.heatmap H3 resolution */
+                res?: number;
+                /** @description Route id(s), comma separated: external or public `<binding>.<external>` */
+                route_id?: string;
+                /** @description dwell.stops: one stop, by hour */
+                stop_id?: string;
+                /** @description Last local date, inclusive (default: today) */
+                to?: string;
+            };
+            header?: never;
+            path: {
+                metric: "fleet.hourly" | "fleet.vehicle-days" | "runs.runtime" | "runs.departures" | "headways.observed" | "adherence.departure" | "speed.heatmap" | "segments.travel-time" | "dwell.stops" | "quality.feed" | "coverage.routes" | "headways.marey";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The metric's rows as a file */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     Audit_network: {
         parameters: {
             query?: {
@@ -2746,6 +5758,651 @@ export interface operations {
             };
         };
     };
+    Networks_bindings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DashBindingDto"][];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Networks_binding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bindingId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DashBindingDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    TrackerAdmin_control: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bindingId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TrackerControlDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["ControlResultDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    TrackerAdmin_polls: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                bindingId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["PollPageDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    TrackerAdmin_stats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bindingId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["BindingStatsDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    TransitAdmin_run: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bindingId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["SyncResultDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Members_list: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+                q?: string;
+                role?: string;
+                sort?: string;
+            };
+            header?: never;
+            path: {
+                networkId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["MemberPageDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Members_assign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                networkId: string;
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RoleOperationsDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["RoleOperationResultsDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Members_assignable: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                networkId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["RoleRef"][];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Members_candidates: {
+        parameters: {
+            query?: {
+                q?: string;
+            };
+            header?: never;
+            path: {
+                networkId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["UserRef"][];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    TransitAdmin_runs: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["SyncRunPageDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    TrackerAdmin_overview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["TrackerOverviewDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Roles_permissions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["PermissionInfo"][];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Roles_deletePermission: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                key: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DeletedDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Roles_registry: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["PermissionRegistryEntry"][];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Networks_providers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DashProviderDto"][];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Networks_provider: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                key: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DashProviderDetailDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Networks_kill: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                key: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProviderKillDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DashProviderDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     Roles_list: {
         parameters: {
             query?: never;
@@ -2762,7 +6419,227 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        data: components["schemas"]["PermissionListDto"];
+                        data: components["schemas"]["Role"][];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Roles_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateRoleDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["Role"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Roles_detail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                roleId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["RoleDetail"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Roles_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                roleId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateRoleDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["Role"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Roles_replacePermissions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                roleId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReplacePermissionsDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["RoleDetail"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Roles_matrix: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["PermissionMatrixDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Roles_batch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PermissionBatchDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["PermissionBatchResultDto"];
                         /** @enum {boolean} */
                         ok: true;
                     };
@@ -3233,6 +7110,309 @@ export interface operations {
             };
         };
     };
+    Favourites_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["FavouritesDocDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Favourites_put: {
+        parameters: {
+            query?: never;
+            header: {
+                "if-match": string;
+                /** @description The version last read, e.g. "3" */
+                "If-Match": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PutFavouritesDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["FavouritesDocDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Cities_network: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                networkId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description One network's slice of the city manifest */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["NetworkManifestDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Transit_networkAlerts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                networkId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Active service alerts; an empty list unless the network has the alerts capability */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AlertDto"][];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Pack_pack: {
+        parameters: {
+            query?: never;
+            header?: {
+                "If-None-Match"?: string;
+            };
+            path: {
+                networkId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Offline pack of a network; re-download when the manifest's pack_version changes. Strong ETag, 304 on If-None-Match, gzip when accepted. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["PackDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Transit_routes: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+                q?: string;
+                type?: number;
+            };
+            header?: never;
+            path: {
+                networkId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Routes of a network (pagination when limit is set) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["RoutePageDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Transit_stops: {
+        parameters: {
+            query?: {
+                bbox?: string;
+                cursor?: string;
+                limit?: number;
+                q?: string;
+                sort?: string;
+            };
+            header?: never;
+            path: {
+                networkId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Stops of a network, optionally inside a bbox */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["StopPageDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Vehicles_snapshot: {
+        parameters: {
+            query?: {
+                /** @description w,s,e,n; max 0.5 degree span, snapped to z12 tiles */
+                bbox?: string;
+                direction?: number;
+                /** @description Comma separated stable route ids (max 12) */
+                routes?: string;
+            };
+            header?: never;
+            path: {
+                networkId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Live vehicles as compact arrays in the order of `fields` (same as the WS snapshot) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["VehicleSnapshotDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     OAuth_app: {
         parameters: {
             query?: never;
@@ -3596,6 +7776,338 @@ export interface operations {
             };
         };
     };
+    Cities_providers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Providers and what data they collect */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["ProviderPublicDto"][];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Transit_route: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                routeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["RouteDetailDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Vehicles_history: {
+        parameters: {
+            query?: {
+                direction?: number;
+                /** @description 0 = Monday */
+                weekday?: number;
+            };
+            header?: never;
+            path: {
+                routeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Observed trip starts on the same weekday last week */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["HistoryDeparturesDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Transit_shape: {
+        parameters: {
+            query?: {
+                direction?: number;
+            };
+            header?: never;
+            path: {
+                routeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Encoded polylines (precision 6) per direction */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["RouteShapeDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Transit_timetable: {
+        parameters: {
+            query?: {
+                date?: string;
+                day_type?: "weekday" | "saturday" | "sunday";
+                direction?: number;
+            };
+            header?: never;
+            path: {
+                routeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Timetable for a date or a day type */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["TimetableDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Transit_search: {
+        parameters: {
+            query: {
+                city?: string;
+                limit?: number;
+                network?: string;
+                q: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Routes and stops (FTS5, Turkish folding) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["SearchResultDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Transit_stop: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                stopId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["StopDetailDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Vehicles_departures: {
+        parameters: {
+            query?: {
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                stopId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Scheduled departures merged with live vehicles */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DeparturesDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Transit_nearby: {
+        parameters: {
+            query: {
+                lat: number;
+                limit?: number;
+                lon: number;
+                network?: string;
+                radius?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Nearby stops; coordinates are never logged or stored */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["NearbyDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     System_version: {
         parameters: {
             query?: never;
@@ -3613,6 +8125,78 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["VersionDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Telemetry_counters: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TelemetryCountersDto"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["TelemetryAcceptedDto"];
+                        /** @enum {boolean} */
+                        ok: true;
+                    };
+                };
+            };
+            /** @description Error envelope */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    Vehicles_vehicle: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                vehicleId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Live state, current run and runs today */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["VehicleDetailDto"];
                         /** @enum {boolean} */
                         ok: true;
                     };
