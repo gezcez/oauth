@@ -194,6 +194,7 @@ export function CodeForm<R = EmailVerifyResult>({
       </div>
 
       {resentNotice ? <Alert tone="success">{t("auth.code.resent")}</Alert> : null}
+      {rate.limited ? <Alert tone="error">{t("errors.rateLimitedShort")}</Alert> : null}
       {otherError ? <FormError error={otherError} /> : null}
       {resendM.error && !(isGezcezError(resendM.error) && resendM.error.code === "RATE_LIMITED") ? (
         <FormError error={resendM.error} />

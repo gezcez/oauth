@@ -46,15 +46,15 @@ export const common: Catalog["common"] = {
   },
   crash: {
     title: "Bir şeyler ters gitti",
-    body: "Bizim tarafımızda bir sorun oluştu. Tekrar denemek için sayfayı yeniden yükleyin.",
+    body: "Bir sorun oluştu, sorun bizde. Tekrar denemek için sayfayı yeniden yükleyin.",
   },
   status: "Hizmet durumu",
   relative: {
     justNow: "az önce",
   },
   mock: {
-    title: "Deneme senaryoları",
-    toggle: "Deneme senaryoları",
-    reset: "Deneme verilerini sıfırla",
+    title: "Örnek veri",
+    toggle: "Örnek veri",
+    reset: "Örnek verileri sıfırla",
   },
 }

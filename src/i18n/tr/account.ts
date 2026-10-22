@@ -27,7 +27,7 @@ export const account: Catalog["account"] = {
   overview: {
     title: "Merhaba, {name}",
     memberSince: "{date} tarihinden beri üye",
-    welcome: "gezcez'e hoş geldiniz. Hesabınız hazır.",
+    welcome: "Gezcez'e hoş geldiniz. Hesabınız hazır.",
     dismiss: "Kapat",
     cards: {
       security: {
@@ -40,11 +40,11 @@ export const account: Catalog["account"] = {
       privacy: { title: "Gizlilik", body: "Verileriniz, dışa aktarma ve hesap silme." },
     },
     deletionBanner: "Hesabınız {date} tarihinde silinecek.",
-    deletionCancel: "Hesabımı koru",
+    deletionCancel: "Silme işlemini iptal et",
   },
   profile: {
     title: "Profil",
-    lead: "gezcez uygulamalarında nasıl göründüğünüz.",
+    lead: "Gezcez uygulamalarında nasıl göründüğünüz.",
     preview: "Avatar önizlemesi",
     nameLabel: "Görünen ad",
     saved: "Profiliniz kaydedildi.",
@@ -71,7 +71,7 @@ export const account: Catalog["account"] = {
     appsUsed: "Uygulamalar: {apps}",
     location: "{place} yakınında",
     signOut: "Çıkış yap",
-    signOutConfirmTitle: "{device} cihazından çıkış yapılsın mı?",
+    signOutConfirmTitle: "{device} oturumu kapatılsın mı?",
     signOutConfirmBody:
       "O cihazda yeniden giriş yapmak gerekecek. Orada açık olan uygulamalardan da çıkış yapılır.",
     signedOut: "{device} cihazından çıkış yapıldı.",
@@ -87,14 +87,14 @@ export const account: Catalog["account"] = {
   },
   apps: {
     title: "Bağlı uygulamalar",
-    lead: "gezcez hesabınızı kullanabilen uygulamalar.",
-    madeByGezcez: "gezcez yapımı",
+    lead: "Gezcez hesabınızı kullanabilen uygulamalar.",
+    madeByGezcez: "Gezcez yapımı",
     granted: "{date} tarihinde izin verildi",
     lastUsed: "Son kullanım {time}",
     neverUsed: "Henüz kullanılmadı",
     canAccess: "Yapabilecekleri:",
     remove: "Erişimi kaldır",
-    removeTitle: "{app} için erişim kaldırılsın mı?",
+    removeTitle: "{app} erişimi kaldırılsın mı?",
     removeBody:
       "{app} uygulamasında her yerde oturumunuz kapanır. Yeniden kullanırsanız sizden tekrar izin ister.",
     removed: "{app} artık hesabınıza erişemiyor.",
@@ -147,12 +147,12 @@ export const account: Catalog["account"] = {
     locationHistory: "Konum geçmişi",
     locationHistoryBody: "Varsayılan olarak kapalı. Kapalıyken nerede bulunduğunuzu asla saklamayız.",
     productEmails: "Ürün e-postaları",
-    productEmailsBody: "gezcez hakkında ara sıra haberler. Güvenlik e-postaları her zaman gönderilir.",
+    productEmailsBody: "Gezcez hakkında ara sıra haberler. Güvenlik e-postaları her zaman gönderilir.",
     saved: "Kaydedildi.",
     exportTitle: "Verilerinizi indirin",
     exportBody:
       "Profiliniz, e-posta geçmişiniz, cihazlarınız, bağlı uygulamalarınız, güvenlik etkinlikleriniz ve ayarlarınızı içeren bir zip dosyası. Genellikle birkaç dakikada, en geç 24 saatte hazır olur ve 7 gün boyunca indirilebilir. Hazır olunca size e-posta göndeririz.",
-    exportRequest: "Kopya iste",
+    exportRequest: "Verilerimi hazırla",
     exportRequested: "Verilerinizi hazırlıyoruz. Hazır olunca size e-posta göndereceğiz.",
     exportList: "Dışa aktarmalarınız",
     exportEmpty: "Henüz dışa aktarma yok.",
@@ -160,11 +160,11 @@ export const account: Catalog["account"] = {
     exportRequestedAt: "{date} tarihinde istendi",
     exportExpires: "{date} tarihine kadar indirilebilir",
     download: "İndir",
-    providers: "Ulaşım sağlayıcı verileri",
+    providers: "Ulaşım işletmelerinin verileri",
     providersBody: "Her şehrin ulaşım sağlayıcısının ne topladığını ve nasıl vazgeçebileceğinizi görün.",
     providersLink: "gezcez.com'da sağlayıcı gizliliği",
     deleteTitle: "Hesabı sil",
-    deleteBody: "gezcez hesabınızı ve verilerinizi kalıcı olarak silin.",
+    deleteBody: "Gezcez hesabınızı ve verilerinizi kalıcı olarak silin.",
     deleteLink: "Hesabımı sil",
   },
   delete: {
@@ -187,7 +187,7 @@ export const account: Catalog["account"] = {
     mismatch: "Bu, e-posta adresinizle eşleşmiyor.",
     submit: "Hesabımı sil",
     pending: "Hesabınızın {date} tarihinde silinmesi zaten planlandı.",
-    cancel: "Hesabımı koru",
+    cancel: "Silme işlemini iptal et",
   },
   language: {
     title: "Dil",

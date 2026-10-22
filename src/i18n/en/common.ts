@@ -51,8 +51,8 @@ export const common = {
     justNow: "just now",
   },
   mock: {
-    title: "Mock scenarios",
-    toggle: "Mock scenarios",
-    reset: "Reset mock data",
+    title: "Sample data",
+    toggle: "Sample data",
+    reset: "Reset sample data",
   },
 }

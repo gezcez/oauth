@@ -5,7 +5,7 @@ import { renderApp } from "@/test/render-app"
 
 const publicScreens: [string, RegExp, RegExp][] = [
   ["/signin", /^Sign in$/, /^Giriş yap$/],
-  ["/signup", /Create your gezcez account/, /gezcez hesabınızı oluşturun/],
+  ["/signup", /Create your gezcez account/, /Gezcez hesabınızı oluşturun/],
   ["/signin/password", /Sign in with a password/, /Şifreyle giriş yapın/],
   ["/signin/code", /Start again/, /Baştan başla/],
   ["/signup/profile", /Start again/, /Baştan başla/],

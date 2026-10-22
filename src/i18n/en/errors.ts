@@ -44,5 +44,6 @@ export const errors = {
   attemptsLeft_one: "You have 1 try left.",
   attemptsLeft_other: "You have {count} tries left.",
   rateLimitedNoTime: "Too many tries. Try again in a few minutes.",
+  rateLimitedShort: "Too many tries.",
   passwordReasons: "Choose a different password.",
 } satisfies Record<ClientErrorCode, string> & Record<string, string>

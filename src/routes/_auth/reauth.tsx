@@ -96,7 +96,7 @@ function ReauthPage() {
   return (
     <>
       <AuthHeader
-        eyebrow={t("auth.eyebrow.reauth")}
+        eyebrow={clientName ? t("auth.eyebrow.signinTo", { client: clientName }) : t("auth.eyebrow.account")}
         title={t("auth.reauth.title")}
         lead={clientName ? t("auth.reauth.leadClient", { client: clientName }) : t("auth.reauth.leadAccount")}
       />

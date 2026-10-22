@@ -17,6 +17,7 @@ import { MissingFlow } from "@/features/email-code/missing-flow"
 import { useAfterSignIn } from "@/features/session/after-signin"
 import { env } from "@/env"
 import { useI18n } from "@/i18n"
+import { rich } from "@/i18n/rich"
 import { invalidateCsrfToken } from "@/lib/csrf"
 import { toGezcezError } from "@/lib/errors"
 import { secretStore } from "@/lib/flow-memory"
@@ -120,10 +121,10 @@ function ProfileForm({
         lead={t("auth.profile.lead")}
       />
       <form noValidate onSubmit={form.handleSubmit((v) => complete.mutate(v))} className="space-y-6">
-        <div className="flex items-end gap-4">
-          <Avatar initials={initialsOf(name || "?")} className="size-14 text-lg" />
+        <div className="flex flex-col items-start gap-4 sm:flex-row">
+          <Avatar initials={initialsOf(name || "?")} className="size-14 shrink-0 text-lg sm:mt-6" />
           <Field
-            className="flex-1"
+            className="w-full sm:flex-1"
             label={t("auth.profile.nameLabel")}
             hint={t("auth.profile.nameHint")}
             error={form.formState.errors.display_name?.message}
@@ -171,26 +172,29 @@ function ProfileForm({
                   aria-describedby={termsError ? "terms-error" : undefined}
                   className="mt-1"
                 />
-                <label htmlFor="terms" className="-my-2 cursor-pointer py-2 text-sm">
-                  {t("auth.profile.termsPrefix")}{" "}
-                  <a
-                    className="font-medium text-link underline underline-offset-4"
-                    href={`${env.wwwUrl}/terms`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {t("auth.profile.termsLink")}
-                  </a>{" "}
-                  {t("auth.profile.termsMiddle")}{" "}
-                  <a
-                    className="font-medium text-link underline underline-offset-4"
-                    href={`${env.wwwUrl}/privacy`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {t("auth.profile.privacyLink")}
-                  </a>{" "}
-                  {t("auth.profile.termsSuffix")}
+                <label htmlFor="terms" className="-my-3 cursor-pointer py-3 text-sm">
+                  {rich(t("auth.profile.terms"), {
+                    terms: (c) => (
+                      <a
+                        className="font-medium text-link underline underline-offset-4"
+                        href={`${env.wwwUrl}/terms`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {c}
+                      </a>
+                    ),
+                    privacy: (c) => (
+                      <a
+                        className="font-medium text-link underline underline-offset-4"
+                        href={`${env.wwwUrl}/privacy`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {c}
+                      </a>
+                    ),
+                  })}
                 </label>
               </div>
             )}

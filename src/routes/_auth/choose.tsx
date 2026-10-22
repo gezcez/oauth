@@ -69,7 +69,7 @@ function ChoosePage() {
   return (
     <>
       <AuthHeader
-        eyebrow={t("auth.eyebrow.choose")}
+        eyebrow={clientName ? t("auth.eyebrow.signinTo", { client: clientName }) : t("auth.eyebrow.account")}
         title={t("auth.choose.title")}
         lead={clientName ? t("auth.choose.lead", { client: clientName }) : t("auth.choose.leadGeneric")}
       />

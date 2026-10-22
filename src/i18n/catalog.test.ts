@@ -55,7 +55,25 @@ const ALL_CODES = [
 type Missing = Exclude<ErrorCode, (typeof ALL_CODES)[number]>
 const exhaustive: [Missing] extends [never] ? true : Missing = true
 
+function entries(obj: unknown, prefix = ""): [string, string][] {
+  if (typeof obj === "string") return [[prefix, obj]]
+  return Object.entries(obj as Record<string, unknown>).flatMap(([k, v]) =>
+    entries(v, prefix ? `${prefix}.${k}` : k),
+  )
+}
+
+// Brand casing (oauth.md 7.5): "gezcez" in chrome, "Gezcez" at the start of a sentence.
+// The domain gezcez.com stays lowercase; the bare brand name is the only allowed exception.
+const BRAND_LOWERCASE_ALLOWED = new Set(["common.brand"])
+
 describe("i18n catalogs", () => {
+  it.each(["en", "tr"] as const)("%s capitalises the brand at sentence start", (locale) => {
+    const bad = entries(catalogs[locale]).filter(
+      ([key, value]) => !BRAND_LOWERCASE_ALLOWED.has(key) && /(^|[.!?]\s+)gezcez\b(?!\.com)/.test(value),
+    )
+    expect(bad).toEqual([])
+  })
+
   it("tr and en have exactly the same keys", () => {
     expect(leaves(catalogs.tr).sort()).toEqual(leaves(catalogs.en).sort())
   })

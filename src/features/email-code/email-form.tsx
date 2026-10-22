@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import type { EmailFlow, EmailIntent } from "@/api/schema"
 import { FormError } from "@/components/form-error"
+import { Alert } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Field } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
@@ -89,7 +90,12 @@ export function EmailForm({
         />
       </Field>
       <Turnstile ref={turnstile} action={action} />
-      {showSummary ? <FormError error={start.error} /> : null}
+      {/* While limited, the button carries the countdown; the alert does not repeat it. */}
+      {rate.limited ? (
+        <Alert tone="error">{t("errors.rateLimitedShort")}</Alert>
+      ) : showSummary ? (
+        <FormError error={start.error} />
+      ) : null}
       <Button type="submit" block loading={start.isPending} disabled={rate.limited}>
         {rate.limited
           ? t("auth.rateLimit.button", { time: formatDuration(rate.secondsLeft) })
