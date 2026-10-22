@@ -10,7 +10,15 @@ import { cn } from "@/lib/cn"
  */
 const Ctx = createContext<{ close: () => void; titleId: string; descId: string } | null>(null)
 
-export function Dialog({ open, onOpenChange, children }: { open: boolean; onOpenChange: (o: boolean) => void; children: ReactNode }) {
+export function Dialog({
+  open,
+  onOpenChange,
+  children,
+}: {
+  open: boolean
+  onOpenChange: (o: boolean) => void
+  children: ReactNode
+}) {
   const ref = useRef<HTMLDialogElement>(null)
   const titleId = useId()
   const descId = useId()
@@ -43,7 +51,9 @@ export function Dialog({ open, onOpenChange, children }: { open: boolean; onOpen
       }}
       className="m-auto w-[calc(100%-2rem)] max-w-md bg-transparent p-0 text-foreground backdrop:bg-navy/50"
     >
-      {open ? <Ctx.Provider value={{ close: () => onOpenChange(false), titleId, descId }}>{children}</Ctx.Provider> : null}
+      {open ? (
+        <Ctx.Provider value={{ close: () => onOpenChange(false), titleId, descId }}>{children}</Ctx.Provider>
+      ) : null}
     </dialog>
   )
 }

@@ -31,9 +31,12 @@ export function dismiss(id: number) {
   emit()
 }
 
-export const toast = Object.assign((message: string, opts?: { description?: string | undefined }) => push("info", message, opts), {
-  error: (message: string, opts?: { description?: string | undefined }) => push("error", message, opts),
-})
+export const toast = Object.assign(
+  (message: string, opts?: { description?: string | undefined }) => push("info", message, opts),
+  {
+    error: (message: string, opts?: { description?: string | undefined }) => push("error", message, opts),
+  },
+)
 
 function useToasts() {
   return useSyncExternalStore(
@@ -51,14 +54,18 @@ export function Toaster() {
   return (
     <div className="pointer-events-none fixed inset-x-0 top-3 z-[60] flex flex-col items-center gap-2 px-4">
       <div role="status" aria-live="polite" className="contents">
-        {list.filter((t) => t.tone === "info").map((t) => (
-          <ToastView key={t.id} item={t} />
-        ))}
+        {list
+          .filter((t) => t.tone === "info")
+          .map((t) => (
+            <ToastView key={t.id} item={t} />
+          ))}
       </div>
       <div role="alert" aria-live="assertive" className="contents">
-        {list.filter((t) => t.tone === "error").map((t) => (
-          <ToastView key={t.id} item={t} />
-        ))}
+        {list
+          .filter((t) => t.tone === "error")
+          .map((t) => (
+            <ToastView key={t.id} item={t} />
+          ))}
       </div>
     </div>
   )

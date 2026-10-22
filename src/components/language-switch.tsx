@@ -20,7 +20,7 @@ export function LanguageSwitch({ onChange }: { onChange?: (l: Locale) => void })
           type="button"
           lang={o.value}
           aria-pressed={locale === o.value}
-          aria-label={o.full}
+          aria-label={`${o.label}, ${o.full}`}
           onClick={() => {
             setLocale(o.value)
             onChange?.(o.value)

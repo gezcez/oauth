@@ -42,7 +42,7 @@ export function AccountMenu({ account }: { account: AccountSummary }) {
           aria-label={t("account.menu.label", { name: account.display_name })}
           className="inline-flex h-11 items-center gap-2 rounded-full bg-surface py-1 pr-3 pl-1 ring-1 ring-line hover:ring-line-strong focus-visible:outline-2 focus-visible:outline-focus"
         >
-          <Avatar initials={account.avatar_initials} />
+          <Avatar initials={account.avatar_initials} decorative />
           <span className="hidden max-w-40 truncate text-sm font-semibold sm:inline">
             {account.display_name}
           </span>

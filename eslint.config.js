@@ -43,6 +43,11 @@ export default tseslint.config(
     rules: { "local/no-location-assign": "off", "no-console": "off" },
   },
   {
+    // Playwright fixtures call `use()`, which is not a React hook.
+    files: ["e2e/**"],
+    rules: { "react-hooks/rules-of-hooks": "off" },
+  },
+  {
     files: ["eslint-rules/**/*.js"],
     languageOptions: { globals: globals.node },
   },

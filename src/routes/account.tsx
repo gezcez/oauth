@@ -10,7 +10,7 @@ import { useAccountLocale } from "@/features/account/use-account-locale"
 
 export const Route = createFileRoute("/account")({
   beforeLoad: async ({ context, location }) => {
-    const session = await context.queryClient.ensureQueryData(sessionQuery)
+    const session = await context.queryClient.fetchQuery({ ...sessionQuery, staleTime: 60_000 }) // refetches once invalidated (sign-in, sign-out)
     if (!session) {
       throw redirect({ to: "/signin", search: { return: location.href }, replace: true })
     }
