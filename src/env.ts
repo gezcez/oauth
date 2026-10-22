@@ -9,7 +9,9 @@ const EnvSchema = z.object({
 
 const raw = EnvSchema.parse(import.meta.env)
 
-export const isMock = raw.VITE_API_MODE === "mock" || import.meta.env.MODE === "mock"
+// Read straight from import.meta.env so Vite folds it to a constant and production builds drop
+// the MSW worker and the mock panel entirely.
+export const isMock = import.meta.env.VITE_API_MODE === "mock" || import.meta.env.MODE === "mock"
 
 function apiUrl(): string {
   const configured = raw.VITE_API_URL.replace(/\/+$/, "")

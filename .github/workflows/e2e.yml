@@ -1,0 +1,40 @@
+# Real-backend e2e: the published backend image (tag in e2e/backend-version) behind Caddy on
+# *.localtest.me, plus the PKCE test client. Skipped while e2e/backend-version is "unreleased".
+name: E2E (real backend)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 5 * * *"
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  e2e-real:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - id: version
+        run: echo "tag=$(cat e2e/backend-version)" >> "$GITHUB_OUTPUT"
+      - name: Skip until a backend image is published
+        if: steps.version.outputs.tag == 'unreleased'
+        run: echo "::notice::e2e/backend-version is 'unreleased'; skipping real-backend e2e."
+      - if: steps.version.outputs.tag != 'unreleased'
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - if: steps.version.outputs.tag != 'unreleased'
+        run: bun install --frozen-lockfile && bunx playwright install --with-deps chromium
+      - if: steps.version.outputs.tag != 'unreleased'
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+      - if: steps.version.outputs.tag != 'unreleased'
+        run: bun run e2e:real:up
+      - if: steps.version.outputs.tag != 'unreleased'
+        run: bun run e2e:real
+        env:
+          CI: "1"
+      - if: always() && steps.version.outputs.tag != 'unreleased'
+        run: bun run e2e:real:down

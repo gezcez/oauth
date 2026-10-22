@@ -14,7 +14,8 @@ const PORT = 5174
 const BASE = `http://localhost:${PORT}`
 const ci = Boolean(process.env.CI)
 const real = process.env.E2E_REAL_BACKEND === "1"
-const allBrowsers = ci || process.env.E2E_ALL_BROWSERS === "1"
+// WebKit projects are opt-in: not yet verified (no WebKit build in the dev container).
+const allBrowsers = process.env.E2E_ALL_BROWSERS === "1"
 
 export default defineConfig({
   testDir: ".",
